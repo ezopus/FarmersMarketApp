@@ -1,17 +1,14 @@
-using FarmersMarketApp.Infrastructure.Data;
-using FarmersMarketApp.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
+using FarmersMarketApp.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddApplicationDbContext(builder.Configuration);
+builder.Services.AddApplicationIdentity(builder.Configuration);
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddApplicationServices();
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -33,8 +30,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapDefaultControllerRoute();
 app.MapRazorPages();
 
 app.Run();
