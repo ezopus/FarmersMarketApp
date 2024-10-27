@@ -20,5 +20,17 @@
             public const int ProductDescriptionMinLength = 10;
             public const int ProductDescriptionMaxLength = 500;
         }
+
+        public static class FarmValidation
+        {
+            public const int FarmNameMinLength = 5;
+            public const int FarmNameMaxLength = 150;
+
+            public const int FarmAddressMinLength = 6;
+            public const int FarmAddressMaxLength = 200;
+
+            public const int FarmCityMinLength = 3;
+            public const int FarmCityMaxLength = 30;
+        }
     }
 }
