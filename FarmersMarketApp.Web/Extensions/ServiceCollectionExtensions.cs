@@ -1,4 +1,6 @@
-﻿namespace FarmersMarketApp.Web.Extensions
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace FarmersMarketApp.Web.Extensions
 {
     using FarmersMarketApp.Infrastructure.Data;
     using FarmersMarketApp.Infrastructure.Data.Models;
@@ -28,7 +30,7 @@
             IConfiguration configuration)
         {
             services
-                .AddDefaultIdentity<ApplicationUser>(options =>
+                .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
 
