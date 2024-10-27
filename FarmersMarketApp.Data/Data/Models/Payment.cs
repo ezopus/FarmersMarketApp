@@ -12,6 +12,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public Guid Id { get; set; }
 
         [Comment("Total payment amount.")]
+        [Column(TypeName = "decimal(18,2)")]
         public required decimal PaymentAmount { get; set; }
 
         [Comment("Type of payment method used.")]
@@ -21,7 +22,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required Guid CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        public ApplicationUser Customer { get; set; } = null!;
+        public virtual ApplicationUser Customer { get; set; } = null!;
 
         [Comment("Date and time on which payment is made.")]
         public required DateTime PaymentDate { get; set; }
@@ -33,6 +34,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required Guid OrderId { get; set; }
 
         [ForeignKey(nameof(OrderId))]
-        public Order Order { get; set; } = null!;
+        public virtual Order Order { get; set; } = null!;
     }
 }

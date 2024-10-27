@@ -1,11 +1,12 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Configuration;
 using FarmersMarketApp.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,8 +19,12 @@ namespace FarmersMarketApp.Infrastructure.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new FarmConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new CategoryFarmerConfiguration());
             builder.ApplyConfiguration(new ProductOrderConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new PaymentConfiguration());
         }
 
         public DbSet<Product> Products { get; set; }

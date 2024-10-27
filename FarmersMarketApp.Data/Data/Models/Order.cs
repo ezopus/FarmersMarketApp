@@ -14,7 +14,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required Guid CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        public ApplicationUser Customer { get; set; } = null!;
+        public virtual ApplicationUser Customer { get; set; } = null!;
 
         [Comment("Date and time on which order is placed.")]
         public required DateTime CreateDate { get; set; }
@@ -29,11 +29,14 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required int TotalUnitItems { get; set; }
 
         [Comment("Total discount if applicable.")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? TotalDiscount { get; set; }
 
         [Comment("Total price of order including discounts.")]
+        [Column(TypeName = "decimal(18,2)")]
         public required decimal TotalPrice { get; set; }
 
-        public ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
+        public virtual Payment? Payment { get; set; }
+        public virtual ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
     }
 }

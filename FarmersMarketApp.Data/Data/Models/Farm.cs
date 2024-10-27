@@ -43,7 +43,8 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required Guid FarmerId { get; set; }
 
         [ForeignKey(nameof(FarmerId))]
-        public Farmer Farmer { get; set; } = null!;
+        public virtual Farmer Farmer { get; set; } = null!;
 
+        public virtual List<Product> Products { get; set; } = null!;
     }
 }

@@ -10,17 +10,19 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Flag to show if farmer is currently accepting deliveries.")]
         public bool AcceptsDeliveries { get; set; }
 
-        [Comment("Unique identifier of farm which current farmer works on and produces products.")]
-        public Guid FarmId { get; set; }
-
-        public Farm Farm { get; set; } = null!;
-
+        [Comment("Company name of farmer for billing purposes.")]
         public string? CompanyName { get; set; }
 
+        [Comment("Company registration number for VAT and tax purposes.")]
         public string? CompanyRegistrationNumber { get; set; }
 
+        [Comment("Company address for billing and shipping purposes.")]
         public string? CompanyAddress { get; set; }
 
-        public ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
+        public virtual Farm Farm { get; set; } = null!;
+
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public virtual ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
     }
 }

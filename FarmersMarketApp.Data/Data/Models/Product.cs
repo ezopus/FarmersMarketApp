@@ -34,25 +34,27 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required double ShippingWeight { get; set; }
 
         [Comment("Price of product for one unit.")]
+        [Column(TypeName = "decimal(18,2)")]
         public required decimal Price { get; set; }
 
         [Comment("Flag if product has active discount.")]
         public required bool HasDiscount { get; set; }
 
         [Comment("Percentage of discount.")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? DiscountPercentage { get; set; }
 
         [Comment("Unique identifier of farmer who produces current product.")]
         public required Guid FarmerId { get; set; }
 
         [ForeignKey(nameof(FarmerId))]
-        public Farmer Farmer { get; set; } = null!;
+        public virtual Farmer Farmer { get; set; } = null!;
 
         [Comment("Unique identifier of farm where product is made.")]
         public required Guid FarmId { get; set; }
 
         [ForeignKey(nameof(FarmId))]
-        public Farm Farm { get; set; } = null!;
+        public virtual Farm Farm { get; set; } = null!;
 
         [Comment("Specific season for product if applicable")]
         public Season? Season { get; set; }
@@ -75,6 +77,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Specific origin of product if applicable")]
         public string? Origin { get; set; }
 
-        public ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
+        public virtual ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
     }
 }

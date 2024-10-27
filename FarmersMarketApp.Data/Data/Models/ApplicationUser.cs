@@ -22,5 +22,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         [Comment("Flag to show if user is a farmer or not.")]
         public required bool IsFarmer { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

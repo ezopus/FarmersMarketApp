@@ -9,12 +9,12 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public Category Category { get; set; } = null!;
+        public virtual Category Category { get; set; } = null!;
 
         [Comment("Farmer identifier.")]
         public Guid FarmerId { get; set; }
 
         [ForeignKey(nameof(FarmerId))]
-        public Farmer Farmer { get; set; } = null!;
+        public virtual Farmer Farmer { get; set; } = null!;
     }
 }
