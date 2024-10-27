@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Web.Areas.Identity.Data;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
