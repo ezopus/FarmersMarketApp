@@ -15,6 +15,11 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         public Farm Farm { get; set; } = null!;
 
+        public string? CompanyName { get; set; }
+
+        public string? CompanyRegistrationNumber { get; set; }
+
+        public string? CompanyAddress { get; set; }
         public ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
     }
 }

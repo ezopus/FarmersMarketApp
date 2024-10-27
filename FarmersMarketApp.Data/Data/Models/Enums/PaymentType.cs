@@ -2,9 +2,9 @@
 {
     public enum PaymentType
     {
-        CardPayment = 1,
+        CashOnDemand = 1,
+        CardPayment,
         BankTransfer,
-        CashOnDemand,
         Other
     }
 }

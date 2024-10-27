@@ -16,13 +16,11 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [MaxLength(LastNameMaxLength, ErrorMessage = ErrorUserLastName)]
         public required string LastName { get; set; }
 
-        [Comment("Role of application user - can be either normal user or admin")]
-        public string? Role { get; set; }
-
         [Comment("Physical address of application user.")]
         [MaxLength(AddressMaxLength, ErrorMessage = ErrorUserAddress)]
         public required string Address { get; set; }
 
-
+        [Comment("Flag to show if user is a farmer or not.")]
+        public required bool IsFarmer { get; set; }
     }
 }

@@ -1,10 +1,12 @@
 ﻿namespace FarmersMarketApp.Infrastructure.Data.Models.Enums
 {
-    public enum PaymentStatus
+    public enum OrderStatus
     {
-        Failed,
         Successful,
+        Failed,
         Cancelled,
-        Other
+        Delivered,
+        Lost,
+        Returned,
     }
 }

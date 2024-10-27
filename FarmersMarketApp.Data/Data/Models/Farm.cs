@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.FarmValidation;
 
@@ -41,6 +42,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Unique identifier of farmer who owns current farm.")]
         public required Guid FarmerId { get; set; }
 
+        [ForeignKey(nameof(FarmerId))]
         public Farmer Farmer { get; set; } = null!;
 
     }
