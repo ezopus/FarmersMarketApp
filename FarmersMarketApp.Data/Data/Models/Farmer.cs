@@ -14,5 +14,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public Guid FarmId { get; set; }
 
         public Farm Farm { get; set; } = null!;
+
+        public ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
     }
 }

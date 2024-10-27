@@ -11,5 +11,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         [Comment("Category name.")]
         public required string Name { get; set; }
+
+        public ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
     }
 }
