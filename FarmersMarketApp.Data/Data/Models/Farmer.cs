@@ -1,6 +1,7 @@
 ﻿namespace FarmersMarketApp.Infrastructure.Data.Models
 {
-    public class Farmer
+    public class Farmer : ApplicationUser
     {
+
     }
 }
