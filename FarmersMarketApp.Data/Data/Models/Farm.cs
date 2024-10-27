@@ -26,6 +26,9 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Email address of farm for enquiries.")]
         public string? Email { get; set; }
 
+        [Comment("Phone number of farm visible to general public.")]
+        public required string PhoneNumber { get; set; }
+
         [Comment("Opening hours of farm operations.")]
         public required DateTime OpenHours { get; set; }
 
@@ -39,5 +42,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public required Guid FarmerId { get; set; }
 
         public Farmer Farmer { get; set; } = null!;
+
     }
 }
