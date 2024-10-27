@@ -6,7 +6,7 @@ using static FarmersMarketApp.Common.DataValidation.ValidationConstants.Applicat
 
 namespace FarmersMarketApp.Infrastructure.Data.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         [Comment("First name of application user.")]
         [MaxLength(FirstNameMaxLength, ErrorMessage = ErrorUserFirstName)]
