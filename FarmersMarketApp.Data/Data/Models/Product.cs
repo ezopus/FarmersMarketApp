@@ -21,45 +21,59 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [MaxLength(ProductDescriptionMaxLength, ErrorMessage = ErrorProductDescription)]
         public required string Description { get; set; }
 
+        [Comment("Type of unit which product is distributed in - box, carton, bottle, etc.")]
         public required UnitType UnitType { get; set; }
-        public required int Quantity { get; set; }
-        public required double Weight { get; set; }
 
+        [Comment("Amount of products in each unit.")]
+        public required int Quantity { get; set; }
+
+        [Comment("Weight of product in kilograms")]
+        public required double NetWeight { get; set; }
+
+        [Comment("Weight of product with container")]
+        public required double ShippingWeight { get; set; }
+
+        [Comment("Price of product for one unit.")]
         public required decimal Price { get; set; }
 
+        [Comment("Flag if product has active discount.")]
         public required bool HasDiscount { get; set; }
 
-        public int? DiscountPercentage { get; set; }
-        public decimal? DiscountedPrice
-        {
-            get
-            {
-                if (HasDiscount)
-                {
-                    return Price * (DiscountPercentage / 100m);
-                }
+        [Comment("Percentage of discount.")]
+        public decimal? DiscountPercentage { get; set; }
 
-                return Price;
-            }
-        }
-
+        [Comment("Unique identifier of farmer who produces current product.")]
         public required Guid FarmerId { get; set; }
 
         [ForeignKey(nameof(FarmerId))]
         public Farmer Farmer { get; set; } = null!;
 
+        [Comment("Unique identifier of farm where product is made.")]
+        public required Guid FarmId { get; set; }
+
+        [ForeignKey(nameof(FarmId))]
+        public Farm Farm { get; set; } = null!;
+
+        [Comment("Specific season for product if applicable")]
         public Season? Season { get; set; }
 
+        [Comment("Production date of product.")]
         public required DateTime ProductionDate { get; set; }
+
+        [Comment("Expiration date of product.")]
         public required DateTime ExpirationDate { get; set; }
 
+        [Comment("Category identifier of product.")]
         public required int CategoryId { get; set; }
 
+        [Comment("Unique barcode of product.")]
         public string? Barcode { get; set; }
 
+        [Comment("Image url of product.")]
         public string? ImageUrl { get; set; }
 
-        public required string Origin { get; set; }
+        [Comment("Specific origin of product if applicable")]
+        public string? Origin { get; set; }
 
 
     }
