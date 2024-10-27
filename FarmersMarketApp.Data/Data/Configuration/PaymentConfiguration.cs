@@ -4,16 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
-    public class FarmConfiguration : IEntityTypeConfiguration<Farm>
+    public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     {
-        public void Configure(EntityTypeBuilder<Farm> builder)
+        public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder
-                .HasOne(f => f.Farmer)
-                .WithOne(f => f.Farm)
-                .HasForeignKey<Farmer>()
+                .HasOne(p => p.Order)
+                .WithOne(p => p.Payment)
+                .HasForeignKey<Order>()
                 .OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }
