@@ -20,6 +20,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public string? CompanyRegistrationNumber { get; set; }
 
         public string? CompanyAddress { get; set; }
+
         public ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
     }
 }

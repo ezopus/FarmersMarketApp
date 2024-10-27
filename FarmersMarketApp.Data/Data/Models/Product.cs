@@ -75,6 +75,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Specific origin of product if applicable")]
         public string? Origin { get; set; }
 
-
+        public ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
     }
 }

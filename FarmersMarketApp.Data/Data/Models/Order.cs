@@ -33,5 +33,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         [Comment("Total price of order including discounts.")]
         public required decimal TotalPrice { get; set; }
+
+        public ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
     }
 }
