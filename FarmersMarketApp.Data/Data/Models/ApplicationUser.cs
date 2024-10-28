@@ -18,10 +18,10 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         [Comment("Physical address of application user.")]
         [MaxLength(AddressMaxLength, ErrorMessage = ErrorUserAddress)]
-        public required string Address { get; set; }
+        public string? Address { get; set; }
 
         [Comment("Flag to show if user is a farmer or not.")]
-        public required bool IsFarmer { get; set; }
+        public bool IsFarmer { get; set; } = false;
 
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
