@@ -18,10 +18,10 @@ namespace FarmersMarketApp.Web.Extensions
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            services
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddDatabaseDeveloperPageExceptionFilter();
 
             return services;
         }
@@ -33,6 +33,7 @@ namespace FarmersMarketApp.Web.Extensions
                 .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedEmail = false;
 
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
@@ -40,6 +41,8 @@ namespace FarmersMarketApp.Web.Extensions
                     options.Password.RequireNonAlphanumeric = false;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 
             return services;
         }
