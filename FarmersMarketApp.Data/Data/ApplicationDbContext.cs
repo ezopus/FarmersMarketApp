@@ -19,11 +19,11 @@ namespace FarmersMarketApp.Infrastructure.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new CategoryFarmerConfiguration());
             builder.ApplyConfiguration(new FarmConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
-            builder.ApplyConfiguration(new CategoryFarmerConfiguration());
-            builder.ApplyConfiguration(new ProductOrderConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new ProductOrderConfiguration());
             builder.ApplyConfiguration(new PaymentConfiguration());
         }
 
