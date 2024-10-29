@@ -4,6 +4,7 @@ using FarmersMarketApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029192637_FarmPropertiesPhoneSetToNullAndOpenClosedChangedToTime")]
+    partial class FarmPropertiesPhoneSetToNullAndOpenClosedChangedToTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,8 +409,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Production date of product.");
 
-                    b.Property<double>("Quantity")
-                        .HasColumnType("float")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
                         .HasComment("Amount of products in each unit.");
 
                     b.Property<int?>("Season")
@@ -417,10 +420,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<double>("ShippingWeight")
                         .HasColumnType("float")
                         .HasComment("Weight of product with container");
-
-                    b.Property<double>("Size")
-                        .HasColumnType("float")
-                        .HasComment("The size of one individual product in one sold unit.");
 
                     b.Property<int>("UnitType")
                         .HasColumnType("int")

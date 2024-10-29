@@ -28,13 +28,13 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public string? Email { get; set; }
 
         [Comment("Phone number of farm visible to general public.")]
-        public required string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Comment("Opening hours of farm operations.")]
-        public required DateTime OpenHours { get; set; }
+        public TimeOnly? OpenHours { get; set; }
 
         [Comment("Closing hours of farm operations.")]
-        public required DateTime CloseHours { get; set; }
+        public TimeOnly? CloseHours { get; set; }
 
         [Comment("Flag to check if farm is open for business.")]
         public required bool IsOpen { get; set; }

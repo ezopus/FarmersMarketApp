@@ -24,14 +24,29 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Type of unit which product is distributed in - box, carton, bottle, etc.")]
         public required UnitType UnitType { get; set; }
 
+        [Comment("The size of one individual product in one sold unit.")]
+        public required double Size { get; set; }
+
         [Comment("Amount of products in each unit.")]
-        public required int Quantity { get; set; }
+        public required double Quantity { get; set; }
 
         [Comment("Weight of product in kilograms")]
         public required double NetWeight { get; set; }
 
         [Comment("Weight of product with container")]
         public required double ShippingWeight { get; set; }
+
+        [Comment("Specific season for product if applicable")]
+        public Season? Season { get; set; }
+
+        [Comment("Production date of product.")]
+        public required DateTime ProductionDate { get; set; }
+
+        [Comment("Expiration date of product.")]
+        public required DateTime ExpirationDate { get; set; }
+
+        [Comment("Category identifier of product.")]
+        public required int CategoryId { get; set; }
 
         [Comment("Price of product for one unit.")]
         [Column(TypeName = "decimal(18,2)")]
@@ -55,18 +70,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
         [ForeignKey(nameof(FarmId))]
         public virtual Farm Farm { get; set; } = null!;
-
-        [Comment("Specific season for product if applicable")]
-        public Season? Season { get; set; }
-
-        [Comment("Production date of product.")]
-        public required DateTime ProductionDate { get; set; }
-
-        [Comment("Expiration date of product.")]
-        public required DateTime ExpirationDate { get; set; }
-
-        [Comment("Category identifier of product.")]
-        public required int CategoryId { get; set; }
 
         [Comment("Unique barcode of product.")]
         public string? Barcode { get; set; }
