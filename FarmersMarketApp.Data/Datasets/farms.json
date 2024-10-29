@@ -1,0 +1,167 @@
+[
+  {
+    "Name": "Sunny Fields",
+    "Address": "123 Greenway Drive",
+    "City": "Riverside",
+    "Email": "contact@sunnyfields.com",
+    "PhoneNumber": "555-1234",
+    "OpenHours": "08:00",
+    "CloseHours": "18:00",
+    "IsOpen": true,
+    "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
+  },
+  {
+    "Name": "Mountainview Farm",
+    "Address": "456 Oak Avenue",
+    "City": "Hilltop",
+    "Email": "info@mountainviewfarm.com",
+    "PhoneNumber": "555-5678",
+    "OpenHours": "07:00",
+    "CloseHours": "17:00",
+    "IsOpen": false,
+    "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
+  },
+  {
+    "Name": "Lakeside Orchards",
+    "Address": "789 Blueberry Lane",
+    "City": "Lakewood",
+    "Email": "hello@lakesideorchards.com",
+    "PhoneNumber": "555-8765",
+    "OpenHours": "09:00",
+    "CloseHours": "20:00",
+    "IsOpen": true,
+    "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
+  },
+  {
+    "Name": "Green Meadow Farms",
+    "Address": "321 Apple Street",
+    "City": "Springfield",
+    "Email": "support@greenmeadowfarms.com",
+    "PhoneNumber": "555-1122",
+    "OpenHours": "06:00",
+    "CloseHours": "19:00",
+    "IsOpen": false,
+    "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
+  },
+  {
+    "Name": "Valley Farm Market",
+    "Address": "654 Maple Road",
+    "City": "Greenville",
+    "Email": "contact@valleyfarmmarket.com",
+    "PhoneNumber": "555-3344",
+    "OpenHours": "08:30",
+    "CloseHours": "18:30",
+    "IsOpen": true,
+    "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
+  },
+  {
+    "Name": "Sunrise Ranch",
+    "Address": "912 Sunset Blvd",
+    "City": "Clearwater",
+    "Email": "info@sunriseranch.com",
+    "PhoneNumber": "555-9912",
+    "OpenHours": "07:30",
+    "CloseHours": "16:30",
+    "IsOpen": true,
+    "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
+  },
+  {
+    "Name": "Harvest Hill Farm",
+    "Address": "200 Harvest Lane",
+    "City": "Fairview",
+    "Email": "contact@harvesthill.com",
+    "PhoneNumber": "555-2211",
+    "OpenHours": "06:00",
+    "CloseHours": "18:00",
+    "IsOpen": true,
+    "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
+  },
+  {
+    "Name": "Willow Creek Farm",
+    "Address": "845 Willow Road",
+    "City": "Silverlake",
+    "Email": "hello@willowcreek.com",
+    "PhoneNumber": "555-4433",
+    "OpenHours": "07:00",
+    "CloseHours": "17:00",
+    "IsOpen": false,
+    "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
+  },
+  {
+    "Name": "Meadow Brook Orchards",
+    "Address": "77 Orchard Street",
+    "City": "Brookside",
+    "Email": "support@meadowbrook.com",
+    "PhoneNumber": "555-9988",
+    "OpenHours": "08:00",
+    "CloseHours": "20:00",
+    "IsOpen": true,
+    "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
+  },
+  {
+    "Name": "Blue Sky Farms",
+    "Address": "389 Valley View",
+    "City": "Eagle Peak",
+    "Email": "info@blueskyfarms.com",
+    "PhoneNumber": "555-7822",
+    "OpenHours": "05:30",
+    "CloseHours": "17:30",
+    "IsOpen": true,
+    "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
+  },
+  {
+    "Name": "Evergreen Acres",
+    "Address": "123 Pinewood Road",
+    "City": "Greenwood",
+    "Email": "contact@evergreenacres.com",
+    "PhoneNumber": "555-5567",
+    "OpenHours": "06:30",
+    "CloseHours": "19:30",
+    "IsOpen": true,
+    "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
+  },
+  {
+    "Name": "Riverbend Farm",
+    "Address": "901 River Lane",
+    "City": "Watertown",
+    "Email": "info@riverbendfarm.com",
+    "PhoneNumber": "555-3345",
+    "OpenHours": "08:00",
+    "CloseHours": "18:00",
+    "IsOpen": false,
+    "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
+  },
+  {
+    "Name": "Autumn Grove",
+    "Address": "740 Oak Street",
+    "City": "Mapleton",
+    "Email": "hello@autumngrove.com",
+    "PhoneNumber": "555-2344",
+    "OpenHours": "07:00",
+    "CloseHours": "16:00",
+    "IsOpen": true,
+    "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
+  },
+  {
+    "Name": "Prairie View Farm",
+    "Address": "455 Prairie Road",
+    "City": "Plainsville",
+    "Email": "contact@prairieview.com",
+    "PhoneNumber": "555-4455",
+    "OpenHours": "06:00",
+    "CloseHours": "18:00",
+    "IsOpen": false,
+    "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
+  },
+  {
+    "Name": "Orchard Hill",
+    "Address": "112 Orchard Drive",
+    "City": "Peach Valley",
+    "Email": "info@orchardhill.com",
+    "PhoneNumber": "555-6633",
+    "OpenHours": "08:00",
+    "CloseHours": "18:00",
+    "IsOpen": true,
+    "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
+  }
+]
