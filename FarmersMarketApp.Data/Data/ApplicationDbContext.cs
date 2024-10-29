@@ -18,6 +18,7 @@ namespace FarmersMarketApp.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new CategoryFarmerConfiguration());
             builder.ApplyConfiguration(new FarmConfiguration());
