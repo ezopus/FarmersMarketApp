@@ -1,5 +1,6 @@
 [
   {
+    "Id": "D8FD1D22-AD66-4850-8A23-54D33E488964",
     "Name": "Sunny Fields",
     "Address": "123 Greenway Drive",
     "City": "Riverside",
@@ -11,6 +12,7 @@
     "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
   },
   {
+    "Id": "581569FD-5062-4435-899B-8BFE31D2F4E8",
     "Name": "Mountainview Farm",
     "Address": "456 Oak Avenue",
     "City": "Hilltop",
@@ -22,6 +24,7 @@
     "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
   },
   {
+    "Id": "9A020BCA-2F9F-4B61-AF21-1ADAE08DD8E9",
     "Name": "Lakeside Orchards",
     "Address": "789 Blueberry Lane",
     "City": "Lakewood",
@@ -33,6 +36,7 @@
     "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
   },
   {
+    "Id": "C437B349-7F30-44DE-865A-31F24FC7C584",
     "Name": "Green Meadow Farms",
     "Address": "321 Apple Street",
     "City": "Springfield",
@@ -44,6 +48,7 @@
     "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
   },
   {
+    "Id": "DCBAE87C-93A9-4699-B3E4-2E10776839DD",
     "Name": "Valley Farm Market",
     "Address": "654 Maple Road",
     "City": "Greenville",
@@ -55,6 +60,7 @@
     "FarmerId": "5510C3C2-99FD-4522-48CD-08DCF84E43E5"
   },
   {
+    "Id": "7DA444A3-FC8C-43E6-A223-378E5A51BE4E",
     "Name": "Sunrise Ranch",
     "Address": "912 Sunset Blvd",
     "City": "Clearwater",
@@ -66,6 +72,7 @@
     "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
   },
   {
+    "Id": "6EE2702D-FAB7-42F4-BF10-6BECC7B9DBD3",
     "Name": "Harvest Hill Farm",
     "Address": "200 Harvest Lane",
     "City": "Fairview",
@@ -77,6 +84,7 @@
     "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
   },
   {
+    "Id": "63AD63D2-5884-4C3D-93F1-1AAF75C0A563",
     "Name": "Willow Creek Farm",
     "Address": "845 Willow Road",
     "City": "Silverlake",
@@ -88,6 +96,7 @@
     "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
   },
   {
+    "Id": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
     "Name": "Meadow Brook Orchards",
     "Address": "77 Orchard Street",
     "City": "Brookside",
@@ -99,6 +108,7 @@
     "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
   },
   {
+    "Id": "E609DC73-6845-4E72-80A4-1AD215A094D1",
     "Name": "Blue Sky Farms",
     "Address": "389 Valley View",
     "City": "Eagle Peak",
@@ -110,6 +120,7 @@
     "FarmerId": "df1516df-4501-475e-c02a-08dcf857a1b7"
   },
   {
+    "Id": "77B7F04E-C775-4735-A017-60C7D5B4EDE9",
     "Name": "Evergreen Acres",
     "Address": "123 Pinewood Road",
     "City": "Greenwood",
@@ -121,6 +132,7 @@
     "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
   },
   {
+    "Id": "272BEFBB-54FD-41D0-BFCA-D72305535321",
     "Name": "Riverbend Farm",
     "Address": "901 River Lane",
     "City": "Watertown",
@@ -132,6 +144,7 @@
     "FarmerId": "5510c3c2-99fd-4522-48cd-08dcf84e43e5"
   },
   {
+    "Id": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
     "Name": "Autumn Grove",
     "Address": "740 Oak Street",
     "City": "Mapleton",
@@ -143,6 +156,7 @@
     "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
   },
   {
+    "Id": "CE2E44CA-D118-4676-9623-624E7F56980E",
     "Name": "Prairie View Farm",
     "Address": "455 Prairie Road",
     "City": "Plainsville",
@@ -154,6 +168,7 @@
     "FarmerId": "e2eca858-9a52-4496-c029-08dcf857a1b7"
   },
   {
+    "Id": "012CF2FC-B34E-425F-87A0-CC5989EA5C06",
     "Name": "Orchard Hill",
     "Address": "112 Orchard Drive",
     "City": "Peach Valley",

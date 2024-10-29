@@ -33,7 +33,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
             {
                 var newFarm = new Farm
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse(farm.Id),
                     Name = farm.Name,
                     Address = farm.Address,
                     City = farm.City,
