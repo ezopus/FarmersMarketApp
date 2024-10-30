@@ -40,11 +40,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -112,10 +107,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Category", b =>
@@ -258,203 +249,43 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Farms");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d8fd1d22-ad66-4850-8a23-54d33e488964"),
-                            Address = "123 Greenway Drive",
-                            City = "Riverside",
-                            CloseHours = new TimeOnly(18, 0, 0),
-                            Email = "contact@sunnyfields.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = true,
-                            Name = "Sunny Fields",
-                            OpenHours = new TimeOnly(8, 0, 0),
-                            PhoneNumber = "555-1234"
-                        },
-                        new
-                        {
-                            Id = new Guid("581569fd-5062-4435-899b-8bfe31d2f4e8"),
-                            Address = "456 Oak Avenue",
-                            City = "Hilltop",
-                            CloseHours = new TimeOnly(17, 0, 0),
-                            Email = "info@mountainviewfarm.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = false,
-                            Name = "Mountainview Farm",
-                            OpenHours = new TimeOnly(7, 0, 0),
-                            PhoneNumber = "555-5678"
-                        },
-                        new
-                        {
-                            Id = new Guid("9a020bca-2f9f-4b61-af21-1adae08dd8e9"),
-                            Address = "789 Blueberry Lane",
-                            City = "Lakewood",
-                            CloseHours = new TimeOnly(20, 0, 0),
-                            Email = "hello@lakesideorchards.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = true,
-                            Name = "Lakeside Orchards",
-                            OpenHours = new TimeOnly(9, 0, 0),
-                            PhoneNumber = "555-8765"
-                        },
-                        new
-                        {
-                            Id = new Guid("c437b349-7f30-44de-865a-31f24fc7c584"),
-                            Address = "321 Apple Street",
-                            City = "Springfield",
-                            CloseHours = new TimeOnly(19, 0, 0),
-                            Email = "support@greenmeadowfarms.com",
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            IsOpen = false,
-                            Name = "Green Meadow Farms",
-                            OpenHours = new TimeOnly(6, 0, 0),
-                            PhoneNumber = "555-1122"
-                        },
-                        new
-                        {
-                            Id = new Guid("dcbae87c-93a9-4699-b3e4-2e10776839dd"),
-                            Address = "654 Maple Road",
-                            City = "Greenville",
-                            CloseHours = new TimeOnly(18, 30, 0),
-                            Email = "contact@valleyfarmmarket.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = true,
-                            Name = "Valley Farm Market",
-                            OpenHours = new TimeOnly(8, 30, 0),
-                            PhoneNumber = "555-3344"
-                        },
-                        new
-                        {
-                            Id = new Guid("7da444a3-fc8c-43e6-a223-378e5a51be4e"),
-                            Address = "912 Sunset Blvd",
-                            City = "Clearwater",
-                            CloseHours = new TimeOnly(16, 30, 0),
-                            Email = "info@sunriseranch.com",
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            IsOpen = true,
-                            Name = "Sunrise Ranch",
-                            OpenHours = new TimeOnly(7, 30, 0),
-                            PhoneNumber = "555-9912"
-                        },
-                        new
-                        {
-                            Id = new Guid("6ee2702d-fab7-42f4-bf10-6becc7b9dbd3"),
-                            Address = "200 Harvest Lane",
-                            City = "Fairview",
-                            CloseHours = new TimeOnly(18, 0, 0),
-                            Email = "contact@harvesthill.com",
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            IsOpen = true,
-                            Name = "Harvest Hill Farm",
-                            OpenHours = new TimeOnly(6, 0, 0),
-                            PhoneNumber = "555-2211"
-                        },
-                        new
-                        {
-                            Id = new Guid("63ad63d2-5884-4c3d-93f1-1aaf75c0a563"),
-                            Address = "845 Willow Road",
-                            City = "Silverlake",
-                            CloseHours = new TimeOnly(17, 0, 0),
-                            Email = "hello@willowcreek.com",
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            IsOpen = false,
-                            Name = "Willow Creek Farm",
-                            OpenHours = new TimeOnly(7, 0, 0),
-                            PhoneNumber = "555-4433"
-                        },
-                        new
-                        {
-                            Id = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
-                            Address = "77 Orchard Street",
-                            City = "Brookside",
-                            CloseHours = new TimeOnly(20, 0, 0),
-                            Email = "support@meadowbrook.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = true,
-                            Name = "Meadow Brook Orchards",
-                            OpenHours = new TimeOnly(8, 0, 0),
-                            PhoneNumber = "555-9988"
-                        },
-                        new
-                        {
-                            Id = new Guid("e609dc73-6845-4e72-80a4-1ad215a094d1"),
-                            Address = "389 Valley View",
-                            City = "Eagle Peak",
-                            CloseHours = new TimeOnly(17, 30, 0),
-                            Email = "info@blueskyfarms.com",
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            IsOpen = true,
-                            Name = "Blue Sky Farms",
-                            OpenHours = new TimeOnly(5, 30, 0),
-                            PhoneNumber = "555-7822"
-                        },
-                        new
-                        {
-                            Id = new Guid("77b7f04e-c775-4735-a017-60c7d5b4ede9"),
-                            Address = "123 Pinewood Road",
-                            City = "Greenwood",
-                            CloseHours = new TimeOnly(19, 30, 0),
-                            Email = "contact@evergreenacres.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = true,
-                            Name = "Evergreen Acres",
-                            OpenHours = new TimeOnly(6, 30, 0),
-                            PhoneNumber = "555-5567"
-                        },
-                        new
-                        {
-                            Id = new Guid("272befbb-54fd-41d0-bfca-d72305535321"),
-                            Address = "901 River Lane",
-                            City = "Watertown",
-                            CloseHours = new TimeOnly(18, 0, 0),
-                            Email = "info@riverbendfarm.com",
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            IsOpen = false,
-                            Name = "Riverbend Farm",
-                            OpenHours = new TimeOnly(8, 0, 0),
-                            PhoneNumber = "555-3345"
-                        },
-                        new
-                        {
-                            Id = new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"),
-                            Address = "740 Oak Street",
-                            City = "Mapleton",
-                            CloseHours = new TimeOnly(16, 0, 0),
-                            Email = "hello@autumngrove.com",
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            IsOpen = true,
-                            Name = "Autumn Grove",
-                            OpenHours = new TimeOnly(7, 0, 0),
-                            PhoneNumber = "555-2344"
-                        },
-                        new
-                        {
-                            Id = new Guid("ce2e44ca-d118-4676-9623-624e7f56980e"),
-                            Address = "455 Prairie Road",
-                            City = "Plainsville",
-                            CloseHours = new TimeOnly(18, 0, 0),
-                            Email = "contact@prairieview.com",
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            IsOpen = false,
-                            Name = "Prairie View Farm",
-                            OpenHours = new TimeOnly(6, 0, 0),
-                            PhoneNumber = "555-4455"
-                        },
-                        new
-                        {
-                            Id = new Guid("012cf2fc-b34e-425f-87a0-cc5989ea5c06"),
-                            Address = "112 Orchard Drive",
-                            City = "Peach Valley",
-                            CloseHours = new TimeOnly(18, 0, 0),
-                            Email = "info@orchardhill.com",
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            IsOpen = true,
-                            Name = "Orchard Hill",
-                            OpenHours = new TimeOnly(8, 0, 0),
-                            PhoneNumber = "555-6633"
-                        });
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Farmer unique identifier.");
+
+                    b.Property<bool>("AcceptsDeliveries")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company address for billing and shipping purposes.");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company name of farmer for billing purposes.");
+
+                    b.Property<string>("CompanyRegistrationNumber")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company registration number for VAT and tax purposes.");
+
+                    b.Property<bool>("HasProducts")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer has any products for sale.");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Foreign key to general application user.");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Farmers");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -630,514 +461,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasIndex("FarmerId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fffb5e9d-4c1e-4e0d-8997-1a7e537a5b89"),
-                            Barcode = "012345678900",
-                            CategoryId = 2,
-                            Description = "Fresh organic milk from grass-fed cows.",
-                            DiscountPercentage = 10.0m,
-                            ExpirationDate = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("63ad63d2-5884-4c3d-93f1-1aaf75c0a563"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/organic_milk.jpg",
-                            Name = "Organic Milk",
-                            NetWeight = 10.0,
-                            Origin = "Local",
-                            Price = 3.49m,
-                            ProductionDate = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 10.0,
-                            Season = 1,
-                            ShippingWeight = 10.5,
-                            Size = 1.0,
-                            UnitType = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("acdbb2f1-8f25-4b3c-a67a-b4d6e0b0f332"),
-                            Barcode = "012345678901",
-                            CategoryId = 5,
-                            Description = "Freshly picked strawberries, sweet and juicy.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("e609dc73-6845-4e72-80a4-1ad215a094d1"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/strawberries.jpg",
-                            Name = "Strawberries",
-                            NetWeight = 1.2,
-                            Origin = "California",
-                            Price = 4.99m,
-                            ProductionDate = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 12.0,
-                            Season = 2,
-                            ShippingWeight = 1.3,
-                            Size = 1.0,
-                            UnitType = 5
-                        },
-                        new
-                        {
-                            Id = new Guid("b197ed82-64f7-4d5c-b2b4-8cf2b31bfb50"),
-                            Barcode = "012345678902",
-                            CategoryId = 3,
-                            Description = "Premium quality wheat flour for baking.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("9a020bca-2f9f-4b61-af21-1adae08dd8e9"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/wheat_flour.jpg",
-                            Name = "Wheat Flour",
-                            NetWeight = 10.0,
-                            Origin = "USA",
-                            Price = 1.99m,
-                            ProductionDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 5.0,
-                            Season = 3,
-                            ShippingWeight = 10.5,
-                            Size = 2.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("ad91b21a-547f-4d1b-9e3c-4e0d53f8d347"),
-                            Barcode = "012345678903",
-                            CategoryId = 7,
-                            Description = "Pure honey collected from wildflowers.",
-                            DiscountPercentage = 5.0m,
-                            ExpirationDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("dcbae87c-93a9-4699-b3e4-2e10776839dd"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/honey.jpg",
-                            Name = "Honey",
-                            NetWeight = 12.0,
-                            Origin = "Wildflower Fields",
-                            Price = 9.99m,
-                            ProductionDate = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 24.0,
-                            Season = 3,
-                            ShippingWeight = 13.0,
-                            Size = 0.5,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("be88d6d4-1ae2-4a5a-9d6c-ef564c6e1c37"),
-                            Barcode = "012345678904",
-                            CategoryId = 4,
-                            Description = "Cold-pressed extra virgin olive oil.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("c437b349-7f30-44de-865a-31f24fc7c584"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/olive_oil.jpg",
-                            Name = "Extra Virgin Olive Oil",
-                            NetWeight = 15.0,
-                            Origin = "Italy",
-                            Price = 14.49m,
-                            ProductionDate = new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 20.0,
-                            Season = 3,
-                            ShippingWeight = 16.5,
-                            Size = 0.75,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("3a679e4b-2c43-4eab-82e5-6c120c9d8e2b"),
-                            Barcode = "012345678905",
-                            CategoryId = 9,
-                            Description = "Organic, free-range chicken eggs.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("7da444a3-fc8c-43e6-a223-378e5a51be4e"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/eggs.jpg",
-                            Name = "Free-range Eggs",
-                            NetWeight = 1.8,
-                            Origin = "Farm Fresh",
-                            Price = 2.99m,
-                            ProductionDate = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 15.0,
-                            Season = 3,
-                            ShippingWeight = 2.0,
-                            Size = 12.0,
-                            UnitType = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("e2ca22b4-f728-4c4f-888b-17463d93d542"),
-                            Barcode = "012345678906",
-                            CategoryId = 6,
-                            Description = "Fresh, crunchy organic carrots.",
-                            DiscountPercentage = 15.0m,
-                            ExpirationDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("d8fd1d22-ad66-4850-8a23-54d33e488964"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/carrots.jpg",
-                            Name = "Organic Carrots",
-                            NetWeight = 10.0,
-                            Origin = "Local",
-                            Price = 1.49m,
-                            ProductionDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 10.0,
-                            Season = 4,
-                            ShippingWeight = 10.199999999999999,
-                            Size = 1.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("b21d8f58-8f67-4cb8-b31f-5ebd2ff1b107"),
-                            Barcode = "012345678907",
-                            CategoryId = 10,
-                            Description = "Freshly squeezed orange juice with no preservatives.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("77b7f04e-c775-4735-a017-60c7d5b4ede9"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/orange_juice.jpg",
-                            Name = "Orange Juice",
-                            NetWeight = 6.0,
-                            Origin = "Florida",
-                            Price = 3.99m,
-                            ProductionDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 6.0,
-                            Season = 4,
-                            ShippingWeight = 6.2000000000000002,
-                            Size = 1.0,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("d1f7e5a6-2a8d-4c5a-80c7-b8c0b58f2d91"),
-                            Barcode = "012345678908",
-                            CategoryId = 2,
-                            Description = "Aged cheddar cheese with a sharp flavor.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("ce2e44ca-d118-4676-9623-624e7f56980e"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/cheddar_cheese.jpg",
-                            Name = "Cheddar Cheese",
-                            NetWeight = 15.0,
-                            Origin = "Wisconsin",
-                            Price = 7.99m,
-                            ProductionDate = new DateTime(2023, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 15.0,
-                            Season = 4,
-                            ShippingWeight = 15.300000000000001,
-                            Size = 1.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("b9cdd8a5-3039-4a7f-93a4-9b76c6e5e510"),
-                            Barcode = "012345678909",
-                            CategoryId = 4,
-                            Description = "Smooth almond butter with no added sugar.",
-                            DiscountPercentage = 10.0m,
-                            ExpirationDate = new DateTime(2024, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("6ee2702d-fab7-42f4-bf10-6becc7b9dbd3"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/almond_butter.jpg",
-                            Name = "Almond Butter",
-                            NetWeight = 10.0,
-                            Origin = "California",
-                            Price = 12.99m,
-                            ProductionDate = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 20.0,
-                            Season = 4,
-                            ShippingWeight = 10.4,
-                            Size = 0.5,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("c62b13b9-6bc2-403f-9e0d-2de6d8f84f88"),
-                            Barcode = "012345678910",
-                            CategoryId = 5,
-                            Description = "Crisp and sweet organic apples.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/organic_apples.jpg",
-                            Name = "Organic Apples",
-                            NetWeight = 12.0,
-                            Origin = "Washington",
-                            Price = 2.49m,
-                            ProductionDate = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 12.0,
-                            Season = 3,
-                            ShippingWeight = 12.4,
-                            Size = 1.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("de3442a5-6a4d-4938-babe-2f3a7a5e9b34"),
-                            Barcode = "012345678911",
-                            CategoryId = 8,
-                            Description = "Freshly caught salmon fillet, rich in omega-3.",
-                            DiscountPercentage = 5.0m,
-                            ExpirationDate = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("581569fd-5062-4435-899b-8bfe31d2f4e8"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/salmon_fillet.jpg",
-                            Name = "Salmon Fillet",
-                            NetWeight = 8.0,
-                            Origin = "Alaska",
-                            Price = 15.99m,
-                            ProductionDate = new DateTime(2023, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 8.0,
-                            Season = 1,
-                            ShippingWeight = 8.3000000000000007,
-                            Size = 1.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("aa1c9a77-5bf8-4cf8-995f-8f3ebc653c97"),
-                            Barcode = "012345678912",
-                            CategoryId = 6,
-                            Description = "Organic spinach leaves, rich in iron.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("012cf2fc-b34e-425f-87a0-cc5989ea5c06"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/spinach.jpg",
-                            Name = "Spinach",
-                            NetWeight = 2.0,
-                            Origin = "Oregon",
-                            Price = 1.99m,
-                            ProductionDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 20.0,
-                            Season = 4,
-                            ShippingWeight = 2.2000000000000002,
-                            Size = 1.0,
-                            UnitType = 5
-                        },
-                        new
-                        {
-                            Id = new Guid("ccf1c98e-5cf4-4bfe-82c7-2a1dfb748e12"),
-                            Barcode = "012345678913",
-                            CategoryId = 2,
-                            Description = "Creamy Greek yogurt made from fresh milk.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/greek_yogurt.jpg",
-                            Name = "Greek Yogurt",
-                            NetWeight = 5.0,
-                            Origin = "Greece",
-                            Price = 4.99m,
-                            ProductionDate = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 10.0,
-                            Season = 1,
-                            ShippingWeight = 5.2000000000000002,
-                            Size = 0.5,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("bb0b2f76-f1d8-49a3-ae15-5d2cb36c4899"),
-                            Barcode = "012345678914",
-                            CategoryId = 10,
-                            Description = "Homemade orange marmalade, perfect for breakfast.",
-                            DiscountPercentage = 7.5m,
-                            ExpirationDate = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("272befbb-54fd-41d0-bfca-d72305535321"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/orange_marmalade.jpg",
-                            Name = "Orange Marmalade",
-                            NetWeight = 3.75,
-                            Origin = "Florida",
-                            Price = 5.49m,
-                            ProductionDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 15.0,
-                            Season = 4,
-                            ShippingWeight = 3.7999999999999998,
-                            Size = 0.25,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("c6b7e2c2-3f9a-4c27-b6ef-7f70e5bfcf92"),
-                            Barcode = "012345678908",
-                            CategoryId = 2,
-                            Description = "Smooth and creamy almond milk, unsweetened.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/almond_milk.jpg",
-                            Name = "Almond Milk",
-                            NetWeight = 10.0,
-                            Origin = "California",
-                            Price = 4.29m,
-                            ProductionDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 10.0,
-                            Season = 1,
-                            ShippingWeight = 10.5,
-                            Size = 1.0,
-                            UnitType = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("d2109b26-f315-48df-baf9-c1c45746e573"),
-                            Barcode = "012345678909",
-                            CategoryId = 8,
-                            Description = "Fresh Atlantic salmon fillet, ready to cook.",
-                            DiscountPercentage = 5.0m,
-                            ExpirationDate = new DateTime(2023, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"),
-                            FarmerId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/salmon_fillet.jpg",
-                            Name = "Salmon Fillet",
-                            NetWeight = 7.5,
-                            Origin = "Atlantic Ocean",
-                            Price = 12.99m,
-                            ProductionDate = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 15.0,
-                            Season = 3,
-                            ShippingWeight = 7.7999999999999998,
-                            Size = 0.5,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("11f7b5fc-f7f1-4782-b90b-b18b5e0fbb47"),
-                            Barcode = "012345678910",
-                            CategoryId = 5,
-                            Description = "Crisp, sweet apples, perfect for snacking.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/apples.jpg",
-                            Name = "Apples",
-                            NetWeight = 8.0,
-                            Origin = "Washington",
-                            Price = 2.49m,
-                            ProductionDate = new DateTime(2023, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 8.0,
-                            Season = 3,
-                            ShippingWeight = 8.3000000000000007,
-                            Size = 1.0,
-                            UnitType = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("fa8ec7af-4cf4-4a28-8c37-5f2d3a1ab5e1"),
-                            Barcode = "012345678911",
-                            CategoryId = 7,
-                            Description = "Pure maple syrup, harvested from local maple trees.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/maple_syrup.jpg",
-                            Name = "Maple Syrup",
-                            NetWeight = 9.0,
-                            Origin = "Vermont",
-                            Price = 15.99m,
-                            ProductionDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 18.0,
-                            Season = 1,
-                            ShippingWeight = 9.3000000000000007,
-                            Size = 0.5,
-                            UnitType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("c89c1d90-a5d7-4416-9403-e5e1e3e0e217"),
-                            Barcode = "012345678912",
-                            CategoryId = 2,
-                            Description = "Thick and creamy Greek yogurt, plain.",
-                            DiscountPercentage = 15.0m,
-                            ExpirationDate = new DateTime(2023, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
-                            FarmerId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/greek_yogurt.jpg",
-                            Name = "Greek Yogurt",
-                            NetWeight = 10.0,
-                            Origin = "Greece",
-                            Price = 5.49m,
-                            ProductionDate = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 20.0,
-                            Season = 2,
-                            ShippingWeight = 10.199999999999999,
-                            Size = 500.0,
-                            UnitType = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("8ab9a582-e0f2-46d1-9e13-8d8b0b2ef731"),
-                            Barcode = "012345678913",
-                            CategoryId = 2,
-                            Description = "Rich and creamy organic butter, perfect for baking.",
-                            DiscountPercentage = 0.0m,
-                            ExpirationDate = new DateTime(2023, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("7da444a3-fc8c-43e6-a223-378e5a51be4e"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = false,
-                            ImageUrl = "https://example.com/images/organic_butter.jpg",
-                            Name = "Organic Butter",
-                            NetWeight = 2.3999999999999999,
-                            Origin = "Local",
-                            Price = 3.79m,
-                            ProductionDate = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 12.0,
-                            Season = 2,
-                            ShippingWeight = 2.5,
-                            Size = 200.0,
-                            UnitType = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("0fef93a3-0cd6-4e02-9404-b34d5f0e672a"),
-                            Barcode = "012345678914",
-                            CategoryId = 3,
-                            Description = "Handmade sourdough bread, freshly baked.",
-                            DiscountPercentage = 10.0m,
-                            ExpirationDate = new DateTime(2023, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FarmId = new Guid("7da444a3-fc8c-43e6-a223-378e5a51be4e"),
-                            FarmerId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
-                            HasDiscount = true,
-                            ImageUrl = "https://example.com/images/sourdough_bread.jpg",
-                            Name = "Sourdough Bread",
-                            NetWeight = 7.5,
-                            Origin = "Local",
-                            Price = 4.99m,
-                            ProductionDate = new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Quantity = 15.0,
-                            Season = 1,
-                            ShippingWeight = 7.5999999999999996,
-                            Size = 1.0,
-                            UnitType = 1
-                        });
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.ProductOrder", b =>
@@ -1291,40 +614,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasBaseType("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser");
-
-                    b.Property<bool>("AcceptsDeliveries")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
-
-                    b.Property<string>("CompanyAddress")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company address for billing and shipping purposes.");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company name of farmer for billing purposes.");
-
-                    b.Property<string>("CompanyRegistrationNumber")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company registration number for VAT and tax purposes.");
-
-                    b.Property<Guid>("FarmId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("HasProducts")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer has any products for sale.");
-
-                    b.HasIndex("FarmId")
-                        .IsUnique()
-                        .HasFilter("[FarmId] IS NOT NULL");
-
-                    b.HasDiscriminator().HasValue("Farmer");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.CategoryFarmer", b =>
                 {
                     b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Category", "Category")
@@ -1342,6 +631,25 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Farmer");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
+                        .WithOne("Farmer")
+                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Farm");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -1463,17 +771,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
-                        .WithOne("Farmer")
-                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "FarmId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Farm");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Orders");
@@ -1492,6 +789,13 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Navigation("CategoriesFarmers");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("ProductsOrders");
@@ -1506,13 +810,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Product", b =>
                 {
                     b.Navigation("ProductsOrders");
-                });
-
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.Navigation("CategoriesFarmers");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

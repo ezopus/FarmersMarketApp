@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241028193006_AppUserAddressAndFarmerFlagSetToNullable")]
-    partial class AppUserAddressAndFarmerFlagSetToNullable
+    [Migration("20241030220501_FarmerEntityAdded")]
+    partial class FarmerEntityAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,11 +42,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -115,10 +110,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Category", b =>
@@ -228,8 +219,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasComment("City where farm is located or close to.");
 
-                    b.Property<DateTime>("CloseHours")
-                        .HasColumnType("datetime2")
+                    b.Property<TimeOnly?>("CloseHours")
+                        .HasColumnType("time")
                         .HasComment("Closing hours of farm operations.");
 
                     b.Property<string>("Email")
@@ -250,18 +241,54 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(150)")
                         .HasComment("Farm name.");
 
-                    b.Property<DateTime>("OpenHours")
-                        .HasColumnType("datetime2")
+                    b.Property<TimeOnly?>("OpenHours")
+                        .HasColumnType("time")
                         .HasComment("Opening hours of farm operations.");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Phone number of farm visible to general public.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Farms");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Farmer unique identifier.");
+
+                    b.Property<bool>("AcceptsDeliveries")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company address for billing and shipping purposes.");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company name of farmer for billing purposes.");
+
+                    b.Property<string>("CompanyRegistrationNumber")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company registration number for VAT and tax purposes.");
+
+                    b.Property<bool>("HasProducts")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer has any products for sale.");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Foreign key to general application user.");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Farmers");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -410,8 +437,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Production date of product.");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float")
                         .HasComment("Amount of products in each unit.");
 
                     b.Property<int?>("Season")
@@ -421,6 +448,10 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<double>("ShippingWeight")
                         .HasColumnType("float")
                         .HasComment("Weight of product with container");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float")
+                        .HasComment("The size of one individual product in one sold unit.");
 
                     b.Property<int>("UnitType")
                         .HasColumnType("int")
@@ -586,40 +617,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasBaseType("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser");
-
-                    b.Property<bool>("AcceptsDeliveries")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
-
-                    b.Property<string>("CompanyAddress")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company address for billing and shipping purposes.");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company name of farmer for billing purposes.");
-
-                    b.Property<string>("CompanyRegistrationNumber")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company registration number for VAT and tax purposes.");
-
-                    b.Property<Guid>("FarmId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("HasProducts")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer has any products for sale.");
-
-                    b.HasIndex("FarmId")
-                        .IsUnique()
-                        .HasFilter("[FarmId] IS NOT NULL");
-
-                    b.HasDiscriminator().HasValue("Farmer");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.CategoryFarmer", b =>
                 {
                     b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Category", "Category")
@@ -637,6 +634,25 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Farmer");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
+                        .WithOne("Farmer")
+                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Farm");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -758,17 +774,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
-                        .WithOne("Farmer")
-                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "FarmId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Farm");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Orders");
@@ -787,6 +792,13 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Navigation("CategoriesFarmers");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("ProductsOrders");
@@ -801,13 +813,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Product", b =>
                 {
                     b.Navigation("ProductsOrders");
-                });
-
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.Navigation("CategoriesFarmers");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,9 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FarmersMarketApp.Infrastructure.Data.Models
 {
-    public class Farmer : ApplicationUser
+    public class Farmer
     {
+        [Key]
+        [Comment("Farmer unique identifier.")]
+        public Guid Id { get; set; }
+
+        [Comment("Foreign key to general application user.")]
+        public required Guid UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; } = null!;
+
         [Comment("Flag to show if farmer has any products for sale.")]
         public bool HasProducts { get; set; }
 
