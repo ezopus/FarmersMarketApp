@@ -17,8 +17,10 @@ namespace FarmersMarketApp.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            var passwordHasher = new PasswordHasher<ApplicationUser>();
 
-            builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new ApplicationUserConfiguration(passwordHasher));
+            builder.ApplyConfiguration(new FarmerConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new CategoryFarmerConfiguration());
             builder.ApplyConfiguration(new FarmConfiguration());

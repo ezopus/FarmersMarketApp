@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241030220501_FarmerEntityAdded")]
-    partial class FarmerEntityAdded
+    [Migration("20241030223311_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -696,7 +696,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Farmer")
                         .WithMany("Products")
                         .HasForeignKey("FarmerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Farm");

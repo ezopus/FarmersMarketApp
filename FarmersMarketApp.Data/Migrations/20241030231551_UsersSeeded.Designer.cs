@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241027193424_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241030231551_UsersSeeded")]
+    partial class UsersSeeded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasComment("Physical address of application user.");
@@ -43,11 +42,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -117,9 +111,102 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-
-                    b.UseTphMappingStrategy();
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c9b92be-f570-4fb7-8dc6-269313e06f7c",
+                            Email = "dwight@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Dwight",
+                            IsFarmer = false,
+                            LastName = "Schrute",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DWIGHT@OFFICE.COM",
+                            NormalizedUserName = "DWIGHT@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOjIV5+eqb8W/v4FRwurKjzcctmxuyEkiBk2NKUdQOmjkb63AXL0UwP+kljI2nW6Sw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "618a1cc6-6284-4702-871c-1e58fe74f3f8",
+                            TwoFactorEnabled = false,
+                            UserName = "dwight@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "14d3da74-58b2-4ed1-a4bf-ffd6ce7afe3a",
+                            Email = "kevin@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Kevin",
+                            IsFarmer = false,
+                            LastName = "Bacon",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KEVIN@OFFICE.COM",
+                            NormalizedUserName = "KEVIN@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEASbJyFeuWHQiFe5zScVGjDBimxapmMK9ruMfJl60S+mNYgTAC79Dj+e59Ft4SwLxA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fd625ce4-2475-4d80-a609-df9d3ddf4598",
+                            TwoFactorEnabled = false,
+                            UserName = "kevin@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f434ca82-a5bf-497f-bc78-e358d2c1d626",
+                            Email = "michael@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Michael",
+                            IsFarmer = false,
+                            LastName = "Scott",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MICHAEL@OFFICE.COM",
+                            NormalizedUserName = "MICHAEL@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEkw+cEMt4vLjrJQnw77z1400ZZu9ZenyuSpv4oZki2rLCFNJK67dKcICcy+WmvQWQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "288b8da7-b517-4f95-af28-3916b878adc1",
+                            TwoFactorEnabled = false,
+                            UserName = "michael@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "99e8d0e1-2a4b-4d14-ae59-bd854a037c5d",
+                            Email = "jim@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jim",
+                            IsFarmer = false,
+                            LastName = "Halpert",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JIM@OFFICE.COM",
+                            NormalizedUserName = "JIM@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELVLmYPoyvzeuoZQrxTU0TsBu9d/KRlRv/JcISJGKsP+ZaBZs473kTxhXp1CK1zcWQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "08f6ec97-4269-466d-b207-47e30c651036",
+                            TwoFactorEnabled = false,
+                            UserName = "jim@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f963a08d-dc77-415b-88cd-e7a86de2b3c0",
+                            Email = "creed@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Creed",
+                            IsFarmer = false,
+                            LastName = "Bratton",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CREED@OFFICE.COM",
+                            NormalizedUserName = "CREED@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL4iv5BxxUkx1rG9rocD2nNDe+oiENeZdPFrzKLYnDR4y5b+2GsAx26vE95xvbYO/g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a361e509-ad28-459e-b4c6-449937b3e998",
+                            TwoFactorEnabled = false,
+                            UserName = "creed@office.com"
+                        });
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Category", b =>
@@ -229,8 +316,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasComment("City where farm is located or close to.");
 
-                    b.Property<DateTime>("CloseHours")
-                        .HasColumnType("datetime2")
+                    b.Property<TimeOnly?>("CloseHours")
+                        .HasColumnType("time")
                         .HasComment("Closing hours of farm operations.");
 
                     b.Property<string>("Email")
@@ -251,18 +338,54 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(150)")
                         .HasComment("Farm name.");
 
-                    b.Property<DateTime>("OpenHours")
-                        .HasColumnType("datetime2")
+                    b.Property<TimeOnly?>("OpenHours")
+                        .HasColumnType("time")
                         .HasComment("Opening hours of farm operations.");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Phone number of farm visible to general public.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Farms");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Farmer unique identifier.");
+
+                    b.Property<bool>("AcceptsDeliveries")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company address for billing and shipping purposes.");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company name of farmer for billing purposes.");
+
+                    b.Property<string>("CompanyRegistrationNumber")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Company registration number for VAT and tax purposes.");
+
+                    b.Property<bool>("HasProducts")
+                        .HasColumnType("bit")
+                        .HasComment("Flag to show if farmer has any products for sale.");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Foreign key to general application user.");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Farmers");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -411,8 +534,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Production date of product.");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float")
                         .HasComment("Amount of products in each unit.");
 
                     b.Property<int?>("Season")
@@ -422,6 +545,10 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<double>("ShippingWeight")
                         .HasColumnType("float")
                         .HasComment("Weight of product with container");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float")
+                        .HasComment("The size of one individual product in one sold unit.");
 
                     b.Property<int>("UnitType")
                         .HasColumnType("int")
@@ -587,40 +714,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasBaseType("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser");
-
-                    b.Property<bool>("AcceptsDeliveries")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer is currently accepting deliveries.");
-
-                    b.Property<string>("CompanyAddress")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company address for billing and shipping purposes.");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company name of farmer for billing purposes.");
-
-                    b.Property<string>("CompanyRegistrationNumber")
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Company registration number for VAT and tax purposes.");
-
-                    b.Property<Guid>("FarmId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("HasProducts")
-                        .HasColumnType("bit")
-                        .HasComment("Flag to show if farmer has any products for sale.");
-
-                    b.HasIndex("FarmId")
-                        .IsUnique()
-                        .HasFilter("[FarmId] IS NOT NULL");
-
-                    b.HasDiscriminator().HasValue("Farmer");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.CategoryFarmer", b =>
                 {
                     b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Category", "Category")
@@ -638,6 +731,25 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Farmer");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
+                        .WithOne("Farmer")
+                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Farm");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -681,7 +793,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Farmer")
                         .WithMany("Products")
                         .HasForeignKey("FarmerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Farm");
@@ -759,17 +871,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
-                        .WithOne("Farmer")
-                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "FarmId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Farm");
-                });
-
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Orders");
@@ -788,6 +889,13 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
+                {
+                    b.Navigation("CategoriesFarmers");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("ProductsOrders");
@@ -802,13 +910,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Product", b =>
                 {
                     b.Navigation("ProductsOrders");
-                });
-
-            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
-                {
-                    b.Navigation("CategoriesFarmers");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

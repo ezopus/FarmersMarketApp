@@ -28,6 +28,35 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "First name of application user."),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Last name of application user."),
+                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "Physical address of application user."),
+                    IsFarmer = table.Column<bool>(type: "bit", nullable: false, comment: "Flag to show if user is a farmer or not."),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -49,9 +78,9 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false, comment: "Physical address of farm."),
                     City = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false, comment: "City where farm is located or close to."),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Email address of farm for enquiries."),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Phone number of farm visible to general public."),
-                    OpenHours = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Opening hours of farm operations."),
-                    CloseHours = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Closing hours of farm operations."),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Phone number of farm visible to general public."),
+                    OpenHours = table.Column<TimeOnly>(type: "time", nullable: true, comment: "Opening hours of farm operations."),
+                    CloseHours = table.Column<TimeOnly>(type: "time", nullable: true, comment: "Closing hours of farm operations."),
                     IsOpen = table.Column<bool>(type: "bit", nullable: false, comment: "Flag to check if farm is open for business."),
                     FarmerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of farmer who owns current farm.")
                 },
@@ -79,47 +108,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "First name of application user."),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Last name of application user."),
-                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Physical address of application user."),
-                    IsFarmer = table.Column<bool>(type: "bit", nullable: false, comment: "Flag to show if user is a farmer or not."),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    HasProducts = table.Column<bool>(type: "bit", nullable: true, comment: "Flag to show if farmer has any products for sale."),
-                    AcceptsDeliveries = table.Column<bool>(type: "bit", nullable: true, comment: "Flag to show if farmer is currently accepting deliveries."),
-                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company name of farmer for billing purposes."),
-                    CompanyRegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company registration number for VAT and tax purposes."),
-                    CompanyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company address for billing and shipping purposes."),
-                    FarmId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Farms_FarmId",
-                        column: x => x.FarmId,
-                        principalTable: "Farms",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -208,28 +196,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoriesFarmers",
-                columns: table => new
-                {
-                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Category identifier."),
-                    FarmerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Farmer identifier.")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoriesFarmers", x => new { x.CategoryId, x.FarmerId });
-                    table.ForeignKey(
-                        name: "FK_CategoriesFarmers_AspNetUsers_FarmerId",
-                        column: x => x.FarmerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CategoriesFarmers_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -253,41 +219,29 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Farmers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of each product."),
-                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Product name."),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Description of product in free text format."),
-                    UnitType = table.Column<int>(type: "int", nullable: false, comment: "Type of unit which product is distributed in - box, carton, bottle, etc."),
-                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Amount of products in each unit."),
-                    NetWeight = table.Column<double>(type: "float", nullable: false, comment: "Weight of product in kilograms"),
-                    ShippingWeight = table.Column<double>(type: "float", nullable: false, comment: "Weight of product with container"),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Price of product for one unit."),
-                    HasDiscount = table.Column<bool>(type: "bit", nullable: false, comment: "Flag if product has active discount."),
-                    DiscountPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: true, comment: "Percentage of discount."),
-                    FarmerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of farmer who produces current product."),
-                    FarmId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of farm where product is made."),
-                    Season = table.Column<int>(type: "int", nullable: true, comment: "Specific season for product if applicable"),
-                    ProductionDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Production date of product."),
-                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Expiration date of product."),
-                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Category identifier of product."),
-                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Unique barcode of product."),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Image url of product."),
-                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Specific origin of product if applicable")
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Farmer unique identifier."),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Foreign key to general application user."),
+                    HasProducts = table.Column<bool>(type: "bit", nullable: false, comment: "Flag to show if farmer has any products for sale."),
+                    AcceptsDeliveries = table.Column<bool>(type: "bit", nullable: false, comment: "Flag to show if farmer is currently accepting deliveries."),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company name of farmer for billing purposes."),
+                    CompanyRegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company registration number for VAT and tax purposes."),
+                    CompanyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Company address for billing and shipping purposes.")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Farmers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_AspNetUsers_FarmerId",
-                        column: x => x.FarmerId,
+                        name: "FK_Farmers_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Farms_FarmId",
-                        column: x => x.FarmId,
+                        name: "FK_Farmers_Farms_Id",
+                        column: x => x.Id,
                         principalTable: "Farms",
                         principalColumn: "Id");
                 });
@@ -317,6 +271,68 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         name: "FK_Orders_Payments_Id",
                         column: x => x.Id,
                         principalTable: "Payments",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoriesFarmers",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Category identifier."),
+                    FarmerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Farmer identifier.")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriesFarmers", x => new { x.CategoryId, x.FarmerId });
+                    table.ForeignKey(
+                        name: "FK_CategoriesFarmers_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CategoriesFarmers_Farmers_FarmerId",
+                        column: x => x.FarmerId,
+                        principalTable: "Farmers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of each product."),
+                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Product name."),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Description of product in free text format."),
+                    UnitType = table.Column<int>(type: "int", nullable: false, comment: "Type of unit which product is distributed in - box, carton, bottle, etc."),
+                    Size = table.Column<double>(type: "float", nullable: false, comment: "The size of one individual product in one sold unit."),
+                    Quantity = table.Column<double>(type: "float", nullable: false, comment: "Amount of products in each unit."),
+                    NetWeight = table.Column<double>(type: "float", nullable: false, comment: "Weight of product in kilograms"),
+                    ShippingWeight = table.Column<double>(type: "float", nullable: false, comment: "Weight of product with container"),
+                    Season = table.Column<int>(type: "int", nullable: true, comment: "Specific season for product if applicable"),
+                    ProductionDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Production date of product."),
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Expiration date of product."),
+                    CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Category identifier of product."),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Price of product for one unit."),
+                    HasDiscount = table.Column<bool>(type: "bit", nullable: false, comment: "Flag if product has active discount."),
+                    DiscountPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: true, comment: "Percentage of discount."),
+                    FarmerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of farmer who produces current product."),
+                    FarmId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Unique identifier of farm where product is made."),
+                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Unique barcode of product."),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Image url of product."),
+                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Specific origin of product if applicable")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Farmers_FarmerId",
+                        column: x => x.FarmerId,
+                        principalTable: "Farmers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Products_Farms_FarmId",
+                        column: x => x.FarmId,
+                        principalTable: "Farms",
                         principalColumn: "Id");
                 });
 
@@ -393,13 +409,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_FarmId",
-                table: "AspNetUsers",
-                column: "FarmId",
-                unique: true,
-                filter: "[FarmId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -410,6 +419,11 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 name: "IX_CategoriesFarmers_FarmerId",
                 table: "CategoriesFarmers",
                 column: "FarmerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Farmers_UserId",
+                table: "Farmers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
@@ -475,6 +489,9 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Farmers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
