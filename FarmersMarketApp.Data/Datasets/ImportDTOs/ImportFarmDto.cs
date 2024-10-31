@@ -19,6 +19,5 @@
 
         public bool IsOpen { get; set; }
 
-        public required string FarmerId { get; set; }
     }
 }
