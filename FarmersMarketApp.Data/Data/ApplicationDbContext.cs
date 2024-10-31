@@ -24,6 +24,7 @@ namespace FarmersMarketApp.Infrastructure.Data
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new CategoryFarmerConfiguration());
             builder.ApplyConfiguration(new FarmConfiguration());
+            builder.ApplyConfiguration(new FarmerFarmConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new ProductOrderConfiguration());

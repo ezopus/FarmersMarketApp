@@ -11,14 +11,9 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
         private const string FarmDataSet = "../FarmersMarketApp.Data/Datasets/farms.json";
         public void Configure(EntityTypeBuilder<Farm> builder)
         {
-            builder
-                .HasOne(f => f.Farmer)
-                .WithOne(f => f.Farm)
-                .HasForeignKey<Farmer>()
-                .OnDelete(DeleteBehavior.NoAction);
-
             var farms = LoadJsonData(FarmDataSet);
 
+            //Add seed data
             builder.HasData(farms);
         }
 
@@ -42,7 +37,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
                     OpenHours = TimeOnly.Parse(farm.OpenHours),
                     CloseHours = TimeOnly.Parse(farm.CloseHours),
                     IsOpen = farm.IsOpen,
-                    FarmerId = Guid.Parse(farm.FarmerId),
                 };
 
                 farms.Add(newFarm);

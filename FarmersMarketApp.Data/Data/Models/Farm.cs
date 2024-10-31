@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.FarmValidation;
 
@@ -39,12 +38,8 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Flag to check if farm is open for business.")]
         public required bool IsOpen { get; set; }
 
-        [Comment("Unique identifier of farmer who owns current farm.")]
-        public required Guid FarmerId { get; set; }
+        public virtual ICollection<FarmerFarm> FarmersFarms { get; set; } = new List<FarmerFarm>();
 
-        [ForeignKey(nameof(FarmerId))]
-        public virtual Farmer Farmer { get; set; } = null!;
-
-        public virtual List<Product> Products { get; set; } = null!;
+        public virtual ICollection<Product> Products { get; set; } = null!;
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241030223311_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241031000735_FarmsSeeded")]
+    partial class FarmsSeeded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,6 +110,103 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2acd8374-11a9-4c31-9de3-add4b7496e91",
+                            Email = "dwight@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Dwight",
+                            IsFarmer = false,
+                            LastName = "Schrute",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DWIGHT@OFFICE.COM",
+                            NormalizedUserName = "DWIGHT@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELmp/u/9++NXiBZAES7YD+rH9nRhEyWaPMwmRTSqrP/Nusl44QTRboswSCdgNf0PXA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "618a1cc6-6284-4702-871c-1e58fe74f3f8",
+                            TwoFactorEnabled = false,
+                            UserName = "dwight@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "eb1154a2-72d4-41f7-9a6c-82b3a73c9093",
+                            Email = "kevin@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Kevin",
+                            IsFarmer = false,
+                            LastName = "Bacon",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KEVIN@OFFICE.COM",
+                            NormalizedUserName = "KEVIN@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAgCpUcALwCuuu4IKU16P70vIgG09wpl420NN4416eztWo7KTdXl/AyhGqbjpaIYyQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fd625ce4-2475-4d80-a609-df9d3ddf4598",
+                            TwoFactorEnabled = false,
+                            UserName = "kevin@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1c1c2055-6a65-4351-b20e-fcf944ddf70b",
+                            Email = "michael@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Michael",
+                            IsFarmer = false,
+                            LastName = "Scott",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MICHAEL@OFFICE.COM",
+                            NormalizedUserName = "MICHAEL@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMjLGaMOkd2w85nlJ4U2rEGrNbea9ZrJTBcQ1g+Yr14RsuqRTRI4II8KBEHdNpdB9A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "288b8da7-b517-4f95-af28-3916b878adc1",
+                            TwoFactorEnabled = false,
+                            UserName = "michael@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f51a867d-6bb0-4e04-b90d-38e23bfbcc5b",
+                            Email = "jim@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jim",
+                            IsFarmer = false,
+                            LastName = "Halpert",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JIM@OFFICE.COM",
+                            NormalizedUserName = "JIM@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELDL6w1gNLsggj6IeaktZwCGtYGzNBN1uv+HUTTuaNFrbX5sQVxJLTe5W+NHCVJWiA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "08f6ec97-4269-466d-b207-47e30c651036",
+                            TwoFactorEnabled = false,
+                            UserName = "jim@office.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1f0ce1ce-088a-48da-92ae-bde0f30abd14",
+                            Email = "creed@office.com",
+                            EmailConfirmed = true,
+                            FirstName = "Creed",
+                            IsFarmer = false,
+                            LastName = "Bratton",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CREED@OFFICE.COM",
+                            NormalizedUserName = "CREED@OFFICE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBUx11MrTpmd1hnI9YIjj+iCQniAQnlvnWlHn4+rxA9IgwGSvnCHiTSvESXo4nw1sg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a361e509-ad28-459e-b4c6-449937b3e998",
+                            TwoFactorEnabled = false,
+                            UserName = "creed@office.com"
+                        });
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Category", b =>
@@ -227,10 +324,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Email address of farm for enquiries.");
 
-                    b.Property<Guid>("FarmerId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Unique identifier of farmer who owns current farm.");
-
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit")
                         .HasComment("Flag to check if farm is open for business.");
@@ -252,11 +345,194 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Farms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d8fd1d22-ad66-4850-8a23-54d33e488964"),
+                            Address = "123 Greenway Drive",
+                            City = "Riverside",
+                            CloseHours = new TimeOnly(18, 0, 0),
+                            Email = "contact@sunnyfields.com",
+                            IsOpen = true,
+                            Name = "Sunny Fields",
+                            OpenHours = new TimeOnly(8, 0, 0),
+                            PhoneNumber = "555-1234"
+                        },
+                        new
+                        {
+                            Id = new Guid("581569fd-5062-4435-899b-8bfe31d2f4e8"),
+                            Address = "456 Oak Avenue",
+                            City = "Hilltop",
+                            CloseHours = new TimeOnly(17, 0, 0),
+                            Email = "info@mountainviewfarm.com",
+                            IsOpen = false,
+                            Name = "Mountainview Farm",
+                            OpenHours = new TimeOnly(7, 0, 0),
+                            PhoneNumber = "555-5678"
+                        },
+                        new
+                        {
+                            Id = new Guid("9a020bca-2f9f-4b61-af21-1adae08dd8e9"),
+                            Address = "789 Blueberry Lane",
+                            City = "Lakewood",
+                            CloseHours = new TimeOnly(20, 0, 0),
+                            Email = "hello@lakesideorchards.com",
+                            IsOpen = true,
+                            Name = "Lakeside Orchards",
+                            OpenHours = new TimeOnly(9, 0, 0),
+                            PhoneNumber = "555-8765"
+                        },
+                        new
+                        {
+                            Id = new Guid("c437b349-7f30-44de-865a-31f24fc7c584"),
+                            Address = "321 Apple Street",
+                            City = "Springfield",
+                            CloseHours = new TimeOnly(19, 0, 0),
+                            Email = "support@greenmeadowfarms.com",
+                            IsOpen = false,
+                            Name = "Green Meadow Farms",
+                            OpenHours = new TimeOnly(6, 0, 0),
+                            PhoneNumber = "555-1122"
+                        },
+                        new
+                        {
+                            Id = new Guid("dcbae87c-93a9-4699-b3e4-2e10776839dd"),
+                            Address = "654 Maple Road",
+                            City = "Greenville",
+                            CloseHours = new TimeOnly(18, 30, 0),
+                            Email = "contact@valleyfarmmarket.com",
+                            IsOpen = true,
+                            Name = "Valley Farm Market",
+                            OpenHours = new TimeOnly(8, 30, 0),
+                            PhoneNumber = "555-3344"
+                        },
+                        new
+                        {
+                            Id = new Guid("7da444a3-fc8c-43e6-a223-378e5a51be4e"),
+                            Address = "912 Sunset Blvd",
+                            City = "Clearwater",
+                            CloseHours = new TimeOnly(16, 30, 0),
+                            Email = "info@sunriseranch.com",
+                            IsOpen = true,
+                            Name = "Sunrise Ranch",
+                            OpenHours = new TimeOnly(7, 30, 0),
+                            PhoneNumber = "555-9912"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ee2702d-fab7-42f4-bf10-6becc7b9dbd3"),
+                            Address = "200 Harvest Lane",
+                            City = "Fairview",
+                            CloseHours = new TimeOnly(18, 0, 0),
+                            Email = "contact@harvesthill.com",
+                            IsOpen = true,
+                            Name = "Harvest Hill Farm",
+                            OpenHours = new TimeOnly(6, 0, 0),
+                            PhoneNumber = "555-2211"
+                        },
+                        new
+                        {
+                            Id = new Guid("63ad63d2-5884-4c3d-93f1-1aaf75c0a563"),
+                            Address = "845 Willow Road",
+                            City = "Silverlake",
+                            CloseHours = new TimeOnly(17, 0, 0),
+                            Email = "hello@willowcreek.com",
+                            IsOpen = false,
+                            Name = "Willow Creek Farm",
+                            OpenHours = new TimeOnly(7, 0, 0),
+                            PhoneNumber = "555-4433"
+                        },
+                        new
+                        {
+                            Id = new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"),
+                            Address = "77 Orchard Street",
+                            City = "Brookside",
+                            CloseHours = new TimeOnly(20, 0, 0),
+                            Email = "support@meadowbrook.com",
+                            IsOpen = true,
+                            Name = "Meadow Brook Orchards",
+                            OpenHours = new TimeOnly(8, 0, 0),
+                            PhoneNumber = "555-9988"
+                        },
+                        new
+                        {
+                            Id = new Guid("e609dc73-6845-4e72-80a4-1ad215a094d1"),
+                            Address = "389 Valley View",
+                            City = "Eagle Peak",
+                            CloseHours = new TimeOnly(17, 30, 0),
+                            Email = "info@blueskyfarms.com",
+                            IsOpen = true,
+                            Name = "Blue Sky Farms",
+                            OpenHours = new TimeOnly(5, 30, 0),
+                            PhoneNumber = "555-7822"
+                        },
+                        new
+                        {
+                            Id = new Guid("77b7f04e-c775-4735-a017-60c7d5b4ede9"),
+                            Address = "123 Pinewood Road",
+                            City = "Greenwood",
+                            CloseHours = new TimeOnly(19, 30, 0),
+                            Email = "contact@evergreenacres.com",
+                            IsOpen = true,
+                            Name = "Evergreen Acres",
+                            OpenHours = new TimeOnly(6, 30, 0),
+                            PhoneNumber = "555-5567"
+                        },
+                        new
+                        {
+                            Id = new Guid("272befbb-54fd-41d0-bfca-d72305535321"),
+                            Address = "901 River Lane",
+                            City = "Watertown",
+                            CloseHours = new TimeOnly(18, 0, 0),
+                            Email = "info@riverbendfarm.com",
+                            IsOpen = false,
+                            Name = "Riverbend Farm",
+                            OpenHours = new TimeOnly(8, 0, 0),
+                            PhoneNumber = "555-3345"
+                        },
+                        new
+                        {
+                            Id = new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"),
+                            Address = "740 Oak Street",
+                            City = "Mapleton",
+                            CloseHours = new TimeOnly(16, 0, 0),
+                            Email = "hello@autumngrove.com",
+                            IsOpen = true,
+                            Name = "Autumn Grove",
+                            OpenHours = new TimeOnly(7, 0, 0),
+                            PhoneNumber = "555-2344"
+                        },
+                        new
+                        {
+                            Id = new Guid("ce2e44ca-d118-4676-9623-624e7f56980e"),
+                            Address = "455 Prairie Road",
+                            City = "Plainsville",
+                            CloseHours = new TimeOnly(18, 0, 0),
+                            Email = "contact@prairieview.com",
+                            IsOpen = false,
+                            Name = "Prairie View Farm",
+                            OpenHours = new TimeOnly(6, 0, 0),
+                            PhoneNumber = "555-4455"
+                        },
+                        new
+                        {
+                            Id = new Guid("012cf2fc-b34e-425f-87a0-cc5989ea5c06"),
+                            Address = "112 Orchard Drive",
+                            City = "Peach Valley",
+                            CloseHours = new TimeOnly(18, 0, 0),
+                            Email = "info@orchardhill.com",
+                            IsOpen = true,
+                            Name = "Orchard Hill",
+                            OpenHours = new TimeOnly(8, 0, 0),
+                            PhoneNumber = "555-6633"
+                        });
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasComment("Farmer unique identifier.");
 
@@ -286,9 +562,62 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Farmers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1474d237-fe36-4586-ac67-b3ddcf03baac"),
+                            AcceptsDeliveries = true,
+                            CompanyAddress = "321 Privet Drive",
+                            CompanyName = "Milky Way",
+                            CompanyRegistrationNumber = "315252331",
+                            HasProducts = true,
+                            UserId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5")
+                        },
+                        new
+                        {
+                            Id = new Guid("cd093e1c-e486-4a7f-b92f-94c22f15f7c1"),
+                            AcceptsDeliveries = true,
+                            CompanyAddress = "44 Chicken Road",
+                            CompanyName = "Los Pollos Hermanos",
+                            CompanyRegistrationNumber = "123772341",
+                            HasProducts = true,
+                            UserId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7")
+                        },
+                        new
+                        {
+                            Id = new Guid("65c75a94-f3be-4a7a-913e-d6c868876265"),
+                            AcceptsDeliveries = true,
+                            CompanyAddress = "1 Ocean Avenue",
+                            CompanyName = "FilletOFish",
+                            CompanyRegistrationNumber = "335788211",
+                            HasProducts = true,
+                            UserId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7")
+                        });
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.FarmerFarm", b =>
+                {
+                    b.Property<Guid>("FarmId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Unique farm identifier.");
+
+                    b.Property<Guid>("FarmerId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Unique farmer identifier.");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("FarmId", "FarmerId");
+
+                    b.HasIndex("FarmerId");
+
+                    b.ToTable("FarmerFarm");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -638,21 +967,32 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
                 {
-                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", "User")
                         .WithOne("Farmer")
-                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Id")
+                        .HasForeignKey("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.FarmerFarm", b =>
+                {
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farm", "Farm")
+                        .WithMany("FarmersFarms")
+                        .HasForeignKey("FarmId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("FarmersMarketApp.Infrastructure.Data.Models.Farmer", "Farmer")
+                        .WithMany("FarmersFarms")
+                        .HasForeignKey("FarmerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Farm");
 
-                    b.Navigation("User");
+                    b.Navigation("Farmer");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Order", b =>
@@ -776,6 +1116,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Farmer");
+
                     b.Navigation("Orders");
                 });
 
@@ -786,8 +1128,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farm", b =>
                 {
-                    b.Navigation("Farmer")
-                        .IsRequired();
+                    b.Navigation("FarmersFarms");
 
                     b.Navigation("Products");
                 });
@@ -795,6 +1136,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farmer", b =>
                 {
                     b.Navigation("CategoriesFarmers");
+
+                    b.Navigation("FarmersFarms");
 
                     b.Navigation("Products");
                 });

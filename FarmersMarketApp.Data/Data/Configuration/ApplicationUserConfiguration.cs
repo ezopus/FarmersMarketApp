@@ -15,6 +15,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
         }
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
+            //Add seed data
             builder.HasData(SeedUser());
         }
 

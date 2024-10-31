@@ -18,11 +18,11 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
                 .HasForeignKey(p => p.FarmId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            //builder
-            //    .HasOne(f => f.Farmer)
-            //    .WithMany(p => p.Products)
-            //    .HasForeignKey(f => f.FarmerId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            builder
+                .HasOne(f => f.Farmer)
+                .WithMany(p => p.Products)
+                .HasForeignKey(f => f.FarmerId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasData(SeedProducts(ProductDataSet));
 

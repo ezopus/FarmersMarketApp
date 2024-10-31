@@ -31,7 +31,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Company address for billing and shipping purposes.")]
         public string? CompanyAddress { get; set; }
 
-        public virtual Farm Farm { get; set; } = null!;
+        public virtual ICollection<FarmerFarm> FarmersFarms { get; set; } = new List<FarmerFarm>();
 
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
