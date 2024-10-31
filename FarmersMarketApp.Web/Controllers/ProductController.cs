@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FarmersMarketApp.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Web.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext context;
+        public ProductController(ApplicationDbContext context)
         {
-            return View();
+            this.context = context;
+        }
+
+        [HttpGet]
+        public IActionResult All()
+        {
+            var products = context.Products
+                .Include(p => p.Farm)
+                .Include(p => p.Farmer)
+                .Include(p => p.Farmer.User)
+                .ToList();
+
+            return View(products);
         }
     }
 }
