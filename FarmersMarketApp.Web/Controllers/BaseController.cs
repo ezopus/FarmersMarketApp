@@ -6,9 +6,6 @@ namespace FarmersMarketApp.Web.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FarmersMarketApp.Web.Pages
+namespace FarmersMarketApp.Web.Views.Home
 {
     public class PrivacyModel : PageModel
     {

@@ -1,6 +1,7 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,11 +27,24 @@ namespace FarmersMarketApp.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddProductViewModel model)
+        {
+            return RedirectToAction(nameof(All));
+        }
 
 
         private async Task<List<Category>> GetCategories()
         {
             return await repository.AllAsync<Category>().ToListAsync();
         }
+
+
     }
 }
