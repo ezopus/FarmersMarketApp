@@ -6,7 +6,7 @@ namespace FarmersMarketApp.Services.Contracts
     {
         Task<IEnumerable<Farm>> GetFarmsAsync();
 
-        Task<Farm> GetFarmByIdAsync(Guid id);
+        Task<Farm?> GetFarmByIdAsync(Guid id);
 
         Task<IEnumerable<Farm>> GetFarmsByFarmerIdAsync(Guid farmerId);
     }
