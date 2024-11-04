@@ -18,7 +18,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "63AD63D2-5884-4C3D-93F1-1AAF75C0A563",
     "Barcode": "012345678900",
-    "ImageUrl": "https://example.com/images/organic_milk.jpg",
+    "ImageUrl": "/img/milk.jpg",
     "Origin": "Local"
   },
   {
@@ -40,7 +40,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "E609DC73-6845-4E72-80A4-1AD215A094D1",
     "Barcode": "012345678901",
-    "ImageUrl": "https://example.com/images/strawberries.jpg",
+    "ImageUrl": "/img/strawberries.jpg",
     "Origin": "California"
   },
   {
@@ -62,7 +62,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "9A020BCA-2F9F-4B61-AF21-1ADAE08DD8E9",
     "Barcode": "012345678902",
-    "ImageUrl": "https://example.com/images/wheat_flour.jpg",
+    "ImageUrl": "/img/wheat_flour.jpg",
     "Origin": "USA"
   },
   {
@@ -84,7 +84,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "DCBAE87C-93A9-4699-B3E4-2E10776839DD",
     "Barcode": "012345678903",
-    "ImageUrl": "https://example.com/images/honey.jpg",
+    "ImageUrl": "/img/honey.jpg",
     "Origin": "Wildflower Fields"
   },
   {
@@ -106,7 +106,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "C437B349-7F30-44DE-865A-31F24FC7C584",
     "Barcode": "012345678904",
-    "ImageUrl": "https://example.com/images/olive_oil.jpg",
+    "ImageUrl": "/img/organic_olive_oil.jpg",
     "Origin": "Italy"
   },
   {
@@ -128,7 +128,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "7DA444A3-FC8C-43E6-A223-378E5A51BE4E",
     "Barcode": "012345678905",
-    "ImageUrl": "https://example.com/images/eggs.jpg",
+    "ImageUrl": "/img/eggs.png",
     "Origin": "Farm Fresh"
   },
   {
@@ -150,7 +150,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "D8FD1D22-AD66-4850-8A23-54D33E488964",
     "Barcode": "012345678906",
-    "ImageUrl": "https://example.com/images/carrots.jpg",
+    "ImageUrl": "/img/carrots.jpg",
     "Origin": "Local"
   },
   {
@@ -172,7 +172,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "77B7F04E-C775-4735-A017-60C7D5B4EDE9",
     "Barcode": "012345678907",
-    "ImageUrl": "https://example.com/images/orange_juice.jpg",
+    "ImageUrl": "/img/orange_juice.webp",
     "Origin": "Florida"
   },
   {
@@ -194,7 +194,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "CE2E44CA-D118-4676-9623-624E7F56980E",
     "Barcode": "012345678908",
-    "ImageUrl": "https://example.com/images/cheddar_cheese.jpg",
+    "ImageUrl": "/img/cheddar_cheese.jpg",
     "Origin": "Wisconsin"
   },
   {
@@ -216,7 +216,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "6EE2702D-FAB7-42F4-BF10-6BECC7B9DBD3",
     "Barcode": "012345678909",
-    "ImageUrl": "https://example.com/images/almond_butter.jpg",
+    "ImageUrl": "/img/almond_butter.jpg",
     "Origin": "California"
   },
   {
@@ -238,7 +238,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
     "Barcode": "012345678910",
-    "ImageUrl": "https://example.com/images/organic_apples.jpg",
+    "ImageUrl": "/img/apples.jpg",
     "Origin": "Washington"
   },
   {
@@ -260,7 +260,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "581569FD-5062-4435-899B-8BFE31D2F4E8",
     "Barcode": "012345678911",
-    "ImageUrl": "https://example.com/images/salmon_fillet.jpg",
+    "ImageUrl": "/img/salmon.png",
     "Origin": "Alaska"
   },
   {
@@ -282,7 +282,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "012CF2FC-B34E-425F-87A0-CC5989EA5C06",
     "Barcode": "012345678912",
-    "ImageUrl": "https://example.com/images/spinach.jpg",
+    "ImageUrl": "/img/spinach.jpg",
     "Origin": "Oregon"
   },
   {
@@ -304,7 +304,7 @@
     "FarmerId": "CD093E1C-E486-4A7F-B92F-94C22F15F7C1",
     "FarmId": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
     "Barcode": "012345678913",
-    "ImageUrl": "https://example.com/images/greek_yogurt.jpg",
+    "ImageUrl": "/img/yogurt.jpg",
     "Origin": "Greece"
   },
   {
@@ -326,7 +326,7 @@
     "FarmerId": "1474D237-FE36-4586-AC67-B3DDCF03BAAC",
     "FarmId": "272BEFBB-54FD-41D0-BFCA-D72305535321",
     "Barcode": "012345678914",
-    "ImageUrl": "https://example.com/images/orange_marmalade.jpg",
+    "ImageUrl": "/img/marmalade.jpg",
     "Origin": "Florida"
   },
   {
@@ -348,7 +348,7 @@
     "FarmerId": "1474D237-FE36-4586-AC67-B3DDCF03BAAC",
     "FarmId": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
     "Barcode": "012345678908",
-    "ImageUrl": "https://example.com/images/almond_milk.jpg",
+    "ImageUrl": "/img/almond_milk.jpg",
     "Origin": "California"
   },
   {
@@ -370,7 +370,7 @@
     "FarmerId": "1474D237-FE36-4586-AC67-B3DDCF03BAAC",
     "FarmId": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
     "Barcode": "012345678909",
-    "ImageUrl": "https://example.com/images/salmon_fillet.jpg",
+    "ImageUrl": "/img/salmon_fillet.jpg",
     "Origin": "Atlantic Ocean"
   },
   {
@@ -392,7 +392,7 @@
     "FarmerId": "1474D237-FE36-4586-AC67-B3DDCF03BAAC",
     "FarmId": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
     "Barcode": "012345678910",
-    "ImageUrl": "https://example.com/images/apples.jpg",
+    "ImageUrl": "/img/apples.jpg",
     "Origin": "Washington"
   },
   {
@@ -414,7 +414,7 @@
     "FarmerId": "1474D237-FE36-4586-AC67-B3DDCF03BAAC",
     "FarmId": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
     "Barcode": "012345678911",
-    "ImageUrl": "https://example.com/images/maple_syrup.jpg",
+    "ImageUrl": "/img/maple_syrup.jpg",
     "Origin": "Vermont"
   },
   {
@@ -436,7 +436,7 @@
     "FarmerId": "65C75A94-F3BE-4A7A-913E-D6C868876265",
     "FarmId": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
     "Barcode": "012345678912",
-    "ImageUrl": "https://example.com/images/greek_yogurt.jpg",
+    "ImageUrl": "/img/greek_yogurt.png",
     "Origin": "Greece"
   },
   {
@@ -458,7 +458,7 @@
     "FarmerId": "65C75A94-F3BE-4A7A-913E-D6C868876265",
     "FarmId": "7DA444A3-FC8C-43E6-A223-378E5A51BE4E",
     "Barcode": "012345678913",
-    "ImageUrl": "https://example.com/images/organic_butter.jpg",
+    "ImageUrl": "/img/organic_butter.jpg",
     "Origin": "Local"
   },
   {
@@ -480,7 +480,7 @@
     "FarmerId": "65C75A94-F3BE-4A7A-913E-D6C868876265",
     "FarmId": "7DA444A3-FC8C-43E6-A223-378E5A51BE4E",
     "Barcode": "012345678914",
-    "ImageUrl": "https://example.com/images/sourdough_bread.jpg",
+    "ImageUrl": "/img/sourdough_bread.jpg",
     "Origin": "Local"
   }
 ]
