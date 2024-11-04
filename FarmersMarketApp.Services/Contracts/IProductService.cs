@@ -1,10 +1,11 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
+using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
 
         Task<Product?> GetProductById(Guid id);
 

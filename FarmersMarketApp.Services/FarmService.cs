@@ -1,25 +1,25 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Infrastructure.Repositories;
+using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Services
 {
-    public class FarmServices : IFarmService
+    public class FarmService : IFarmService
     {
-        private readonly FarmersMarketRepository repository;
-        public FarmServices(FarmersMarketRepository repository)
+        private readonly IRepository repository;
+        public FarmService(IRepository repository)
         {
             this.repository = repository;
         }
         public async Task<IEnumerable<Farm>> GetFarmsAsync()
         {
-            return await repository.All<Farm>().ToListAsync();
+            return await repository.AllAsync<Farm>().ToListAsync();
         }
 
         public async Task<Farm?> GetFarmByIdAsync(Guid id)
         {
-            return await repository.All<Farm>().FirstOrDefaultAsync(f => f.Id == id);
+            return await repository.AllAsync<Farm>().FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public async Task<IEnumerable<Farm>> GetFarmsByFarmerIdAsync(Guid farmerId)
