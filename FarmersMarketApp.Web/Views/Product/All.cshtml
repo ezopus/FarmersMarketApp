@@ -1,4 +1,6 @@
-﻿@model IEnumerable<FarmersMarketApp.Infrastructure.Data.Models.Product>
+﻿@using FarmersMarketApp.Web.ViewModels.Product
+
+@model IEnumerable<ProductInfoViewModel>
 
 @{
     ViewData["Title"] = "All";
@@ -163,14 +165,14 @@
                 }
                 else
                 {
-                    <img src="~/img/no-image-available-02.jpg" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="No Image Available">
+                    <img src="/img/no-image.png" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="No Image Available">
                 }
 
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">@product.ProductName</h5>
-                    <p class="card-text">Price: @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("fr-FR"))</p>
+                    <p class="card-text">Price: @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</p>
                     <div class="d-flex justify-content-between mt-auto">
-                        @if (User?.Identity?.IsAuthenticated == true && !product.IsSeller && !product.HasBought)
+                        @if (User?.Identity?.IsAuthenticated == true)
                         {
                             <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info me-2 w-50">Details</a>
                             <form asp-controller="Product" asp-action="AddToCart" method="post" class="w-50">
