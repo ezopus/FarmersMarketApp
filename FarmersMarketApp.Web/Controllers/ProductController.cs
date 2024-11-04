@@ -1,51 +1,36 @@
-﻿using FarmersMarketApp.Infrastructure.Data;
-using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.Product;
+﻿using FarmersMarketApp.Infrastructure.Data.Models;
+using FarmersMarketApp.Infrastructure.Repositories.Contracts;
+using FarmersMarketApp.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
-        private readonly ApplicationDbContext context;
-        public ProductController(ApplicationDbContext context)
+        private readonly IRepository repository;
+        private readonly IProductService productService;
+        public ProductController(IRepository repository,
+            IProductService productService)
         {
-            this.context = context;
+            this.repository = repository;
+            this.productService = productService;
         }
 
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var products = context.Products
-                .Include(p => p.Farm)
-                .Include(p => p.Farmer)
-                .Include(p => p.Farmer.User)
-                .Select(p => new ProductInfoViewModel()
-                {
-                    ProductName = p.Name,
-                    Description = p.Description,
-                    FarmId = p.FarmId.ToString(),
-                    Farm = p.Farm,
-                    FarmerId = p.FarmerId.ToString(),
-                    Farmer = p.Farmer,
-                    CategoryId = p.CategoryId,
-                    Price = p.Price,
-                    DiscountPercentage = p.DiscountPercentage ?? 0,
-                    UnitType = p.UnitType.ToString(),
-                    Size = p.Size,
-                    Quantity = p.Quantity,
-                    Origin = p.Origin ?? "",
-                    ImageUrl = p.ImageUrl ?? "",
-                })
-                .ToList();
+            var model = await productService.GetProductsAsync();
 
-            return View(products);
+            return View(model);
         }
+
+        [HttpGet]
+
 
         private async Task<List<Category>> GetCategories()
         {
-            return await context.Categories.ToListAsync();
+            return await repository.AllAsync<Category>().ToListAsync();
         }
     }
 }

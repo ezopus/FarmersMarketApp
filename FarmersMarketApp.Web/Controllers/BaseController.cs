@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers
 {
-    public class FarmerController : BaseController
+    [Authorize]
+    public class BaseController : Controller
     {
         public IActionResult Index()
         {

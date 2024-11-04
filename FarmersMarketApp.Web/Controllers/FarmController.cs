@@ -2,7 +2,7 @@
 
 namespace FarmersMarketApp.Web.Controllers
 {
-    public class FarmController : Controller
+    public class FarmController : BaseController
     {
         public IActionResult Index()
         {

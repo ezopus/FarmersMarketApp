@@ -1,5 +1,4 @@
-﻿@using FarmersMarketApp.Web.ViewModels.Product
-
+﻿@using FarmersMarketApp.Web.ViewModels.ProductViewModels
 @model IEnumerable<ProductInfoViewModel>
 
 @{
@@ -161,7 +160,7 @@
             <div class="card h-100" style="width: 100%;">
                 @if (!string.IsNullOrEmpty(product.ImageUrl))
                 {
-                    <img src="@product.ImageUrl" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@product.ProductName">
+                    <img src="@product.ImageUrl" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@product.Name">
                 }
                 else
                 {
@@ -169,7 +168,7 @@
                 }
 
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@product.ProductName</h5>
+                    <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">Price: @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</p>
                     <div class="d-flex justify-content-between mt-auto">
                         @if (User?.Identity?.IsAuthenticated == true)

@@ -1,15 +1,21 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace FarmersMarketApp.Web.Extensions
+﻿namespace FarmersMarketApp.Web.Extensions
 {
     using FarmersMarketApp.Infrastructure.Data;
     using FarmersMarketApp.Infrastructure.Data.Models;
+    using FarmersMarketApp.Infrastructure.Repositories;
+    using FarmersMarketApp.Infrastructure.Repositories.Contracts;
+    using FarmersMarketApp.Services;
+    using FarmersMarketApp.Services.Contracts;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IFarmService, FarmService>();
+
             return services;
         }
 
@@ -20,6 +26,8 @@ namespace FarmersMarketApp.Web.Extensions
 
             services
                 .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddScoped<IRepository, FarmersMarketRepository>();
 
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
