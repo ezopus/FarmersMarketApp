@@ -29,6 +29,9 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         [Comment("Phone number of farm visible to general public.")]
         public string? PhoneNumber { get; set; }
 
+        [Comment("Image url of farm picture.")]
+        public string? ImageUrl { get; set; }
+
         [Comment("Opening hours of farm operations.")]
         public TimeOnly? OpenHours { get; set; }
 
