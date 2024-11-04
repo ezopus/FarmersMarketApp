@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FarmersMarketApp.Common\FarmersMarketApp.Common.csproj" />
+    <ProjectReference Include="..\FarmersMarketApp.Data\FarmersMarketApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
