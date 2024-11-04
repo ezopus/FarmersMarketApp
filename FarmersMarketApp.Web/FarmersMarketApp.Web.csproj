@@ -24,9 +24,4 @@
     <ProjectReference Include="..\FarmersMarketApp.Web.ViewModels\FarmersMarketApp.Web.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Farm\" />
-    <Folder Include="Views\Farmer\" />
-  </ItemGroup>
-
 </Project>
