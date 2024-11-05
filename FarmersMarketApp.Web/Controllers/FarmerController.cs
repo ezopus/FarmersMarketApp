@@ -67,6 +67,7 @@ namespace FarmersMarketApp.Web.Controllers
         }
 
         [HttpGet]
+        //[MustBeFarmer]
         public async Task<IActionResult> MyFarms()
         {
             var currentUserId = User.GetId();
@@ -82,6 +83,7 @@ namespace FarmersMarketApp.Web.Controllers
         }
 
         [HttpGet]
+        //[MustBeFarmer]
         public async Task<IActionResult> MyProducts()
         {
             var currentUserId = User.GetId();
