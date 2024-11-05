@@ -80,27 +80,87 @@ namespace FarmersMarketApp.Services
             return await repository.AllAsync<Product>().FirstOrDefaultAsync(pr => pr.Name == name);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByFarmerId(Guid farmerId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerId(Guid farmerId)
         {
             return await repository
                 .AllAsync<Product>()
                 .Where(pr => pr.Farmer.Id == farmerId)
+                .Select(pr => new ProductInfoViewModel()
+                {
+                    Id = pr.Id.ToString(),
+                    Name = pr.Name,
+                    Description = pr.Description,
+                    FarmId = pr.FarmId.ToString(),
+                    Farm = pr.Farm,
+                    FarmerId = pr.FarmerId.ToString(),
+                    Farmer = pr.Farmer,
+                    CategoryId = pr.CategoryId,
+                    Price = pr.Price,
+                    DiscountPercentage = pr.DiscountPercentage ?? 0,
+                    UnitType = pr.UnitType.ToString(),
+                    Size = pr.Size,
+                    Quantity = pr.Quantity,
+                    Origin = pr.Origin ?? "",
+                    ImageUrl = pr.ImageUrl ?? "",
+                    ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                    ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                })
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByFarmId(Guid farmId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmId(Guid farmId)
         {
             return await repository
                 .AllAsync<Product>()
                 .Where(pr => pr.Farm.Id == farmId)
+                .Select(pr => new ProductInfoViewModel()
+                {
+                    Id = pr.Id.ToString(),
+                    Name = pr.Name,
+                    Description = pr.Description,
+                    FarmId = pr.FarmId.ToString(),
+                    Farm = pr.Farm,
+                    FarmerId = pr.FarmerId.ToString(),
+                    Farmer = pr.Farmer,
+                    CategoryId = pr.CategoryId,
+                    Price = pr.Price,
+                    DiscountPercentage = pr.DiscountPercentage ?? 0,
+                    UnitType = pr.UnitType.ToString(),
+                    Size = pr.Size,
+                    Quantity = pr.Quantity,
+                    Origin = pr.Origin ?? "",
+                    ImageUrl = pr.ImageUrl ?? "",
+                    ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                    ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                })
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryId(int categoryId)
         {
             return await repository
                 .AllAsync<Product>()
                 .Where(pr => pr.CategoryId == categoryId)
+                .Select(pr => new ProductInfoViewModel()
+                {
+                    Id = pr.Id.ToString(),
+                    Name = pr.Name,
+                    Description = pr.Description,
+                    FarmId = pr.FarmId.ToString(),
+                    Farm = pr.Farm,
+                    FarmerId = pr.FarmerId.ToString(),
+                    Farmer = pr.Farmer,
+                    CategoryId = pr.CategoryId,
+                    Price = pr.Price,
+                    DiscountPercentage = pr.DiscountPercentage ?? 0,
+                    UnitType = pr.UnitType.ToString(),
+                    Size = pr.Size,
+                    Quantity = pr.Quantity,
+                    Origin = pr.Origin ?? "",
+                    ImageUrl = pr.ImageUrl ?? "",
+                    ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                    ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+                })
                 .ToListAsync(); ;
         }
     }

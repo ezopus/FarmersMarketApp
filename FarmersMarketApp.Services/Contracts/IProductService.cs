@@ -11,10 +11,10 @@ namespace FarmersMarketApp.Services.Contracts
 
         Task<Product?> GetProductByName(string name);
 
-        Task<IEnumerable<Product>> GetProductsByFarmerId(Guid farmerId);
+        Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerId(Guid farmerId);
 
-        Task<IEnumerable<Product>> GetProductsByFarmId(Guid farmId);
+        Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmId(Guid farmId);
 
-        Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId);
+        Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryId(int categoryId);
     }
 }
