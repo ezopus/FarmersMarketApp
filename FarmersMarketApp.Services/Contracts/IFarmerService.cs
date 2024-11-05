@@ -3,9 +3,12 @@ using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
-	public interface IFarmerService
-	{
-		Task<Guid> BecomeFarmerAsync(ApplicationUser user, FarmerBecomeViewModel model);
+    public interface IFarmerService
+    {
+        Task<Guid> BecomeFarmerAsync(ApplicationUser user, FarmerBecomeViewModel model);
 
-	}
+        Task<Guid> GetFarmerIdByUserId(Guid userId);
+
+
+    }
 }

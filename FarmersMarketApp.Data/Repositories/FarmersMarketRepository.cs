@@ -25,8 +25,7 @@ namespace FarmersMarketApp.Infrastructure.Repositories
 
         public IQueryable<T> AllReadOnly<T>() where T : class
         {
-            return DbSet<T>()
-                .AsNoTracking();
+            return DbSet<T>().AsNoTracking();
         }
 
         public async Task AddAsync<T>(T entity) where T : class
