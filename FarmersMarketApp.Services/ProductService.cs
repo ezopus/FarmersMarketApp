@@ -19,6 +19,7 @@ namespace FarmersMarketApp.Services
                 .AllAsync<Product>()
                 .Select(p => new ProductInfoViewModel()
                 {
+                    Id = p.Id.ToString(),
                     Name = p.Name,
                     Description = p.Description,
                     FarmId = p.FarmId.ToString(),
@@ -33,13 +34,45 @@ namespace FarmersMarketApp.Services
                     Quantity = p.Quantity,
                     Origin = p.Origin ?? "",
                     ImageUrl = p.ImageUrl ?? "",
+                    ProductionDate = p.ProductionDate.ToString("dd-MM-yyyy"),
+                    ExpirationDate = p.ProductionDate.ToString("dd-MM-yyyy"),
                 })
                 .ToListAsync();
         }
 
-        public async Task<Product?> GetProductById(Guid id)
+        public async Task<ProductInfoViewModel?> GetProductById(Guid id)
         {
-            return await repository.AllAsync<Product>().FirstOrDefaultAsync(pr => pr.Id == id);
+            var product = await repository
+                .AllAsync<Product>()
+                .FirstOrDefaultAsync(pr => pr.Id == id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            var model = new ProductInfoViewModel()
+            {
+                Id = product.Id.ToString(),
+                Name = product.Name,
+                Description = product.Description,
+                FarmId = product.FarmId.ToString(),
+                Farm = product.Farm,
+                FarmerId = product.FarmerId.ToString(),
+                Farmer = product.Farmer,
+                CategoryId = product.CategoryId,
+                Price = product.Price,
+                DiscountPercentage = product.DiscountPercentage ?? 0,
+                UnitType = product.UnitType.ToString(),
+                Size = product.Size,
+                Quantity = product.Quantity,
+                Origin = product.Origin ?? "",
+                ImageUrl = product.ImageUrl ?? "",
+                ProductionDate = product.ProductionDate.ToString("dd-MM-yyyy"),
+                ExpirationDate = product.ProductionDate.ToString("dd-MM-yyyy"),
+            };
+
+            return model;
         }
 
         public async Task<Product?> GetProductByName(string name)

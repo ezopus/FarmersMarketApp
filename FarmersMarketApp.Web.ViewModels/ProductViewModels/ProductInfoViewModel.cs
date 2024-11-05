@@ -4,7 +4,7 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 {
     public class ProductInfoViewModel
     {
-        public string Id { get; set; } = null!;
+        public string Id { get; set; }
         public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
@@ -34,6 +34,9 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 
         public string FarmId { get; set; } = null!;
         public Farm Farm { get; set; } = null!;
+
+        public string ProductionDate { get; set; } = null!;
+        public string ExpirationDate { get; set; } = null!;
 
 
     }
