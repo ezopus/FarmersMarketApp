@@ -8,7 +8,8 @@
     "PhoneNumber": "555-1234",
     "OpenHours": "08:00",
     "CloseHours": "18:00",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm1.jpg"
   },
   {
     "Id": "581569FD-5062-4435-899B-8BFE31D2F4E8",
@@ -19,7 +20,8 @@
     "PhoneNumber": "555-5678",
     "OpenHours": "07:00",
     "CloseHours": "17:00",
-    "IsOpen": false
+    "IsOpen": false,
+    "ImageUrl": "/img/farm2.jpg"
   },
   {
     "Id": "9A020BCA-2F9F-4B61-AF21-1ADAE08DD8E9",
@@ -30,7 +32,8 @@
     "PhoneNumber": "555-8765",
     "OpenHours": "09:00",
     "CloseHours": "20:00",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm3.jpg"
   },
   {
     "Id": "C437B349-7F30-44DE-865A-31F24FC7C584",
@@ -41,7 +44,8 @@
     "PhoneNumber": "555-1122",
     "OpenHours": "06:00",
     "CloseHours": "19:00",
-    "IsOpen": false
+    "IsOpen": false,
+    "ImageUrl": "/img/farm4.jpg"
   },
   {
     "Id": "DCBAE87C-93A9-4699-B3E4-2E10776839DD",
@@ -52,7 +56,8 @@
     "PhoneNumber": "555-3344",
     "OpenHours": "08:30",
     "CloseHours": "18:30",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm5.jpg"
   },
   {
     "Id": "7DA444A3-FC8C-43E6-A223-378E5A51BE4E",
@@ -63,7 +68,8 @@
     "PhoneNumber": "555-9912",
     "OpenHours": "07:30",
     "CloseHours": "16:30",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm6.jpg"
   },
   {
     "Id": "6EE2702D-FAB7-42F4-BF10-6BECC7B9DBD3",
@@ -74,7 +80,8 @@
     "PhoneNumber": "555-2211",
     "OpenHours": "06:00",
     "CloseHours": "18:00",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm7.jpg"
   },
   {
     "Id": "63AD63D2-5884-4C3D-93F1-1AAF75C0A563",
@@ -85,7 +92,8 @@
     "PhoneNumber": "555-4433",
     "OpenHours": "07:00",
     "CloseHours": "17:00",
-    "IsOpen": false
+    "IsOpen": false,
+    "ImageUrl": "/img/farm8.jpg"
   },
   {
     "Id": "06A9FDBB-DFD9-47D5-9A4A-7117ED1F2332",
@@ -96,7 +104,8 @@
     "PhoneNumber": "555-9988",
     "OpenHours": "08:00",
     "CloseHours": "20:00",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm9.jpg"
   },
   {
     "Id": "E609DC73-6845-4E72-80A4-1AD215A094D1",
@@ -107,7 +116,8 @@
     "PhoneNumber": "555-7822",
     "OpenHours": "05:30",
     "CloseHours": "17:30",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm10.jpg"
   },
   {
     "Id": "77B7F04E-C775-4735-A017-60C7D5B4EDE9",
@@ -118,7 +128,8 @@
     "PhoneNumber": "555-5567",
     "OpenHours": "06:30",
     "CloseHours": "19:30",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm2.jpg"
   },
   {
     "Id": "272BEFBB-54FD-41D0-BFCA-D72305535321",
@@ -129,7 +140,8 @@
     "PhoneNumber": "555-3345",
     "OpenHours": "08:00",
     "CloseHours": "18:00",
-    "IsOpen": false
+    "IsOpen": false,
+    "ImageUrl": "/img/farm3.jpg"
   },
   {
     "Id": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
@@ -140,8 +152,9 @@
     "PhoneNumber": "555-2344",
     "OpenHours": "07:00",
     "CloseHours": "16:00",
-    "IsOpen": true
-  },
+    "IsOpen": true,
+    "ImageUrl": "/img/farm5.jpg"
+  },    
   {
     "Id": "CE2E44CA-D118-4676-9623-624E7F56980E",
     "Name": "Prairie View Farm",
@@ -151,7 +164,8 @@
     "PhoneNumber": "555-4455",
     "OpenHours": "06:00",
     "CloseHours": "18:00",
-    "IsOpen": false
+    "IsOpen": false,
+    "ImageUrl": "/img/farm6.jpg"
   },
   {
     "Id": "012CF2FC-B34E-425F-87A0-CC5989EA5C06",
@@ -162,6 +176,7 @@
     "PhoneNumber": "555-6633",
     "OpenHours": "08:00",
     "CloseHours": "18:00",
-    "IsOpen": true
+    "IsOpen": true,
+    "ImageUrl": "/img/farm9.jpg"
   }
 ]
