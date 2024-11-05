@@ -1,0 +1,24 @@
+﻿@using FarmersMarketApp.Web.ViewModels.ProductViewModels
+@model ProductInfoViewModel
+
+@{
+	ViewData["Title"] = $"Product details";
+} 
+
+<div class="row">
+	<div class="col text-center">
+		<h2>@Model.Name</h2>
+		<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top w-25" />
+		<p>@Model.Description</p>
+		<div>
+			<p>Produced on: @Model.ProductionDate</p>
+			<p>Best before: @Model.ExpirationDate</p>
+		</div>
+		<p>Price: $@Model.Price</p>
+		<div>
+			<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-success ">Buy now</a>
+		</div>
+		<a asp-controller="Product" asp-action="All" class="btn btn-secondary">Back to all models</a>
+	</div>
+</div>
+
