@@ -1,5 +1,4 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+﻿using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
@@ -7,8 +6,8 @@ namespace FarmersMarketApp.Services.Contracts
     {
         Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync();
 
-        Task<Farm?> GetFarmByIdAsync(Guid id);
+        Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id);
 
-        Task<IEnumerable<Farm>> GetFarmsByFarmerIdAsync(Guid farmerId);
+        Task<IEnumerable<FarmInfoViewModel>> GetFarmsByFarmerIdAsync(Guid farmerId);
     }
 }

@@ -7,7 +7,7 @@ namespace FarmersMarketApp.Services.Contracts
     {
         Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
 
-        Task<Product?> GetProductById(Guid id);
+        Task<ProductInfoViewModel?> GetProductById(Guid id);
 
         Task<Product?> GetProductByName(string name);
 
