@@ -2,6 +2,7 @@
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers
@@ -23,6 +24,9 @@ namespace FarmersMarketApp.Web.Controllers
 			this.farmerService = farmerService;
 			this.userService = userService;
 		}
+
+		[AllowAnonymous]
+		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
 			var currentUserId = User.GetId();
@@ -34,10 +38,6 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpGet]
 		public IActionResult Become()
 		{
-			if (User.Identity?.IsAuthenticated == null)
-			{
-				return RedirectToPage("/Account/Login");
-			}
 			return View();
 		}
 
@@ -60,6 +60,18 @@ namespace FarmersMarketApp.Web.Controllers
 			await farmerService.BecomeFarmerAsync(currentUser, model);
 
 			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> MyFarms()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> MyProducts()
+		{
+			return View();
 		}
 
 	}
