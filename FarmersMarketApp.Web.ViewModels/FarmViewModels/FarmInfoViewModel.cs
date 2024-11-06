@@ -20,7 +20,8 @@ namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
 
         public string? CloseHours { get; set; }
 
-        public bool IsOpen { get; set; }
+        public bool IsOpen => TimeOnly.Parse(OpenHours) < TimeOnly.FromDateTime(DateTime.Now)
+                              && TimeOnly.Parse(CloseHours) > TimeOnly.FromDateTime(DateTime.Now);
 
         public virtual ICollection<FarmerFarm> FarmersFarms { get; set; } = new List<FarmerFarm>();
 
