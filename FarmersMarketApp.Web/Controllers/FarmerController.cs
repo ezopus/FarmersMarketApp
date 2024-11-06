@@ -4,6 +4,7 @@ using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -29,56 +30,97 @@ namespace FarmersMarketApp.Web.Controllers
             this.productService = productService;
         }
 
+        //get all farmers in the market
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-
-
-
-            return View();
+            var farmers = await farmerService.GetAllFarmersAsync();
+            return View(farmers);
         }
 
         [HttpGet]
-        public IActionResult Become()
+        public async Task<IActionResult> Become()
         {
+            //get current user id
+            var currentUserId = Guid.Parse(User.GetId());
+            var isFarmer = await userService.IsUserFarmerAsync(currentUserId);
+
+            //if user is already a farmer redirect to my farms
+            if (isFarmer)
+            {
+                return RedirectToAction(nameof(MyFarms), "Farmer");
+            }
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Become(FarmerBecomeViewModel model)
         {
+            //check model state
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var currentUserId = User.GetId();
-            var currentUser = await userService.GetCurrentUser(Guid.Parse(currentUserId));
+            //check if accept deliveries is pressed and set error if not
+            //workaround to not have any button selected when initial loading of page
+            if (model.AcceptsDeliveries == null)
+            {
+                ModelState.AddModelError(nameof(model.AcceptsDeliveries), ErrorAcceptDeliveriesNotSelected);
+                return View(model);
+            }
 
-            if (currentUser == null || currentUser.IsFarmer)
+            //get current user
+            var currentUserId = Guid.Parse(User.GetId());
+            var isFarmer = await userService.IsUserFarmerAsync(currentUserId);
+
+            //check if user exists or if yes if user is already a farmer and redirect if so
+            if (isFarmer)
             {
                 return RedirectToAction(nameof(Index), "Home");
             }
 
-            await farmerService.BecomeFarmerAsync(currentUser, model);
+            //async create new farmer entity
+            await farmerService.BecomeFarmerAsync(currentUserId, model);
 
-            return RedirectToAction(nameof(Index));
+            //redirect to my farms
+            return RedirectToAction(nameof(MyFarms));
         }
 
         [HttpGet]
         //[MustBeFarmer]
         public async Task<IActionResult> MyFarms()
         {
-            var currentUserId = User.GetId();
-            var currentFarmerId = await farmerService.GetFarmerIdByUserId(Guid.Parse(currentUserId));
+            //get current user
+            var currentUser = await userService.GetCurrentUserByIdAsync(Guid.Parse(User.GetId()));
+
+            //check if user exists, redirect to index if not existing
+            if (currentUser == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //check if user is a farmer, if not send him to become one
+            if (!currentUser.IsFarmer)
+            {
+                return RedirectToAction("Become", "Farmer");
+            }
+
+            //get corresponding farmer Id based on current UserId
+            var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
+
+            //get all farms for current farmer
             var farms = await farmService.GetFarmsByFarmerIdAsync(currentFarmerId);
 
-            if (farms == null)
+            //check if farms list is empty, if yes redirect to add farm
+            if (!farms.Any())
             {
                 return RedirectToAction("Add", "Farm");
             }
 
+            //return model with all farms to render view
             return View(farms);
         }
 
@@ -86,16 +128,34 @@ namespace FarmersMarketApp.Web.Controllers
         //[MustBeFarmer]
         public async Task<IActionResult> MyProducts()
         {
-            var currentUserId = User.GetId();
-            var currentFarmerId = await farmerService.GetFarmerIdByUserId(Guid.Parse(currentUserId));
+            //get current user
+            var currentUser = await userService.GetCurrentUserByIdAsync(Guid.Parse(User.GetId()));
 
-            var products = await productService.GetProductsByFarmerId(currentFarmerId);
+            //check if user exists, redirect to index if not existing
+            if (currentUser == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            if (products == null)
+            //check if user is a farmer, if not send him to become one
+            if (!currentUser.IsFarmer)
+            {
+                return RedirectToAction("Become", "Farmer");
+            }
+
+            //get corresponding farmer Id based on current UserId
+            var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
+
+            //get all products for current farmer
+            var products = await productService.GetProductsByFarmerIdAsync(currentFarmerId);
+
+            //check if products list is empty, if yes redirect to add product
+            if (!products.Any())
             {
                 return RedirectToAction("Add", "Product");
             }
 
+            //return model with all farms to render view
             return View(products);
         }
 
