@@ -19,7 +19,7 @@ namespace FarmersMarketApp.Web.Attributes
             }
 
             if (userService != null
-                && userService.IsUserFarmer(
+                && userService.IsUserFarmerAsync(
                     Guid.Parse(
                         context.HttpContext.User.GetId()
                         )
