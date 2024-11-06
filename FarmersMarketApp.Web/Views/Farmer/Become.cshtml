@@ -25,13 +25,15 @@
 			</div>
 			
 			
-			<div class="btn-group mb-4 mt-4" role="group" aria-label="Basic radio toggle button group">
+			<div class="btn-group mb-1 mt-4" role="group" aria-label="Basic radio toggle button group">
 				<input asp-for="@Model.AcceptsDeliveries" type="radio" class="btn-check " id="btnradio1" autocomplete="off" value="true">
 				<label asp-for="@Model.AcceptsDeliveries" class="btn btn-outline-primary " for="btnradio1">I am open for business.</label>
 				<input asp-for="@Model.AcceptsDeliveries" type="radio" class="btn-check " id="btnradio2" autocomplete="off" value="false">
 				<label asp-for="@Model.AcceptsDeliveries" class="btn btn-outline-primary " for="btnradio2">I will open for business later.</label>
 			</div>
-			 @* 
+			<div class="text-danger mb-3 mt-2"><span asp-validation-for="@Model.AcceptsDeliveries"></span></div>
+
+			@* 
 				 TODO: Try to add farmer categories from registration
 			<div class="col-sm-6 mb-2">
 				<fieldset>
@@ -79,9 +81,11 @@
 				</fieldset>
 			</div> *@
 			
-			<div class="mb-2 col-md-6">
+			<div class="mb-2 col-md-6 mt-2">
 				<input class="btn btn-success btn-white-text w-100 py-2 fw-bold rounded" type="submit" value="Become a farmer now!" />
 			</div>
 		</form>
 	</div>
 </div>
+
+<partial name="_ValidationScriptsPartial" />
