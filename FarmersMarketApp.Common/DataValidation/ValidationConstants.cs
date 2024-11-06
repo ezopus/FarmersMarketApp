@@ -32,5 +32,19 @@
             public const int FarmCityMinLength = 3;
             public const int FarmCityMaxLength = 30;
         }
+
+        public static class FarmerValidation
+        {
+            public const int CompanyNameMinLength = 2;
+            public const int CompanyNameMaxLength = 100;
+
+            public const int CompanyRegistrationNumberMinLength = 9;
+            public const int CompanyRegistrationNumberMaxLength = 10;
+            public const string CompanyRegistrationNumberRegex = @"[\d]{9,10}";
+
+            public const int CompanyAddressMinLength = 5;
+            public const int CompanyAddressMaxLength = 120;
+
+        }
     }
 }
