@@ -1,18 +1,33 @@
-﻿
+﻿@using FarmersMarketApp.Web.ViewModels.FarmViewModels
+@model FarmInfoViewModel
+
+@{
+	ViewData["Title"] = $"Farm details";
+} 
 
 <div class="row">
 	<div class="col text-center">
 		<h2>@Model.Name</h2>
 		<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top w-25" />
-		<p>@Model.Description</p>
+		<p>@Model.Address</p>
+		<p>@Model.City</p>
+		<p>@Model.Email</p>
+		<p>@Model.PhoneNumber</p>
 		<div>
-			<p>Produced on: @Model.ProductionDate</p>
-			<p>Best before: @Model.ExpirationDate</p>
+			<p>Open from @Model.OpenHours to @Model.CloseHours</p>
 		</div>
-		<p>Price: @Model.Price</p>
+		<p>Farm is currently @if (@Model.IsOpen)
+		                     {
+			                     <span class="text-success">open!</span>
+		                     }
+		                     else
+		                     {
+			                     <span class="text-danger">closed.</span>
+		                     }
+			</p>
 		<div>
-			<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-success ">Buy now</a>
+			<a asp-controller="Farm" asp-action="Edit" class="btn btn-warning ">Edit Farm Info</a>
+			<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.Id" class="btn btn-success">Show all farm products</a>
 		</div>
-		<a asp-controller="Product" asp-action="All" class="btn btn-secondary">Back to all models</a>
 	</div>
 </div>

@@ -1,7 +1,18 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.FarmViewModels
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FarmersMarketApp.Infrastructure.Data.Models
 @model IEnumerable<FarmInfoViewModel>
+@inject IFarmService FarmService
 
 @{
+	var farmIdsByFarmer = new List<string>();
+	if (ViewData["farmerId"] != null)
+	{
+		var farmerId = Guid.Parse(ViewData["farmerId"].ToString());
+		farmIdsByFarmer = (List<string>)await FarmService.GetFarmIdsByFarmerId(farmerId);
+	}
     ViewData["Title"] = "All Farms";
 }
 
@@ -35,17 +46,18 @@
 		                @*
                             //TODO: Add check if user is farmer of current farm
                         *@
-		                @if (User?.Identity?.IsAuthenticated == true)
+                        @if (farmIdsByFarmer.Any(f => f == farm.Id))
 		                {
-			                <a asp-controller="Farm" asp-action="Details" asp-route-id="@farm.Id" class="btn btn-info me-2 w-50">Details</a>
-                            <form asp-controller="Farm" asp-action="Edit" method="post" class="w-50">
+                            
+			                <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@farm.Id" class="btn btn-info me-2 w-100">Details</a>
+			                <form asp-controller="Farm" asp-action="Edit" method="post" class="w-100">
 				                <input type="hidden" name="id" value="@farm.Id"/>
-				                <button type="submit" class="btn btn-success w-100">Edit</button>
+				                <button type="submit" class="btn btn-warning w-100">Edit</button>
 			                </form>
 		                }
 		                else
 		                {
-			                <a asp-controller="Farm" asp-action="Details" asp-route-id="@farm.Id" class="btn btn-info w-100">Details</a>
+                            <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@farm.Id" class="btn btn-info w-100">Details</a>
 		                }
 	                </div>
                 </div>

@@ -9,5 +9,7 @@ namespace FarmersMarketApp.Services.Contracts
         Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id);
 
         Task<IEnumerable<FarmInfoViewModel?>> GetFarmsByFarmerIdAsync(Guid farmerId);
+
+        Task<ICollection<string>> GetFarmIdsByFarmerId(Guid farmerId);
     }
 }

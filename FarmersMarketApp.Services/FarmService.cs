@@ -13,6 +13,8 @@ namespace FarmersMarketApp.Services
         {
             this.repository = repository;
         }
+
+        //get all farms async
         public async Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync()
         {
             return await repository
@@ -28,13 +30,13 @@ namespace FarmersMarketApp.Services
                     OpenHours = f.OpenHours.ToString(),
                     Email = f.Email,
                     ImageUrl = f.ImageUrl,
-                    IsOpen = f.IsOpen,
                     FarmersFarms = f.FarmersFarms,
                     Products = f.Products,
                 })
                 .ToListAsync();
         }
 
+        //get specific farm by id async
         public async Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id)
         {
             var farm = await repository
@@ -57,7 +59,6 @@ namespace FarmersMarketApp.Services
                 OpenHours = farm.OpenHours.ToString(),
                 Email = farm.Email,
                 ImageUrl = farm.ImageUrl,
-                IsOpen = farm.IsOpen,
                 FarmersFarms = farm.FarmersFarms,
                 Products = farm.Products,
             };
@@ -65,6 +66,7 @@ namespace FarmersMarketApp.Services
             return model;
         }
 
+        //get all farms of specific farmer
         public async Task<IEnumerable<FarmInfoViewModel?>> GetFarmsByFarmerIdAsync(Guid farmerId)
         {
             var farms = await repository
@@ -81,13 +83,22 @@ namespace FarmersMarketApp.Services
                     OpenHours = f.OpenHours.ToString(),
                     Email = f.Email,
                     ImageUrl = f.ImageUrl,
-                    IsOpen = f.IsOpen,
                     FarmersFarms = f.FarmersFarms,
                     Products = f.Products,
                 })
                 .ToListAsync();
 
             return farms;
+        }
+
+        //Used for validation in views to show edit button only for farmers part of specific farm
+        public async Task<ICollection<string>> GetFarmIdsByFarmerId(Guid farmerId)
+        {
+            return await repository
+                .AllReadOnly<Farm>()
+                .Where(f => f.FarmersFarms.All(fm => fm.FarmerId == farmerId))
+                .Select(f => f.Id.ToString())
+                .ToListAsync();
         }
     }
 }
