@@ -6,99 +6,135 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Services
 {
-    public class FarmService : IFarmService
-    {
-        private readonly IRepository repository;
-        public FarmService(IRepository repository)
-        {
-            this.repository = repository;
-        }
+	public class FarmService : IFarmService
+	{
+		private readonly IRepository repository;
+		public FarmService(IRepository repository)
+		{
+			this.repository = repository;
+		}
 
-        //get all farms async
-        public async Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync()
-        {
-            return await repository
-                .AllAsync<Farm>()
-                .Select(f => new FarmInfoViewModel()
-                {
-                    Id = f.Id.ToString(),
-                    Name = f.Name,
-                    Address = f.Address,
-                    PhoneNumber = f.PhoneNumber,
-                    City = f.City,
-                    CloseHours = f.CloseHours.ToString(),
-                    OpenHours = f.OpenHours.ToString(),
-                    Email = f.Email,
-                    ImageUrl = f.ImageUrl,
-                    FarmersFarms = f.FarmersFarms,
-                    Products = f.Products,
-                })
-                .ToListAsync();
-        }
+		//get all farms async
+		public async Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync()
+		{
+			return await repository
+				.AllAsync<Farm>()
+				.Select(f => new FarmInfoViewModel()
+				{
+					Id = f.Id.ToString(),
+					Name = f.Name,
+					Address = f.Address,
+					PhoneNumber = f.PhoneNumber,
+					City = f.City,
+					CloseHours = f.CloseHours.ToString(),
+					OpenHours = f.OpenHours.ToString(),
+					Email = f.Email,
+					ImageUrl = f.ImageUrl,
+					FarmersFarms = f.FarmersFarms,
+					Products = f.Products,
+				})
+				.ToListAsync();
+		}
 
-        //get specific farm by id async
-        public async Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id)
-        {
-            var farm = await repository
-                .AllAsync<Farm>()
-                .FirstOrDefaultAsync(f => f.Id == id);
+		//get specific farm by id async
+		public async Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id)
+		{
+			var farm = await repository
+				.AllAsync<Farm>()
+				.FirstOrDefaultAsync(f => f.Id == id);
 
-            if (farm == null)
-            {
-                return null;
-            }
+			if (farm == null)
+			{
+				return null;
+			}
 
-            var model = new FarmInfoViewModel()
-            {
-                Id = farm.Id.ToString(),
-                Name = farm.Name,
-                Address = farm.Address,
-                PhoneNumber = farm.PhoneNumber,
-                City = farm.City,
-                CloseHours = farm.CloseHours.ToString(),
-                OpenHours = farm.OpenHours.ToString(),
-                Email = farm.Email,
-                ImageUrl = farm.ImageUrl,
-                FarmersFarms = farm.FarmersFarms,
-                Products = farm.Products,
-            };
+			var model = new FarmInfoViewModel()
+			{
+				Id = farm.Id.ToString(),
+				Name = farm.Name,
+				Address = farm.Address,
+				PhoneNumber = farm.PhoneNumber,
+				City = farm.City,
+				CloseHours = farm.CloseHours.ToString(),
+				OpenHours = farm.OpenHours.ToString(),
+				Email = farm.Email,
+				ImageUrl = farm.ImageUrl,
+				FarmersFarms = farm.FarmersFarms,
+				Products = farm.Products,
+			};
 
-            return model;
-        }
+			return model;
+		}
 
-        //get all farms of specific farmer
-        public async Task<IEnumerable<FarmInfoViewModel?>> GetFarmsByFarmerIdAsync(Guid farmerId)
-        {
-            var farms = await repository
-                .AllReadOnly<Farm>()
-                .Where(f => f.FarmersFarms.All(fm => fm.FarmerId == farmerId))
-                .Select(f => new FarmInfoViewModel()
-                {
-                    Id = f.Id.ToString(),
-                    Name = f.Name,
-                    Address = f.Address,
-                    PhoneNumber = f.PhoneNumber,
-                    City = f.City,
-                    CloseHours = f.CloseHours.ToString(),
-                    OpenHours = f.OpenHours.ToString(),
-                    Email = f.Email,
-                    ImageUrl = f.ImageUrl,
-                    FarmersFarms = f.FarmersFarms,
-                    Products = f.Products,
-                })
-                .ToListAsync();
+		//get all farms of specific farmer
+		public async Task<IEnumerable<FarmInfoViewModel?>> GetFarmsByFarmerIdAsync(Guid farmerId)
+		{
+			var farms = await repository
+				.AllReadOnly<Farm>()
+				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == farmerId))
+				.Select(f => new FarmInfoViewModel()
+				{
+					Id = f.Id.ToString(),
+					Name = f.Name,
+					Address = f.Address,
+					PhoneNumber = f.PhoneNumber,
+					City = f.City,
+					CloseHours = f.CloseHours.ToString(),
+					OpenHours = f.OpenHours.ToString(),
+					Email = f.Email,
+					ImageUrl = f.ImageUrl,
+					FarmersFarms = f.FarmersFarms,
+					Products = f.Products,
+				})
+				.ToListAsync();
 
-            return farms;
-        }
+			return farms;
+		}
 
-        //Used for validation in views to show edit button only for farmers part of specific farm
-        public async Task<ICollection<string>> GetFarmIdsByFarmerId(Guid farmerId)
-        {
-            return await repository
-                .AllReadOnly<Farm>()
-                .Where(f => f.FarmersFarms.All(fm => fm.FarmerId == farmerId))
-                .Select(f => f.Id.ToString())
-                .ToListAsync();
-        }
-    }
+		//Used for validation in views to show edit button only for farmers part of specific farm
+		public async Task<ICollection<string>> GetFarmIdsByFarmerId(Guid farmerId)
+		{
+			return await repository
+				.AllReadOnly<Farm>()
+				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == farmerId))
+				.Select(f => f.Id.ToString())
+				.ToListAsync();
+		}
+
+		//add new farm to currently logged in farmer
+		public async Task<Farm> AddNewFarmAsync(AddFarmViewModel model, Guid farmerId)
+		{
+			var newFarm = new Farm()
+			{
+				Id = Guid.NewGuid(),
+				Name = model.Name,
+				Address = model.Address,
+				City = model.City,
+				Email = model.Email,
+				PhoneNumber = model.PhoneNumber,
+				ImageUrl = model.ImageUrl,
+				OpenHours = model.OpenHours != null
+					? TimeOnly.Parse(model.OpenHours)
+					: null,
+				CloseHours = model.CloseHours != null
+					? TimeOnly.Parse(model.CloseHours)
+					: null,
+				IsOpen = false,
+			};
+
+			var newFarmerFarm = new FarmerFarm()
+			{
+				FarmId = newFarm.Id,
+				FarmerId = farmerId
+			};
+
+			newFarm.FarmersFarms.Add(newFarmerFarm);
+
+			await repository.AddAsync(newFarm);
+			await repository.AddAsync(newFarmerFarm);
+			await repository.SaveChangesAsync();
+
+			return newFarm;
+		}
+	}
 }

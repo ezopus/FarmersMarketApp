@@ -6,7 +6,8 @@
     "AcceptsDeliveries": true,
     "CompanyName": "Milky Way",
     "CompanyRegistrationNumber": "315252331",
-    "CompanyAddress": "321 Privet Drive"
+    "CompanyAddress": "321 Privet Drive",
+    "ImageUrl": "/img/dwight.jpg"
   },
   {
     "Id": "cd093e1c-e486-4a7f-b92f-94c22f15f7c1",
@@ -15,7 +16,8 @@
     "AcceptsDeliveries": true,
     "CompanyName": "Los Pollos Hermanos",
     "CompanyRegistrationNumber": "123772341",
-    "CompanyAddress": "44 Chicken Road"
+    "CompanyAddress": "44 Chicken Road",
+    "ImageUrl": "/img/kevin.png"
   },
   {
     "Id": "65c75a94-f3be-4a7a-913e-d6c868876265",
@@ -24,6 +26,7 @@
     "AcceptsDeliveries": true,
     "CompanyName": "FilletOFish",
     "CompanyRegistrationNumber": "335788211",
-    "CompanyAddress": "1 Ocean Avenue"
+    "CompanyAddress": "1 Ocean Avenue",
+    "ImageUrl": "/img/michael.jpg"
   }
 ]

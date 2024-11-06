@@ -8,13 +8,27 @@
 <div class="row">
 	<div class="col text-center">
 		<h2>@Model.Name</h2>
-		<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top w-25" />
+		@if (!string.IsNullOrEmpty(Model.ImageUrl))
+		{
+			<img src="@Model.ImageUrl" class="card-img-top mb-3" style="max-height: 400px; object-fit: contain;" alt="@Model.ImageUrl">
+		}
+		else
+		{
+			<img src="/img/no-image.png" class="card-img-top mb-3" style="max-height: 400px; object-fit: contain;" alt="No Image Available">
+		}
 		<p>@Model.Address</p>
 		<p>@Model.City</p>
 		<p>@Model.Email</p>
 		<p>@Model.PhoneNumber</p>
 		<div>
-			<p>Open from @Model.OpenHours to @Model.CloseHours</p>
+			@if (Model.OpenHours != "" && Model.CloseHours != "")
+			{
+				<p>Open from @Model.OpenHours to @Model.CloseHours</p>
+			}
+			else
+			{
+				<p>No opening hours have been specified.</p>
+			}
 		</div>
 		<p>Farm is currently @if (@Model.IsOpen)
 		                     {
