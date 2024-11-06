@@ -1,20 +1,34 @@
-﻿namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
 {
-	public class FarmerBecomeViewModel
-	{
-		public Guid UserId { get; set; }
+    using static Common.DataValidation.ErrorMessages;
+    using static Common.DataValidation.ValidationConstants.FarmerValidation;
+    public class FarmerBecomeViewModel
+    {
+        public Guid UserId { get; set; }
 
-		public bool HasProducts { get; set; } = false;
+        public bool HasProducts { get; set; } = false;
 
-		public bool? AcceptsDeliveries { get; set; } = null;
+        public bool? AcceptsDeliveries { get; set; }
 
-		public string? CompanyName { get; set; }
+        [StringLength(CompanyNameMaxLength,
+            MinimumLength = CompanyNameMinLength,
+            ErrorMessage = ErrorFarmerCompanyName)]
+        public string CompanyName { get; set; } = null!;
 
-		public string? CompanyRegistrationNumber { get; set; }
+        [StringLength(CompanyRegistrationNumberMaxLength,
+            MinimumLength = CompanyRegistrationNumberMinLength,
+            ErrorMessage = ErrorFarmerCompanyRegistrationNumberLength)]
+        [RegularExpression(CompanyRegistrationNumberRegex, ErrorMessage = ErrorFarmerCompanyRegistrationNumberType)]
+        public string CompanyRegistrationNumber { get; set; } = null!;
 
-		public string? CompanyAddress { get; set; }
+        [StringLength(CompanyAddressMaxLength,
+            MinimumLength = CompanyAddressMinLength,
+            ErrorMessage = ErrorFarmerCompanyAddress)]
+        public string CompanyAddress { get; set; } = null!;
 
-		//TODO: Try to implement farmer category from the registration
-		//public List<int> Categories { get; set; }
-	}
+        //TODO: Try to implement farmer category from the registration
+        //public List<int> Categories { get; set; }
+    }
 }
