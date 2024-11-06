@@ -4,6 +4,7 @@ using FarmersMarketApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241106164413_ProductShippingWeightMadeNullable")]
+    partial class ProductShippingWeightMadeNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -222,7 +225,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -291,7 +294,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("FarmerId");
 
-                    b.ToTable("CategoriesFarmers", (string)null);
+                    b.ToTable("CategoriesFarmers");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Farm", b =>
@@ -345,7 +348,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Farms", (string)null);
+                    b.ToTable("Farms");
 
                     b.HasData(
                         new
@@ -570,7 +573,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Farmers", (string)null);
+                    b.ToTable("Farmers");
 
                     b.HasData(
                         new
@@ -622,7 +625,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("FarmerId");
 
-                    b.ToTable("FarmerFarm", (string)null);
+                    b.ToTable("FarmerFarm");
 
                     b.HasData(
                         new
@@ -755,7 +758,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Payment", b =>
@@ -793,7 +796,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("FarmersMarketApp.Infrastructure.Data.Models.Product", b =>
@@ -889,7 +892,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("FarmerId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
@@ -1417,7 +1420,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductsOrders", (string)null);
+                    b.ToTable("ProductsOrders");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
