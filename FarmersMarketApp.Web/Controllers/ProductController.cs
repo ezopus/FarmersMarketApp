@@ -21,9 +21,17 @@ namespace FarmersMarketApp.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(Guid? farmerId, string? farmerFullName)
         {
-            var model = await productService.GetProductsAsync();
+            if (farmerId.HasValue && farmerFullName != null)
+            {
+                ViewData["farmerId"] = farmerId;
+                ViewData["farmerFullName"] = farmerFullName;
+            }
+
+            var model = farmerId.HasValue
+                ? await productService.GetProductsByFarmerIdAsync(farmerId.Value)
+                : await productService.GetProductsAsync();
 
             return View(model);
         }
@@ -42,6 +50,7 @@ namespace FarmersMarketApp.Web.Controllers
             return RedirectToAction(nameof(All));
         }
 
+        //TODO: Implement categories
         [HttpGet]
         private async Task<List<Category>> GetCategories()
         {
@@ -52,7 +61,7 @@ namespace FarmersMarketApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var model = await productService.GetProductById(id);
+            var model = await productService.GetProductByIdAsync(id);
             if (model == null)
             {
                 return RedirectToAction("All");
@@ -60,6 +69,7 @@ namespace FarmersMarketApp.Web.Controllers
             return View(model);
         }
 
+        //TODO: Implement product edit
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
@@ -67,7 +77,6 @@ namespace FarmersMarketApp.Web.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Edit(Guid productId)
         {
             return RedirectToAction(nameof(Details), new { productId });

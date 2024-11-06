@@ -1,8 +1,17 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.ProductViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<ProductInfoViewModel>
 
 @{
-    ViewData["Title"] = "All";
+	var hasFarmerId = ViewData["farmerId"] != null;
+	if (hasFarmerId)
+	{
+        ViewData["Title"] = $"All products from {ViewData["farmerFullName"]}";
+	}
+	else
+	{
+		ViewData["Title"] = "All products";
+	}
 }
   
 
@@ -11,7 +20,7 @@
     <h2>@ViewData["Title"]</h2>
     @if (User?.Identity?.IsAuthenticated == true)
     {
-        <a asp-controller="Product" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i>Add Product</a>
+        <a asp-controller="Product" asp-action="Add" class="btn btn-primary">Add Product</a>
     }
 </div>
 <hr />
