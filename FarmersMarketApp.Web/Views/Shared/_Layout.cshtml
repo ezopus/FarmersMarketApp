@@ -6,7 +6,7 @@
 	bool isUserFarmer = false;
 	if (User.Identity.IsAuthenticated)
 	{
-		isUserFarmer = await userService.IsUserFarmer(currentUserId);
+		isUserFarmer = await userService.IsUserFarmerAsync(currentUserId);
 	}
 }
 
