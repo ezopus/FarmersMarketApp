@@ -1,5 +1,47 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using FarmersMarketApp.Web.ViewModels.FarmerViewModels
+@model IEnumerable<FarmerInfoViewModel>
+
 @{
+    ViewData["Title"] = "All Farms";
 }
+
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+
+<div class="row text-center">
+    @foreach (var farmer in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100" style="width: 100%;">
+                @if (!string.IsNullOrEmpty(farmer.ImageUrl))
+                {
+                    <img src="@farmer.ImageUrl" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@farmer.ImageUrl">
+                }
+                else
+                {
+                    <img src="/img/no-image.png" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="No Image Available">
+                }
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@farmer.FullName</h5>
+                    <p class="card-text">@farmer.CompanyName</p>
+	                <p class="card-text">@farmer.CompanyAddress</p>
+                    @if (farmer.AcceptsDeliveries)
+                    {
+						<p class="card-text text-success">Open for business</p>
+                    }
+                    else
+                    {
+	                    <p class="card-text text-warning">Currently closed for business.</p>
+                    }
+                    @if (farmer.HasProducts == true)
+                    {
+                        <a asp-controller="Product" asp-action="All" asp-route-farmerId="@farmer.Id" asp-route-farmerFullName="@farmer.FullName" class="btn btn-success">Shop products</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
