@@ -15,6 +15,7 @@
 		public const string ErrorFarmName = "Farm name must be between 5 and 150 symbols.";
 		public const string ErrorFarmAddress = "Farm address must be between 6 and 200 symbols.";
 		public const string ErrorFarmCity = "Farm city must be between 3 and 30 symbols.";
+		public const string ErrorFarmHours = "Open and closed hours must be in format HH:mm";
 
 		public const string ErrorFarmerCompanyName = "Company name must be between 2 and 100 symbols.";
 		public const string ErrorFarmerCompanyRegistrationNumberLength = "Company number must be between 9 and 10 digits.";
