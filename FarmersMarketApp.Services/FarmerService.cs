@@ -16,16 +16,18 @@ namespace FarmersMarketApp.Services
             this.repository = repository;
             this.userService = userService;
         }
-        public async Task<Guid> BecomeFarmerAsync(ApplicationUser user, FarmerBecomeViewModel model)
+        public async Task<Guid> BecomeFarmerAsync(Guid userId, FarmerBecomeViewModel model)
         {
+            var user = await userService.GetCurrentUserByIdAsync(userId);
+
             var newFarmer = new Farmer()
             {
                 Id = Guid.NewGuid(),
-                UserId = user.Id,
+                UserId = user!.Id,
                 CompanyName = model.CompanyName,
                 CompanyAddress = model.CompanyAddress,
                 CompanyRegistrationNumber = model.CompanyRegistrationNumber,
-                AcceptsDeliveries = model.AcceptsDeliveries.Value,
+                AcceptsDeliveries = model.AcceptsDeliveries!.Value,
                 HasProducts = model.HasProducts,
             };
 
@@ -37,7 +39,7 @@ namespace FarmersMarketApp.Services
             return newFarmer.Id;
         }
 
-        public async Task<Guid> GetFarmerIdByUserId(Guid userId)
+        public async Task<Guid> GetFarmerIdByUserIdAsync(Guid userId)
         {
             var farmer = await repository
                 .AllReadOnly<Farmer>()
@@ -46,5 +48,22 @@ namespace FarmersMarketApp.Services
             return farmer!.Id;
         }
 
+        public async Task<IEnumerable<FarmerInfoViewModel>> GetAllFarmersAsync()
+        {
+            return await repository
+                .AllReadOnly<Farmer>()
+                .Select(f => new FarmerInfoViewModel()
+                {
+                    Id = f.Id.ToString(),
+                    FullName = f.User.FirstName + " " + f.User.LastName,
+                    CompanyName = f.CompanyName!,
+                    CompanyAddress = f.CompanyAddress!,
+                    ImageUrl = f.ImageUrl,
+                    AcceptsDeliveries = f.AcceptsDeliveries,
+                    HasProducts = f.HasProducts,
+                })
+                .ToListAsync();
+
+        }
     }
 }

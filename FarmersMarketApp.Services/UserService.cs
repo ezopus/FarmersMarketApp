@@ -12,14 +12,14 @@ namespace FarmersMarketApp.Services
         {
             this.repository = repository;
         }
-        public async Task<ApplicationUser?> GetCurrentUser(Guid userId)
+        public async Task<ApplicationUser?> GetCurrentUserByIdAsync(Guid userId)
         {
             return await repository
                 .AllAsync<ApplicationUser>()
                 .FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<bool> IsUserFarmer(Guid userId)
+        public async Task<bool> IsUserFarmerAsync(Guid userId)
         {
             var currentUser = await repository.GetByIdAsync<ApplicationUser>(userId);
             return currentUser.IsFarmer;

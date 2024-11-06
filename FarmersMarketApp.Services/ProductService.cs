@@ -40,7 +40,7 @@ namespace FarmersMarketApp.Services
                 .ToListAsync();
         }
 
-        public async Task<ProductInfoViewModel?> GetProductById(Guid id)
+        public async Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id)
         {
             var product = await repository
                 .AllAsync<Product>()
@@ -75,12 +75,12 @@ namespace FarmersMarketApp.Services
             return model;
         }
 
-        public async Task<Product?> GetProductByName(string name)
+        public async Task<Product?> GetProductByNameAsync(string name)
         {
             return await repository.AllAsync<Product>().FirstOrDefaultAsync(pr => pr.Name == name);
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerId(Guid farmerId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId)
         {
             return await repository
                 .AllAsync<Product>()
@@ -108,7 +108,7 @@ namespace FarmersMarketApp.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmId(Guid farmId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(Guid farmId)
         {
             return await repository
                 .AllAsync<Product>()
@@ -136,7 +136,7 @@ namespace FarmersMarketApp.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryId(int categoryId)
+        public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId)
         {
             return await repository
                 .AllAsync<Product>()

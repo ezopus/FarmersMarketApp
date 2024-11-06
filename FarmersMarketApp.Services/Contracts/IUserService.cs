@@ -2,10 +2,10 @@
 
 namespace FarmersMarketApp.Services.Contracts
 {
-	public interface IUserService
-	{
-		Task<ApplicationUser?> GetCurrentUser(Guid userId);
+    public interface IUserService
+    {
+        Task<ApplicationUser?> GetCurrentUserByIdAsync(Guid userId);
 
-		Task<bool> IsUserFarmer(Guid userId);
-	}
+        Task<bool> IsUserFarmerAsync(Guid userId);
+    }
 }
