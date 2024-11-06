@@ -16,6 +16,8 @@ namespace FarmersMarketApp.Services
             this.repository = repository;
             this.userService = userService;
         }
+
+        //become a farmer post action
         public async Task<Guid> BecomeFarmerAsync(Guid userId, FarmerBecomeViewModel model)
         {
             var user = await userService.GetCurrentUserByIdAsync(userId);
@@ -39,7 +41,8 @@ namespace FarmersMarketApp.Services
             return newFarmer.Id;
         }
 
-        public async Task<Guid> GetFarmerIdByUserIdAsync(Guid userId)
+        //get specific farmer id if exists
+        public async Task<Guid?> GetFarmerIdByUserIdAsync(Guid userId)
         {
             var farmer = await repository
                 .AllReadOnly<Farmer>()
@@ -48,6 +51,7 @@ namespace FarmersMarketApp.Services
             return farmer!.Id;
         }
 
+        //get all farmers
         public async Task<IEnumerable<FarmerInfoViewModel>> GetAllFarmersAsync()
         {
             return await repository

@@ -112,7 +112,7 @@ namespace FarmersMarketApp.Web.Controllers
             var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
 
             //get all farms for current farmer
-            var farms = await farmService.GetFarmsByFarmerIdAsync(currentFarmerId);
+            var farms = await farmService.GetFarmsByFarmerIdAsync(currentFarmerId!.Value);
 
             //check if farms list is empty, if yes redirect to add farm
             if (!farms.Any())
@@ -147,7 +147,7 @@ namespace FarmersMarketApp.Web.Controllers
             var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
 
             //get all products for current farmer
-            var products = await productService.GetProductsByFarmerIdAsync(currentFarmerId);
+            var products = await productService.GetProductsByFarmerIdAsync(currentFarmerId!.Value);
 
             //check if products list is empty, if yes redirect to add product
             if (!products.Any())
