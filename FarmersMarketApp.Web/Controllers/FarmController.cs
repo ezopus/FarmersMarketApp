@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
-using static FarmersMarketApp.Common.DataValidation.ValidationConstants.FarmValidation;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -94,15 +94,58 @@ namespace FarmersMarketApp.Web.Controllers
 
 
 		[HttpGet]
-		public async Task<IActionResult> Edit()
+		public async Task<IActionResult> Edit(Guid farmId)
 		{
-			return View();
+			var farmToEdit = await farmService.GetFarmToEditByIdAsync(farmId);
+
+			if (farmToEdit == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(farmToEdit);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(AddFarmViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+			if (model.OpenHours != null || model.CloseHours != null)
+			{
+				var isOpenHoursValid = TimeOnly.TryParseExact(model.OpenHours, TimeRequiredFormat,
+					CultureInfo.CurrentCulture, DateTimeStyles.None, out var openHoursParsed);
+				var isCloseHoursValid = TimeOnly.TryParseExact(model.CloseHours, TimeRequiredFormat,
+					CultureInfo.CurrentCulture, DateTimeStyles.None, out var closedHoursParsed);
+
+				if (model.OpenHours != null && !isOpenHoursValid)
+				{
+					ModelState.AddModelError(nameof(model.OpenHours), ErrorFarmHours);
+					return View(model);
+				}
+				if (model.CloseHours != null && !isCloseHoursValid)
+				{
+					ModelState.AddModelError(nameof(model.CloseHours), ErrorFarmHours);
+					return View(model);
+				}
+
+			}
+			var result = await farmService.EditFarmAsync(model);
+
+			if (!result)
+			{
+				return View(model);
+			}
+
+			return RedirectToAction(nameof(Details), new { farmId = model.Id });
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Details(Guid farmId)
 		{
-			var model = await farmService.GetFarmByIdAsync(farmId);
+			var model = await farmService.GetFarmByIdReadOnlyAsync(farmId);
 
 			return View(model);
 		}

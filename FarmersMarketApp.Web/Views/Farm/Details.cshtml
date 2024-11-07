@@ -21,7 +21,7 @@
 		<p>@Model.Email</p>
 		<p>@Model.PhoneNumber</p>
 		<div>
-			@if (Model.OpenHours != "" && Model.CloseHours != "")
+			@if (!string.IsNullOrEmpty(Model.OpenHours) && !string.IsNullOrEmpty(Model.CloseHours))
 			{
 				<p>Open from @Model.OpenHours to @Model.CloseHours</p>
 			}
@@ -40,7 +40,7 @@
 		                     }
 			</p>
 		<div>
-			<a asp-controller="Farm" asp-action="Edit" class="btn btn-warning ">Edit Farm Info</a>
+			<a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@Model.Id" class="btn btn-warning ">Edit Farm Info</a>
 			<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.Id" class="btn btn-success">Show all farm products</a>
 		</div>
 	</div>

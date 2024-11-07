@@ -50,10 +50,8 @@
 		                {
                             
 			                <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@farm.Id" class="btn btn-info me-2 w-100">Details</a>
-			                <form asp-controller="Farm" asp-action="Edit" method="post" class="w-100">
-				                <input type="hidden" name="id" value="@farm.Id"/>
-				                <button type="submit" class="btn btn-warning w-100">Edit</button>
-			                </form>
+			                <a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@farm.Id" class="btn btn-warning me-2 w-100">Edit</a>
+			                
 		                }
 		                else
 		                {

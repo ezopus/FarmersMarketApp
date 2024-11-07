@@ -2,6 +2,8 @@
 {
 	public static class ValidationConstants
 	{
+		public const string TimeRequiredFormat = "HH:mm";
+		public const string DateTimeRequiredFormat = "dd-MM-yyyy";
 		public static class ApplicationUserValidation
 		{
 			public const int FirstNameMinLength = 2;
@@ -32,7 +34,6 @@
 			public const string ProductPriceMin = "0.001";
 			public const string ProductPriceMax = "10000";
 
-			public const string DateTimeRequiredFormat = "dd-MM-yyyy";
 		}
 
 		public static class FarmValidation
@@ -46,7 +47,6 @@
 			public const int FarmCityMinLength = 3;
 			public const int FarmCityMaxLength = 30;
 
-			public const string TimeRequiredFormat = "HH:mm";
 		}
 
 		public static class FarmerValidation
