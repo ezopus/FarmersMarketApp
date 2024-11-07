@@ -129,7 +129,7 @@
     "OpenHours": "06:30",
     "CloseHours": "19:30",
     "IsOpen": true,
-    "ImageUrl": "/img/farm2.jpg"
+    "ImageUrl": "/img/farm11.jpg"
   },
   {
     "Id": "272BEFBB-54FD-41D0-BFCA-D72305535321",
@@ -141,7 +141,7 @@
     "OpenHours": "08:00",
     "CloseHours": "18:00",
     "IsOpen": false,
-    "ImageUrl": "/img/farm3.jpg"
+    "ImageUrl": "/img/farm12.jpg"
   },
   {
     "Id": "45C92BBA-7AC0-42AE-995E-D6FC10E05067",
@@ -153,7 +153,7 @@
     "OpenHours": "07:00",
     "CloseHours": "16:00",
     "IsOpen": true,
-    "ImageUrl": "/img/farm5.jpg"
+    "ImageUrl": "/img/farm13.jpg"
   },    
   {
     "Id": "CE2E44CA-D118-4676-9623-624E7F56980E",
@@ -165,7 +165,7 @@
     "OpenHours": "06:00",
     "CloseHours": "18:00",
     "IsOpen": false,
-    "ImageUrl": "/img/farm6.jpg"
+    "ImageUrl": "/img/farm14.jpg"
   },
   {
     "Id": "012CF2FC-B34E-425F-87A0-CC5989EA5C06",
@@ -177,6 +177,6 @@
     "OpenHours": "08:00",
     "CloseHours": "18:00",
     "IsOpen": true,
-    "ImageUrl": "/img/farm9.jpg"
+    "ImageUrl": "/img/farm15.jpg"
   }
 ]
