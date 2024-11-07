@@ -86,8 +86,6 @@ namespace FarmersMarketApp.Web.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				var farmerFarmsInfo = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId.Value);
-
 				model.Categories = await categoryService.GetCategoriesAsync();
 				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
 				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
