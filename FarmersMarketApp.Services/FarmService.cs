@@ -3,6 +3,7 @@ using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 using Microsoft.EntityFrameworkCore;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Services
 {
@@ -36,11 +37,11 @@ namespace FarmersMarketApp.Services
 				.ToListAsync();
 		}
 
-		//get specific farm by id async
-		public async Task<FarmInfoViewModel?> GetFarmByIdAsync(Guid id)
+		//get read-only copy of specific farm by id async
+		public async Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(Guid id)
 		{
 			var farm = await repository
-				.AllAsync<Farm>()
+				.AllReadOnly<Farm>()
 				.FirstOrDefaultAsync(f => f.Id == id);
 
 			if (farm == null)
@@ -55,12 +56,40 @@ namespace FarmersMarketApp.Services
 				Address = farm.Address,
 				PhoneNumber = farm.PhoneNumber,
 				City = farm.City,
-				CloseHours = farm.CloseHours.ToString(),
-				OpenHours = farm.OpenHours.ToString(),
+				CloseHours = farm.CloseHours?.ToString(TimeRequiredFormat),
+				OpenHours = farm.OpenHours?.ToString(TimeRequiredFormat),
 				Email = farm.Email,
 				ImageUrl = farm.ImageUrl,
 				FarmersFarms = farm.FarmersFarms,
 				Products = farm.Products,
+			};
+
+			return model;
+		}
+
+		//get tracked entity of specific farm by id async
+		public async Task<AddFarmViewModel> GetFarmToEditByIdAsync(Guid id)
+		{
+			var farm = await repository
+				.AllAsync<Farm>()
+				.FirstOrDefaultAsync(f => f.Id == id);
+
+			if (farm == null)
+			{
+				return null;
+			}
+
+			var model = new AddFarmViewModel()
+			{
+				Id = farm.Id,
+				Name = farm.Name,
+				Address = farm.Address,
+				PhoneNumber = farm.PhoneNumber,
+				City = farm.City,
+				CloseHours = farm.CloseHours?.ToString(TimeRequiredFormat),
+				OpenHours = farm.OpenHours?.ToString(TimeRequiredFormat),
+				Email = farm.Email,
+				ImageUrl = farm.ImageUrl,
 			};
 
 			return model;
@@ -135,6 +164,35 @@ namespace FarmersMarketApp.Services
 			await repository.SaveChangesAsync();
 
 			return newFarm;
+		}
+
+		public async Task<bool> EditFarmAsync(AddFarmViewModel model)
+		{
+			var farmToEdit = await repository
+				.AllAsync<Farm>()
+				.FirstOrDefaultAsync(f => f.Id == model.Id);
+
+			if (farmToEdit == null)
+			{
+				return false;
+			}
+
+			farmToEdit.Name = model.Name;
+			farmToEdit.Address = model.Address;
+			farmToEdit.City = model.City;
+			farmToEdit.Email = model.Email;
+			farmToEdit.PhoneNumber = model.PhoneNumber;
+			farmToEdit.ImageUrl = model.ImageUrl;
+			farmToEdit.OpenHours = model.OpenHours != null
+				? TimeOnly.Parse(model.OpenHours)
+				: null;
+			farmToEdit.CloseHours = model.CloseHours != null
+				? TimeOnly.Parse(model.CloseHours)
+				: null;
+
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }
