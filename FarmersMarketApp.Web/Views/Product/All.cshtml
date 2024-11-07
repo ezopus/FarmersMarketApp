@@ -32,7 +32,7 @@
             <div class="card h-100" style="width: 100%;">
                 @if (!string.IsNullOrEmpty(product.ImageUrl))
                 {
-                    <img src="@product.ImageUrl" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@product.Name">
+                    <img src="@product.ImageUrl" class="card-img-top rounded mt-2" style="max-height:200px; object-fit: cover;" alt="@product.Name">
                 }
                 else
                 {

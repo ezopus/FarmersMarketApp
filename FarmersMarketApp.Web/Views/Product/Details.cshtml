@@ -3,22 +3,40 @@
 
 @{
 	ViewData["Title"] = $"Product details";
-} 
+}
 
-<div class="row">
-	<div class="col text-center">
-		<h2>@Model.Name</h2>
-		<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top w-25" />
-		<p>@Model.Description</p>
-		<div>
-			<p>Produced on: @Model.ProductionDate</p>
-			<p>Best before: @Model.ExpirationDate</p>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-4">
+			<div class="text-center">
+				<h2>@Model.Name</h2>
+				<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name"/>
+				<p><em>@Model.Description</em></p>
+				<p>Made by <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@Model.FarmId">@Model.Farm.Name</a></p>
+				<p><small>Produced on: @Model.ProductionDate, Best before: @Model.ExpirationDate</small></p>
+				@if (Model.HasDiscount)
+				{
+					<h4 class="text-info mb-3">
+						<strong>Special price: <s>$@Model.Price</s></strong>
+						<p>@(Model.DiscountPercentage*@Model.Price/100)</p>
+					</h4>
+					
+				}
+				else
+				{
+					<h4 class="text-info mb-3"><strong>Price: $@Model.Price</strong></h4>
+				}
+			</div>
+			<div class="row" style="margin-left:0px; margin-right:0px;">
+				<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-success mb-2 w-100">Buy now</a>
+			</div>
+			<div class="col d-flex gap-2">
+				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" class="btn btn-info align-self-start">Show all products by this farm</a>
+				<a asp-controller="Product" asp-action="All" class="btn btn-secondary align-self-end">Back to all products</a>
+			</div>
 		</div>
-		<p>Price: $@Model.Price</p>
-		<div>
-			<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-success ">Buy now</a>
-			<a asp-controller="Product" asp-action="All" class="btn btn-secondary">Back to all products</a>
-		</div>
+
+
 	</div>
 </div>
 
