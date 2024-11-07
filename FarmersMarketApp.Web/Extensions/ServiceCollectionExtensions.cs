@@ -17,6 +17,11 @@
 			services.AddScoped<IFarmService, FarmService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IFarmerService, FarmerService>();
+			services.AddScoped<ICategoryService, CategoryService>();
+			services.AddScoped<IPaymentService, PaymentService>();
+			services.AddScoped<IOrderService, OrderService>();
+
+
 
 			return services;
 		}
