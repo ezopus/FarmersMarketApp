@@ -3,18 +3,20 @@ using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
-    public interface IProductService
-    {
-        Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
+	public interface IProductService
+	{
+		Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
 
-        Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id);
+		Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id);
 
-        Task<Product?> GetProductByNameAsync(string name);
+		Task<Product?> GetProductByNameAsync(string name);
 
-        Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId);
+		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId);
 
-        Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(Guid farmId);
+		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(Guid farmId);
 
-        Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId);
-    }
+		Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId);
+
+		Task<Guid?> CreateProductAsync(AddProductViewModel model);
+	}
 }
