@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
@@ -18,6 +19,8 @@ namespace FarmersMarketApp.Services.Contracts
 		Task<Farm> AddNewFarmAsync(AddFarmViewModel model, Guid farmerId);
 
 		Task<bool> EditFarmAsync(AddFarmViewModel model);
+
+		Task<List<AddProductFarmOptions>> GetFarmNameAndIdForNewProductAsync(Guid farmerId);
 
 	}
 }

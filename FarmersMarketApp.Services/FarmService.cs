@@ -2,6 +2,7 @@
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
@@ -193,6 +194,22 @@ namespace FarmersMarketApp.Services
 			await repository.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<List<AddProductFarmOptions>> GetFarmNameAndIdForNewProductAsync(Guid farmerId)
+		{
+			return await repository
+				.AllReadOnly<Farm>()
+				.Where(f => f.FarmersFarms.Any(fm => fm.FarmerId == farmerId))
+				.Select(f => new AddProductFarmOptions()
+				{
+					Id = f.Id,
+					Name = f.Name,
+					ImageUrl = f.ImageUrl,
+					Address = f.Address,
+					City = f.City,
+				})
+				.ToListAsync();
 		}
 	}
 }
