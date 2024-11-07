@@ -1,5 +1,4 @@
-﻿using FarmersMarketApp.Infrastructure.Repositories.Contracts;
-using FarmersMarketApp.Services.Contracts;
+﻿using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -12,15 +11,12 @@ namespace FarmersMarketApp.Web.Controllers
 {
 	public class FarmController : BaseController
 	{
-		private readonly IRepository repository;
 		private readonly IFarmService farmService;
 		private readonly IFarmerService farmerService;
 		public FarmController(
-			IRepository repository,
 			IFarmService farmService,
 			IFarmerService farmerService)
 		{
-			this.repository = repository;
 			this.farmService = farmService;
 			this.farmerService = farmerService;
 		}
