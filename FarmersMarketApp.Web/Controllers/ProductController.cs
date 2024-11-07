@@ -81,7 +81,41 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(AddProductViewModel model)
 		{
-			return RedirectToAction(nameof(All));
+			var currentUserId = Guid.Parse(User.GetId());
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			if (!ModelState.IsValid)
+			{
+				var farmerFarmsInfo = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId.Value);
+
+				model.Categories = await categoryService.GetCategoriesAsync();
+				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
+				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
+				return View(model);
+			}
+
+
+			//check if current user is farmer
+			if (currentFarmerId == null || model.FarmerId != currentFarmerId)
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			//check if current farmer is working on farm to add product to
+			var farmerFarms = await farmService.GetFarmIdsByFarmerId(currentFarmerId.Value);
+			if (!farmerFarms.Any())
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			var result = await productService.CreateProductAsync(model);
+
+			if (result == null)
+			{
+				return View(model);
+			}
+
+			return RedirectToAction("Details", "Product", new { id = result.Value });
 		}
 
 		//TODO: Implement categories
