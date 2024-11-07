@@ -96,8 +96,26 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(Guid farmId)
 		{
+			//get current user and check if he's a farmer
+			var currentUserId = Guid.Parse(User.GetId());
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			if (currentFarmerId == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			//check if current edited farm is property of farmer
+			var farmerFarms = await farmService.GetFarmIdsByFarmerId(currentFarmerId.Value);
+			if (farmerFarms.All(f => f.ToLower() != farmId.ToString().ToLower()))
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			//get tracked entity of farm to edit via services
 			var farmToEdit = await farmService.GetFarmToEditByIdAsync(farmId);
 
+			//if farm not found, redirect to all farms
 			if (farmToEdit == null)
 			{
 				return RedirectToAction(nameof(Index));
@@ -109,10 +127,13 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(AddFarmViewModel model)
 		{
+			//if model is invalid, return
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
+
+			//check input hours for validation to add error to proper field
 			if (model.OpenHours != null || model.CloseHours != null)
 			{
 				var isOpenHoursValid = TimeOnly.TryParseExact(model.OpenHours, TimeRequiredFormat,
@@ -130,10 +151,12 @@ namespace FarmersMarketApp.Web.Controllers
 					ModelState.AddModelError(nameof(model.CloseHours), ErrorFarmHours);
 					return View(model);
 				}
-
 			}
+
+			//try to edit farm
 			var result = await farmService.EditFarmAsync(model);
 
+			//if service fails, returns view
 			if (!result)
 			{
 				return View(model);
