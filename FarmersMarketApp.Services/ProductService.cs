@@ -28,9 +28,7 @@ namespace FarmersMarketApp.Services
 					Name = p.Name,
 					Description = p.Description,
 					FarmId = p.FarmId.ToString(),
-					Farm = p.Farm,
 					FarmerId = p.FarmerId.ToString(),
-					Farmer = p.Farmer,
 					CategoryId = p.CategoryId,
 					Price = p.Price,
 					DiscountPercentage = p.DiscountPercentage ?? 0,
@@ -49,7 +47,7 @@ namespace FarmersMarketApp.Services
 		public async Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id)
 		{
 			var product = await repository
-				.AllAsync<Product>()
+				.AllReadOnly<Product>()
 				.FirstOrDefaultAsync(pr => pr.Id == id);
 
 			if (product == null)
@@ -63,9 +61,7 @@ namespace FarmersMarketApp.Services
 				Name = product.Name,
 				Description = product.Description,
 				FarmId = product.FarmId.ToString(),
-				Farm = product.Farm,
 				FarmerId = product.FarmerId.ToString(),
-				Farmer = product.Farmer,
 				CategoryId = product.CategoryId,
 				Price = product.Price,
 				DiscountPercentage = product.DiscountPercentage ?? 0,
@@ -99,9 +95,7 @@ namespace FarmersMarketApp.Services
 					Name = pr.Name,
 					Description = pr.Description,
 					FarmId = pr.FarmId.ToString(),
-					Farm = pr.Farm,
 					FarmerId = pr.FarmerId.ToString(),
-					Farmer = pr.Farmer,
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
@@ -117,20 +111,18 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made at specific farm
-		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(Guid farmId)
+		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(string farmId)
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farm.Id == farmId)
+				.Where(pr => pr.Farm.Id == Guid.Parse(farmId))
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
 					Name = pr.Name,
 					Description = pr.Description,
 					FarmId = pr.FarmId.ToString(),
-					Farm = pr.Farm,
 					FarmerId = pr.FarmerId.ToString(),
-					Farmer = pr.Farmer,
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
@@ -157,9 +149,7 @@ namespace FarmersMarketApp.Services
 					Name = pr.Name,
 					Description = pr.Description,
 					FarmId = pr.FarmId.ToString(),
-					Farm = pr.Farm,
 					FarmerId = pr.FarmerId.ToString(),
-					Farmer = pr.Farmer,
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,

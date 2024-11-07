@@ -13,7 +13,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId);
 
-		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(Guid farmId);
+		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(string farmId);
 
 		Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId);
 
