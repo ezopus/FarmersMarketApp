@@ -1,4 +1,4 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models.Enums;
+﻿using FarmersMarketApp.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FarmersMarketApp.Infrastructure.Data.Models
 {
-    public class Category
-    {
-        [Key]
-        [Comment("Category identifier.")]
-        public int Id { get; set; }
+	public class Category
+	{
+		[Key]
+		[Comment("Category identifier.")]
+		public int Id { get; set; }
 
-        [Comment("Category name.")]
-        public required string Name { get; set; }
+		[Comment("Category name.")]
+		public required string Name { get; set; }
 
-        public virtual ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
-    }
+		public virtual ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
+	}
 }
