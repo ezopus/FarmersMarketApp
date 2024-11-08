@@ -17,33 +17,30 @@
 }
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-	<li class="nav-item">
-		<a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link text-light" asp-area="" asp-page="/Order">My Orders</a>
-	</li>
-	if (!isUserFarmer)
+	@if (SignInManager.IsSignedIn(User))
 	{
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-area="" asp-page="/Cart">My Cart</a>
+			<a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name! </a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-light" asp-area="" asp-page="/Order">My Orders</a>
+		</li>
+		if (!isUserFarmer)
+		{
+			<li class="nav-item d-flex justify-content-center align-items-center fw-bold">
+				<a asp-controller="Cart" asp-action="MyCart" class="nav-link text-light">
+					Cart <i class="fa-solid fa-cart-shopping"></i>
+				</a>
+			</li>
+		}
+		<li class="nav-item">
+			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
+				<button type="submit" class="nav-link btn btn-link text-light">Logout</button>
+			</form>
 		</li>
 	}
-	<li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
-            <button  type="submit" class="nav-link btn btn-link text-light">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+	else
+	{
+		<partial name="Partials/_FarmerLoginPartial" />
+	}
 </ul>
