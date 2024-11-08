@@ -232,7 +232,7 @@ namespace FarmersMarketApp.Services
 
 			while (farms.Count > 1 && counter < 3)
 			{
-				var index = random.Next(0, farms.Count);
+				var index = random.Next(0, farms.Count - 1);
 				randomFarms.Add(farms[index]);
 				farms.RemoveAt(index);
 				counter++;
