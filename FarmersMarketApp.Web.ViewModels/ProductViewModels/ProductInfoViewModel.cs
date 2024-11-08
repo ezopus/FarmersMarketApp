@@ -23,7 +23,7 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 
 		public List<Category> Categories { get; set; } = new List<Category>();
 
-		public bool HasDiscount { get; set; }
+		public bool HasDiscount => DiscountPercentage != 0;
 		public decimal DiscountPercentage { get; set; }
 
 		public string? ImageUrl { get; set; }
