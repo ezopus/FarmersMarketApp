@@ -1,4 +1,5 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.ProductViewModels
+@using System.Globalization
 @model ProductInfoViewModel
 
 @{
@@ -10,21 +11,26 @@
 		<div class="col-4">
 			<div class="text-center">
 				<h2>@Model.Name</h2>
-				<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name"/>
+				<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name" />
 				<p><em>@Model.Description</em></p>
 				<p>Made by <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@Model.FarmId">@Model.Farm.Name</a></p>
 				<p><small>Produced on: @Model.ProductionDate, Best before: @Model.ExpirationDate</small></p>
 				@if (Model.HasDiscount)
 				{
-					<h4 class="text-info mb-3">
-						<strong>Special price: <s>$@Model.Price</s></strong>
-						<p>@(Model.DiscountPercentage*@Model.Price/100)</p>
+					<p class="text-secondary">
+						Regular price: <span class="text-decoration-line-through">$@Model.Price</span>
+					</p>
+					<h5 class="mt-2 text-warning">Discount: @Model.DiscountPercentage.ToString("f0")%</h5>
+					<h4 class="text-info mt-3 mb-4">
+						<p class="fw-bold">
+							Special price: @((Model.Price - Model.DiscountPercentage / 100 * @Model.Price).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+						</p>
 					</h4>
-					
+
 				}
 				else
 				{
-					<h4 class="text-info mb-3"><strong>Price: $@Model.Price</strong></h4>
+					<h4 class="text-info mb-3 fw-bold">Price: $@Model.Price</h4>
 				}
 			</div>
 			<div class="row" style="margin-left:0px; margin-right:0px;">
