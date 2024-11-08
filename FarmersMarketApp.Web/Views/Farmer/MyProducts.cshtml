@@ -23,19 +23,19 @@
             <div class="card h-100" style="width: 100%;">
                 @if (!string.IsNullOrEmpty(product.ImageUrl))
                 {
-                    <img src="@product.ImageUrl" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@product.Name">
+                    <img src="@product.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@product.Name">
                 }
                 else
                 {
-                    <img src="/img/no-image.png" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="No Image Available">
+                    <img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
                 }
 
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">Price: @product.Price.ToString("C", System.Globalization.CultureInfo.CreateSpecificCulture("bg-BG"))</p>
                     <div class="d-flex justify-content-between mt-auto">
-                       <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info me-2 w-50">Details</a>
-                       <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning w-100">Edit</a>
+                       <a asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-warning me-2 w-100">Edit</a>
+	                    <a asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger w-100">Remove</a>
                     </div>
                 </div>
             </div>
