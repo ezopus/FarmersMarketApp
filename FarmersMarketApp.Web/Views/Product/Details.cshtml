@@ -31,7 +31,7 @@
 				<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-success mb-2 w-100">Buy now</a>
 			</div>
 			<div class="col d-flex gap-2">
-				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" class="btn btn-info align-self-start">Show all products by this farm</a>
+				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" asp-route-farmName="@Model.Farm.Name" class="btn btn-info align-self-start">Show all products by this farm</a>
 				<a asp-controller="Product" asp-action="All" class="btn btn-secondary align-self-end">Back to all products</a>
 			</div>
 		</div>

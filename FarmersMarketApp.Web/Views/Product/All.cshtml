@@ -4,11 +4,16 @@
 
 @{
 	var hasFarmerId = ViewData["farmerId"] != null;
+	var hasFarmName = ViewData["farmName"] != null;
 	if (hasFarmerId)
 	{
         ViewData["Title"] = $"All products from {ViewData["farmerFullName"]}";
 	}
-	else
+    else if (hasFarmName)
+	{
+		ViewData["Title"] = $"All products from {ViewData["farmName"]}";
+	}
+    else
 	{
 		ViewData["Title"] = "All products";
 	}

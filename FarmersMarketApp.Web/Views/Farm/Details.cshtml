@@ -41,7 +41,7 @@
 			</p>
 		<div>
 			<a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@Model.Id" class="btn btn-warning ">Edit Farm Info</a>
-			<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.Id" class="btn btn-success">Show all farm products</a>
+			<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.Id" asp-route-farmName="@Model.Name" class="btn btn-success">Show all farm products</a>
 		</div>
 	</div>
 </div>
