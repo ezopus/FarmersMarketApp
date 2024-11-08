@@ -6,7 +6,7 @@
 @inject IFarmerService FarmerService
 
 @{
-	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(Guid.Parse(User.GetId()));
+	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(Guid.Parse(User.GetId())) ?? null;
 	var hasFarmerId = ViewData["farmerId"] != null;
 	var hasFarmName = ViewData["farmName"] != null;
 	if (hasFarmerId)
@@ -64,7 +64,7 @@
 						</p>
 					}
 					<div class="d-flex justify-content-between mt-auto">
-						@if (User?.Identity?.IsAuthenticated == true && isUserFarmer == null)
+						@if (User?.Identity?.IsAuthenticated == true && !isUserFarmer.HasValue)
 						{
 							<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="btn btn-success w-100">Buy</a>
 						}
