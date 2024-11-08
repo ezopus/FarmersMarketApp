@@ -1,8 +1,12 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.ProductViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.Web.Extensions
 @model IEnumerable<ProductInfoViewModel>
+@inject IFarmerService FarmerService
 
 @{
+	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(Guid.Parse(User.GetId()));
 	var hasFarmerId = ViewData["farmerId"] != null;
 	var hasFarmName = ViewData["farmName"] != null;
 	if (hasFarmerId)
@@ -60,18 +64,12 @@
 						</p>
 					}
 					<div class="d-flex justify-content-between mt-auto">
-						@if (User?.Identity?.IsAuthenticated == true)
+						@if (User?.Identity?.IsAuthenticated == true && isUserFarmer == null)
 						{
-							<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info me-2 w-50">Details</a>
-							<form asp-controller="Cart" asp-action="AddToCart" method="post" class="w-50">
-								<input type="hidden" name="id" value="@product.Id" />
-								<button type="submit" class="btn btn-success w-100">Buy</button>
-							</form>
+							<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="btn btn-success w-100">Buy</a>
 						}
-						else
-						{
-							<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info w-100">Details</a>
-						}
+						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info w-100">Details</a>
+
 					</div>
 				</div>
 			</div>
