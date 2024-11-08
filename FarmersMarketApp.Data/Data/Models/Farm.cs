@@ -44,5 +44,8 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
         public virtual ICollection<FarmerFarm> FarmersFarms { get; set; } = new List<FarmerFarm>();
 
         public virtual ICollection<Product> Products { get; set; } = null!;
+
+        [Comment("Boolean flag for farm soft deletion")]
+        public bool IsDeleted { get; set; } = false;
     }
 }
