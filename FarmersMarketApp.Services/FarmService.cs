@@ -211,5 +211,34 @@ namespace FarmersMarketApp.Services
 				})
 				.ToListAsync();
 		}
+
+		public async Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel()
+		{
+			var farms = await repository
+				.AllReadOnly<Farm>()
+				.Select(f => new AddProductFarmOptions()
+				{
+					Id = f.Id,
+					Name = f.Name,
+					Address = f.Address,
+					City = f.City,
+					ImageUrl = f.ImageUrl,
+				})
+				.ToListAsync();
+
+			var randomFarms = new List<AddProductFarmOptions>();
+			var random = new Random();
+			var counter = 0;
+
+			while (farms.Count > 1 && counter < 3)
+			{
+				var index = random.Next(0, farms.Count);
+				randomFarms.Add(farms[index]);
+				farms.RemoveAt(index);
+				counter++;
+			}
+
+			return randomFarms;
+		}
 	}
 }

@@ -18,5 +18,7 @@ namespace FarmersMarketApp.Services.Contracts
 		Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId);
 
 		Task<Guid?> CreateProductAsync(AddProductViewModel model);
+
+
 	}
 }

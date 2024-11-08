@@ -22,5 +22,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<List<AddProductFarmOptions>> GetFarmNameAndIdForNewProductAsync(Guid farmerId);
 
+		Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel();
+
 	}
 }
