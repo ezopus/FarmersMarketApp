@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Services
 {
-	public class CategoryService : ICategoryService
-	{
-		private readonly IRepository repository;
-		public CategoryService(IRepository repository)
-		{
-			this.repository = repository;
-		}
-		public async Task<List<Category>> GetCategoriesAsync()
-		{
-			return await repository
-				.AllReadOnly<Category>()
-				.ToListAsync();
-		}
-	}
+    public class CategoryService : ICategoryService
+    {
+        private readonly IRepository repository;
+        public CategoryService(IRepository repository)
+        {
+            this.repository = repository;
+        }
+        public async Task<List<Category>> GetCategoriesAsync()
+        {
+            return await repository
+                .AllReadOnly<Category>()
+                .ToListAsync();
+        }
+    }
 }
