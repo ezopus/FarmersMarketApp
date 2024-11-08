@@ -22,6 +22,7 @@ namespace FarmersMarketApp.Services
 		{
 			return await repository
 				.AllAsync<Product>()
+				.Where(p => !p.IsDeleted)
 				.Select(p => new ProductInfoViewModel()
 				{
 					Id = p.Id.ToString(),
@@ -38,7 +39,7 @@ namespace FarmersMarketApp.Services
 					Origin = p.Origin ?? "",
 					ImageUrl = p.ImageUrl ?? "",
 					ProductionDate = p.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = p.ProductionDate.ToString("dd-MM-yyyy"),
+					ExpirationDate = p.ExpirationDate.ToString("dd-MM-yyyy"),
 				})
 				.ToListAsync();
 		}
@@ -48,6 +49,7 @@ namespace FarmersMarketApp.Services
 		{
 			var product = await repository
 				.AllReadOnly<Product>()
+				.Where(p => !p.IsDeleted)
 				.FirstOrDefaultAsync(pr => pr.Id == id);
 
 			if (product == null)
@@ -71,16 +73,95 @@ namespace FarmersMarketApp.Services
 				Origin = product.Origin ?? "",
 				ImageUrl = product.ImageUrl ?? "",
 				ProductionDate = product.ProductionDate.ToString("dd-MM-yyyy"),
-				ExpirationDate = product.ProductionDate.ToString("dd-MM-yyyy"),
+				ExpirationDate = product.ExpirationDate.ToString("dd-MM-yyyy"),
 			};
 
 			return model;
 		}
 
+		//get one product by id to be edited
+		public async Task<AddProductViewModel?> GetProductToEditByIdAsync(Guid id)
+		{
+			var product = await repository
+				.AllAsync<Product>()
+				.Where(p => !p.IsDeleted)
+				.FirstOrDefaultAsync(pr => pr.Id == id);
+
+			if (product == null)
+			{
+				return null;
+			}
+
+			var model = new AddProductViewModel()
+			{
+				Id = product.Id,
+				Name = product.Name,
+				Description = product.Description,
+				ImageUrl = product.ImageUrl ?? "",
+				UnitType = product.UnitType.ToString(),
+				Size = product.Size,
+				Quantity = product.Quantity,
+				NetWeight = product.NetWeight,
+				Season = product.Season.ToString(),
+				ShippingWeight = product.ShippingWeight,
+				ProductionDate = product.ProductionDate.ToString("dd-MM-yyyy"),
+				ExpirationDate = product.ExpirationDate.ToString("dd-MM-yyyy"),
+				CategoryId = product.CategoryId,
+				Price = product.Price,
+				DiscountPercentage = (double)product.DiscountPercentage,
+				Barcode = product.Barcode ?? "",
+				Origin = product.Origin ?? "",
+				FarmId = product.FarmId,
+				FarmerId = product.FarmerId,
+			};
+
+			return model;
+		}
+
+		public async Task<bool?> UpdateEditedProductAsync(AddProductViewModel model)
+		{
+			var productToEdit = await repository
+				.GetByIdAsync<Product>(model.Id);
+
+			if (productToEdit == null || productToEdit.IsDeleted)
+			{
+				return false;
+			}
+
+			try
+			{
+				productToEdit.Name = model.Name;
+				productToEdit.Description = model.Description;
+				productToEdit.CategoryId = model.CategoryId;
+				productToEdit.Price = model.Price;
+				productToEdit.FarmId = model.FarmId;
+				productToEdit.DiscountPercentage = (decimal)model.DiscountPercentage;
+				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
+				productToEdit.Size = model.Size;
+				productToEdit.Quantity = model.Quantity;
+				productToEdit.Origin = model.Origin ?? "";
+				productToEdit.ImageUrl = model.ImageUrl ?? "";
+				productToEdit.ProductionDate = DateTime.ParseExact(model.ProductionDate,
+					DateTimeRequiredFormat, CultureInfo.InvariantCulture);
+				productToEdit.ExpirationDate = DateTime.ParseExact(model.ExpirationDate,
+					DateTimeRequiredFormat, CultureInfo.InvariantCulture);
+			}
+			catch
+			{
+				return false;
+			}
+
+			await repository.SaveChangesAsync();
+			return true;
+		}
+
 		//TODO: Implement correctly
 		public async Task<Product?> GetProductByNameAsync(string name)
 		{
-			return await repository.AllAsync<Product>().FirstOrDefaultAsync(pr => pr.Name == name);
+			return await repository
+				.AllAsync<Product>()
+				.Where(p => !p.IsDeleted)
+				.FirstOrDefaultAsync(pr => pr.Name == name);
 		}
 
 		//get all products made by specific farmer
@@ -105,7 +186,7 @@ namespace FarmersMarketApp.Services
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
 					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
 				})
 				.ToListAsync();
 		}
@@ -115,7 +196,7 @@ namespace FarmersMarketApp.Services
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farm.Id == Guid.Parse(farmId))
+				.Where(pr => pr.Farm.Id == Guid.Parse(farmId) && !pr.IsDeleted)
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -132,7 +213,7 @@ namespace FarmersMarketApp.Services
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
 					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
 				})
 				.ToListAsync();
 		}
@@ -142,7 +223,7 @@ namespace FarmersMarketApp.Services
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.CategoryId == categoryId)
+				.Where(pr => pr.CategoryId == categoryId && !pr.IsDeleted)
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -159,7 +240,7 @@ namespace FarmersMarketApp.Services
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
 					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
+					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
 				})
 				.ToListAsync(); ;
 		}

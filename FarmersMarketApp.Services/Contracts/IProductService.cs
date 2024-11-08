@@ -9,6 +9,10 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id);
 
+		Task<AddProductViewModel?> GetProductToEditByIdAsync(Guid id);
+
+		Task<bool?> UpdateEditedProductAsync(AddProductViewModel viewModel);
+
 		Task<Product?> GetProductByNameAsync(string name);
 
 		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId);

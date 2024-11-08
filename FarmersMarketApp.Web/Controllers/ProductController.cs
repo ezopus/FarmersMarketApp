@@ -141,17 +141,80 @@ namespace FarmersMarketApp.Web.Controllers
 			return View(model);
 		}
 
-		//TODO: Implement product edit
 		[HttpGet]
-		public async Task<IActionResult> Edit()
+		public async Task<IActionResult> Edit(Guid productId)
 		{
-			return View();
+			var model = await productService.GetProductToEditByIdAsync(productId);
+
+			if (model == null)
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			var currentUserId = Guid.Parse(User.GetId());
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			if (currentFarmerId == null)
+			{
+				return RedirectToAction(nameof(All));
+			}
+			var currentFarmerFarms = await farmService.GetFarmIdsByFarmerId(currentFarmerId.Value);
+
+			if (!currentFarmerFarms.Any(f => f.Equals(model.FarmId.ToString(), StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			model.Categories = await categoryService.GetCategoriesAsync();
+			model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
+			model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
+			model.Farms = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId.Value);
+
+			return View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(Guid productId)
+		public async Task<IActionResult> Edit(AddProductViewModel model)
 		{
-			return RedirectToAction(nameof(Details), new { productId });
+			var currentUserId = Guid.Parse(User.GetId());
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			if (!ModelState.IsValid)
+			{
+				model.Categories = await categoryService.GetCategoriesAsync();
+				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
+				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
+				return View(model);
+			}
+
+
+			//check if current user is farmer
+			if (currentFarmerId == null || model.FarmerId != currentFarmerId)
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			//check if current farmer is working on farm to add product to
+			var farmerFarms = await farmService.GetFarmIdsByFarmerId(currentFarmerId.Value);
+			if (!farmerFarms.Any())
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			var result = await productService.UpdateEditedProductAsync(model);
+
+			if (result == null)
+			{
+				return View(model);
+			}
+
+			return RedirectToAction("Details", "Product", new { id = model.Id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete()
+		{
+			return View();
 		}
 	}
 }
