@@ -5,20 +5,18 @@
 @using FarmersMarketApp.Infrastructure.Data.Models
 @model IEnumerable<FarmInfoViewModel>
 @inject IFarmService FarmService
+@inject IFarmerService FarmerService
 
 @{
-	var farmIdsByFarmer = new List<string>();
-	if (ViewData["farmerId"] != null)
-	{
-		var farmerId = Guid.Parse(ViewData["farmerId"].ToString());
-		farmIdsByFarmer = (List<string>)await FarmService.GetFarmIdsByFarmerId(farmerId);
-	}
-    ViewData["Title"] = "All Farms";
+	var currentFarmedId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
+    var currentFarmerFarms = await FarmService.GetOnlyFarmIdsByFarmerId(currentFarmedId);
+	
+	ViewData["Title"] = "All Farms";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     <h2>@ViewData["Title"]</h2>
-    @if (ViewData["farmerId"] != null)
+    @if (!string.IsNullOrEmpty(currentFarmedId))
     {
         <a asp-controller="Farm" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Farm</a>
     }
@@ -44,10 +42,8 @@
                     <p class="card-text">@farm.Address</p>
                     <a asp-controller="Product" asp-action="All" asp-route-farmId="@farm.Id" asp-route-farmName="@farm.Name" class="btn btn-success mb-2 ">Show All Farm Products</a>
 	                <div class="d-flex justify-content-between mt-auto">
-		                @*
-                            //TODO: Add check if user is farmer of current farm
-                        *@
-		                @if (farmIdsByFarmer.Any(f => f == farm.Id))
+		                
+		                @if (currentFarmerFarms != null && currentFarmerFarms.Any(f => f == farm.Id))
 		                {
                             
 			                <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@farm.Id" class="btn btn-info me-2 w-100">Details</a>
