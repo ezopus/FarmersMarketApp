@@ -7,21 +7,21 @@ namespace FarmersMarketApp.Services.Contracts
 	{
 		Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
 
-		Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id);
+		Task<ProductInfoViewModel?> GetProductByIdAsync(string id);
 
-		Task<AddProductViewModel?> GetProductToEditByIdAsync(Guid id);
+		Task<AddProductViewModel?> GetProductToEditByIdAsync(string id);
 
 		Task<bool?> UpdateEditedProductAsync(AddProductViewModel viewModel);
 
 		Task<Product?> GetProductByNameAsync(string name);
 
-		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId);
+		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmerIdAsync(string farmerId);
 
-		Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(string farmId);
+		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmIdAsync(string farmId);
 
-		Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId);
+		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId);
 
-		Task<Guid?> CreateProductAsync(AddProductViewModel model);
+		Task<string?> CreateProductAsync(AddProductViewModel model);
 
 
 	}

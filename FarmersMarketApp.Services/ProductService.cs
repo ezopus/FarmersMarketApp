@@ -45,12 +45,12 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get one product by id
-		public async Task<ProductInfoViewModel?> GetProductByIdAsync(Guid id)
+		public async Task<ProductInfoViewModel?> GetProductByIdAsync(string id)
 		{
 			var product = await repository
 				.AllReadOnly<Product>()
 				.Where(p => !p.IsDeleted)
-				.FirstOrDefaultAsync(pr => pr.Id == id);
+				.FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(id));
 
 			if (product == null)
 			{
@@ -80,12 +80,12 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get one product by id to be edited
-		public async Task<AddProductViewModel?> GetProductToEditByIdAsync(Guid id)
+		public async Task<AddProductViewModel?> GetProductToEditByIdAsync(string id)
 		{
 			var product = await repository
 				.AllAsync<Product>()
 				.Where(p => !p.IsDeleted)
-				.FirstOrDefaultAsync(pr => pr.Id == id);
+				.FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(id));
 
 			if (product == null)
 			{
@@ -94,7 +94,7 @@ namespace FarmersMarketApp.Services
 
 			var model = new AddProductViewModel()
 			{
-				Id = product.Id,
+				Id = product.Id.ToString(),
 				Name = product.Name,
 				Description = product.Description,
 				ImageUrl = product.ImageUrl ?? "",
@@ -108,11 +108,11 @@ namespace FarmersMarketApp.Services
 				ExpirationDate = product.ExpirationDate.ToString("dd-MM-yyyy"),
 				CategoryId = product.CategoryId,
 				Price = product.Price,
-				DiscountPercentage = (double)product.DiscountPercentage,
+				DiscountPercentage = product.DiscountPercentage ?? 0,
 				Barcode = product.Barcode ?? "",
 				Origin = product.Origin ?? "",
-				FarmId = product.FarmId,
-				FarmerId = product.FarmerId,
+				FarmId = product.FarmId.ToString(),
+				FarmerId = product.FarmerId.ToString(),
 			};
 
 			return model;
@@ -121,7 +121,7 @@ namespace FarmersMarketApp.Services
 		public async Task<bool?> UpdateEditedProductAsync(AddProductViewModel model)
 		{
 			var productToEdit = await repository
-				.GetByIdAsync<Product>(model.Id);
+				.GetByIdAsync<Product>(Guid.Parse(model.Id));
 
 			if (productToEdit == null || productToEdit.IsDeleted)
 			{
@@ -134,8 +134,7 @@ namespace FarmersMarketApp.Services
 				productToEdit.Description = model.Description;
 				productToEdit.CategoryId = model.CategoryId;
 				productToEdit.Price = model.Price;
-				productToEdit.FarmId = model.FarmId;
-				productToEdit.DiscountPercentage = (decimal)model.DiscountPercentage;
+				productToEdit.DiscountPercentage = model.DiscountPercentage;
 				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
 				productToEdit.Size = model.Size;
 				productToEdit.Quantity = model.Quantity;
@@ -165,11 +164,11 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made by specific farmer
-		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmerIdAsync(Guid farmerId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmerIdAsync(string farmerId)
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farmer.Id == farmerId)
+				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId))
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -192,7 +191,7 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made at specific farm
-		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByFarmIdAsync(string farmId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmIdAsync(string farmId)
 		{
 			return await repository
 				.AllAsync<Product>()
@@ -219,7 +218,7 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products from specific category
-		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsByCategoryIdAsync(int categoryId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId)
 		{
 			return await repository
 				.AllAsync<Product>()
@@ -245,7 +244,7 @@ namespace FarmersMarketApp.Services
 				.ToListAsync(); ;
 		}
 
-		public async Task<Guid?> CreateProductAsync(AddProductViewModel model)
+		public async Task<string?> CreateProductAsync(AddProductViewModel model)
 		{
 			var newProduct = new Product
 			{
@@ -257,19 +256,19 @@ namespace FarmersMarketApp.Services
 				Quantity = model.Quantity,
 				NetWeight = model.NetWeight,
 				ShippingWeight = model.ShippingWeight,
-				Season = Enum.TryParse<Season>(model.Season, true, out Season result)
-					? result
-					: null,
+				Season = Enum.TryParse(model.Season, true, out Season result)
+				  ? result
+				  : null,
 				ProductionDate = DateTime.ParseExact(model.ProductionDate, DateTimeRequiredFormat,
-					CultureInfo.CurrentCulture),
+				  CultureInfo.CurrentCulture),
 				ExpirationDate = DateTime.ParseExact(model.ExpirationDate, DateTimeRequiredFormat,
-					CultureInfo.CurrentCulture),
+				  CultureInfo.CurrentCulture),
 				CategoryId = model.CategoryId,
 				Price = model.Price,
-				HasDiscount = model.DiscountPercentage > 0 ? true : false,
-				DiscountPercentage = (decimal)model.DiscountPercentage,
-				FarmerId = model.FarmerId,
-				FarmId = model.FarmId,
+				HasDiscount = model.DiscountPercentage > 0,
+				DiscountPercentage = model.DiscountPercentage,
+				FarmerId = Guid.Parse(model.FarmerId),
+				FarmId = Guid.Parse(model.FarmId),
 				Barcode = model.Barcode,
 				ImageUrl = model.ImageUrl,
 				Origin = model.Origin,
@@ -278,7 +277,7 @@ namespace FarmersMarketApp.Services
 			await repository.AddAsync(newProduct);
 			await repository.SaveChangesAsync();
 
-			return newProduct.Id;
+			return newProduct.Id.ToString();
 		}
 	}
 }
