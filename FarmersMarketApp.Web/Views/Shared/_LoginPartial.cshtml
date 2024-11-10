@@ -8,6 +8,12 @@
 @inject IFarmerService FarmerService
 
 @{
+	var currentUserId = User.GetId();
+	var firstName = string.Empty;
+	if (!string.IsNullOrEmpty(currentUserId))
+	{
+		firstName = UserManager.Users.FirstOrDefault(u => u.Id == Guid.Parse(currentUserId)).FirstName;
+	}
 	var isUserFarmer = string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
 }
 
@@ -15,15 +21,18 @@
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name! </a>
+			@if (User.Identity.IsAuthenticated && !string.IsNullOrEmpty(firstName))
+			{
+				<a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hi, @firstName!</a>
+			}
 		</li>
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-area="" asp-page="/Order">My Orders</a>
+			<a class="nav-link text-light" asp-controller="Order" asp-action="All">My Orders</a>
 		</li>
 		if (!isUserFarmer)
 		{
 			<li class="nav-item d-flex justify-content-center align-items-center fw-bold">
-				<a asp-controller="Cart" asp-action="MyCart" class="nav-link text-light">
+				<a asp-controller="Order" asp-action="All" class="nav-link text-light">
 					Cart <i class="fa-solid fa-cart-shopping"></i>
 				</a>
 			</li>
