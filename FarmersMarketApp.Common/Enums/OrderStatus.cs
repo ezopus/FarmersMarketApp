@@ -2,10 +2,11 @@
 
 public enum OrderStatus
 {
-	Successful,
+	Open = 1,
+	Pending,
+	Completed,
 	Failed,
 	Cancelled,
-	Delivered,
 	Lost,
 	Returned,
 }
