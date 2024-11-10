@@ -19,7 +19,7 @@
 			public const int ProductNameMaxLength = 60;
 			public const int ProductNameMinLength = 2;
 
-			public const int ProductDescriptionMinLength = 10;
+			public const int ProductDescriptionMinLength = 5;
 			public const int ProductDescriptionMaxLength = 500;
 
 			public const double ProductSizeMin = 0.01;
