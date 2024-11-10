@@ -280,5 +280,10 @@ namespace FarmersMarketApp.Services
 
 			return newProduct.Id.ToString();
 		}
+
+		public async Task<Product?> GetProductForOrderByProductIdAsync(string productId)
+		{
+			return await repository.AllReadOnly<Product>().FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(productId));
+		}
 	}
 }

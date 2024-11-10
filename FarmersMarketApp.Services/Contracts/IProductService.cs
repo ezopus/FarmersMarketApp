@@ -23,6 +23,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<string?> CreateProductAsync(AddProductViewModel model);
 
+		Task<Product?> GetProductForOrderByProductIdAsync(string productId);
 
 	}
 }
