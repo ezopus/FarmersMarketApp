@@ -6,11 +6,11 @@
 @{
 	var openOrder = Model.FirstOrDefault(o => o.OrderStatus == OrderStatus.Open);
 	var completedOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Completed);
-	var successfulOrders = Model.Where(o => o.OrderStatus == OrderStatus.Completed);
+	var cancelledOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Cancelled);
 }
 
 <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
-	<button type="button" class="btn btn-primary">All orders</button>
+	<button type="button" class="btn btn-primary" id="ordersBtn">All orders</button>
 	<div class="btn-group" role="group">
 		<button id="btnGroupDrop" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 		<div class="dropdown-menu" aria-labelledby="btnGroupDrop" style="">
@@ -24,10 +24,10 @@
 
 @if (openOrder != null)
 {
-	<table class="table table-hover table-striped align-middle text-center">
+	<table class="table table-hover table-striped align-middle text-center" id="openOrdersTable">
 		<thead>
 			<tr>
-				<th class="table-info">Current order:</th>
+				<th colspan="7" class="table-info">Current order</th>
 			</tr>
 			<tr>
 				<th colspan="2" class="text-center">Product</th>
@@ -74,47 +74,96 @@
 	</table>
 }
 
-<table class="table table-hover table-striped align-middle text-center">
+@* COMPLETED ORDERS TABLE *@
+
+<table class="table table-hover table-striped align-middle text-center" id="completedOrdersTable">
 	<thead>
-		<tr colspan="7">
-			<th class="table-default">Completed orders</th>
-		</tr>
-		<tr>
-			<th>Order number</th>
-			<th>Order placed</th>
-			<th>Total items</th>
-			<th>Total discount</th>
-			<th>Total price</th>
-			<th colspan="2"></th>
-		</tr>
+	<tr colspan="7">
+		<th colspan="7" class="table-default">Completed orders</th>
+	</tr>
+	<tr>
+		<th>Order number</th>
+		<th>Order placed</th>
+		<th>Total items</th>
+		<th>Total discount</th>
+		<th>Total price</th>
+		<th colspan="2"></th>
+	</tr>
 	</thead>
 	@if (completedOrders.Any())
 	{
 		<tbody>
-			@foreach (var order in completedOrders)
-			{
-				<tr class="table-light" scope="row">
-					<td>Order @order.Id</td>
-					<td>@order.CreateDate</td>
-					<td>@order.TotalUnitItems</td>
-					<td>@order.TotalPrice</td>
-					<td>@order.TotalDiscount</td>
-					<td colspan="2" class="">
-						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
-					</td>
-				</tr>
-			}
+		@foreach (var order in completedOrders)
+		{
+			<tr class="table-light" scope="row">
+				<td>Order @order.Id</td>
+				<td>@order.CreateDate</td>
+				<td>@order.TotalUnitItems</td>
+				<td>@order.TotalPrice</td>
+				<td>@order.TotalDiscount</td>
+				<td colspan="2" class="">
+					<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+				</td>
+			</tr>
+		}
 
 		</tbody>
 	}
 	else
 	{
 		<tbody>
+		<tr class="table-light" scope="row">
+			<td colspan="7" class="pt-4 pb-4">
+				No previous orders available.
+			</td>
+		</tr>
+		</tbody>
+	}
+</table>
+
+
+@* CANCELLED ORDERS TABLE *@
+<table class="table table-hover table-striped align-middle text-center" id="cancelledOrdersTable">
+	<thead>
+	<tr colspan="7">
+		<th colspan="7" class="table-warning">Cancelled orders</th>
+	</tr>
+	<tr>
+		<th>Order number</th>
+		<th>Order placed</th>
+		<th>Total items</th>
+		<th>Total discount</th>
+		<th>Total price</th>
+		<th colspan="2"></th>
+	</tr>
+	</thead>
+	@if (cancelledOrders.Any())
+	{
+		<tbody>
+			@foreach (var order in cancelledOrders)
+		{
 			<tr class="table-light" scope="row">
-				<td colspan="7" class="pt-4 pb-4">
-					No previous orders available.
+				<td>Order @order.Id</td>
+				<td>@order.CreateDate</td>
+				<td>@order.TotalUnitItems</td>
+				<td>@order.TotalPrice</td>
+				<td>@order.TotalDiscount</td>
+				<td colspan="2" class="">
+					<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
 				</td>
 			</tr>
+		}
+
+		</tbody>
+	}
+	else
+	{
+		<tbody>
+		<tr class="table-light" scope="row">
+			<td colspan="7" class="pt-4 pb-4">
+				No previous orders available.
+			</td>
+		</tr>
 		</tbody>
 	}
 </table>
