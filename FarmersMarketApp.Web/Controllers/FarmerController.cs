@@ -32,6 +32,7 @@ namespace FarmersMarketApp.Web.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var farmers = await farmerService.GetAllFarmersAsync();
+
 			return View(farmers);
 		}
 
@@ -39,7 +40,14 @@ namespace FarmersMarketApp.Web.Controllers
 		public async Task<IActionResult> Become()
 		{
 			//get current user id
-			var currentUserId = Guid.Parse(User.GetId());
+			var currentUserId = User.GetId();
+
+			//check if user is logged in
+			if (string.IsNullOrEmpty(currentUserId))
+			{
+				return RedirectToPage("/Account/Login", new { area = "Identity" });
+			}
+
 			var isFarmer = await userService.IsUserFarmerAsync(currentUserId);
 
 			//if user is already a farmer redirect to my farms
@@ -52,8 +60,19 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		//todo: add anti-forgery token here
 		public async Task<IActionResult> Become(FarmerBecomeViewModel model)
 		{
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if user is farmer, if he already is, redirect him to his farms
+			if (!string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("MyFarms", "Farmer");
+			}
+
 			//check model state
 			if (!ModelState.IsValid)
 			{
@@ -68,18 +87,13 @@ namespace FarmersMarketApp.Web.Controllers
 				return View(model);
 			}
 
-			//get current user
-			var currentUserId = Guid.Parse(User.GetId());
-			var isFarmer = await userService.IsUserFarmerAsync(currentUserId);
-
-			//check if user exists or if yes if user is already a farmer and redirect if so
-			if (isFarmer)
-			{
-				return RedirectToAction(nameof(Index), "Home");
-			}
-
 			//async create new farmer entity
-			await farmerService.BecomeFarmerAsync(currentUserId, model);
+			var result = await farmerService.BecomeFarmerAsync(currentUserId, model);
+
+			if (string.IsNullOrEmpty(result))
+			{
+				return View(model);
+			}
 
 			//redirect to my farms
 			return RedirectToAction(nameof(MyFarms));
@@ -89,34 +103,26 @@ namespace FarmersMarketApp.Web.Controllers
 		//[MustBeFarmer]
 		public async Task<IActionResult> MyFarms()
 		{
-			//get current user
-			var currentUser = await userService.GetCurrentUserByIdAsync(Guid.Parse(User.GetId()));
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
 
-			//check if user exists, redirect to index if not existing
-			if (currentUser == null)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-			//check if user is a farmer, if not send him to become one
-			if (!currentUser.IsFarmer)
+			//check if farmer exists, redirect to become one if not
+			if (string.IsNullOrEmpty(currentFarmerId))
 			{
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			//get corresponding farmer Id based on current UserId
-			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
-
 			//get all farms for current farmer
-			var farms = await farmService.GetFarmsByFarmerIdAsync(currentFarmerId!.Value);
+			var farms = await farmService.GetAllFarmsByFarmerIdAsync(currentFarmerId);
 
 			//check if farms list is empty, if yes redirect to add farm
-			if (!farms.Any())
+			if (farms == null || !farms.Any())
 			{
 				return RedirectToAction("Add", "Farm");
 			}
 
-			//return model with all farms to render view
+			//return model with all farms of current farmer
 			return View(farms);
 		}
 
@@ -124,29 +130,21 @@ namespace FarmersMarketApp.Web.Controllers
 		//[MustBeFarmer]
 		public async Task<IActionResult> MyProducts()
 		{
-			//get current user
-			var currentUser = await userService.GetCurrentUserByIdAsync(Guid.Parse(User.GetId()));
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
 
-			//check if user exists, redirect to index if not existing
-			if (currentUser == null)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-			//check if user is a farmer, if not send him to become one
-			if (!currentUser.IsFarmer)
+			//check if farmer exists, redirect to become one if not
+			if (string.IsNullOrEmpty(currentFarmerId))
 			{
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			//get corresponding farmer Id based on current UserId
-			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUser.Id);
-
 			//get all products for current farmer
-			var products = await productService.GetProductsByFarmerIdAsync(currentFarmerId!.Value);
+			var products = await productService.GetProductsByFarmerIdAsync(currentFarmerId);
 
 			//check if products list is empty, if yes redirect to add product
-			if (!products.Any())
+			if (products == null || !products.Any())
 			{
 				return RedirectToAction("Add", "Product");
 			}
