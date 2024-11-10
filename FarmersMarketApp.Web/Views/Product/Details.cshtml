@@ -11,7 +11,14 @@
 		<div class="col-4">
 			<div class="text-center">
 				<h2>@Model.Name</h2>
-				<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name" />
+				@if (!string.IsNullOrEmpty(@Model.ImageUrl))
+				{
+					<img src="@Model.ImageUrl" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name" />
+				}
+				else
+				{
+					<img src="/img/no-image.png" class="mb-3 mt-2 card-img-top img-fluid rounded" alt="@Model.Name" />
+				}
 				<p><em>@Model.Description</em></p>
 				<p>Made by <a asp-controller="Farm" asp-action="Details" asp-route-farmId="@Model.FarmId">@Model.Farm.Name</a></p>
 				<p><small>Produced on: @Model.ProductionDate, Best before: @Model.ExpirationDate</small></p>
