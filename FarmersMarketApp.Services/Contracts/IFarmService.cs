@@ -1,5 +1,4 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+﻿using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
@@ -8,19 +7,19 @@ namespace FarmersMarketApp.Services.Contracts
 	{
 		Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync();
 
-		Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(Guid id);
+		Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(string id);
 
-		Task<AddFarmViewModel> GetFarmToEditByIdAsync(Guid id);
+		Task<AddFarmViewModel?> GetFarmToEditByIdAsync(string id);
 
-		Task<IEnumerable<FarmInfoViewModel?>> GetFarmsByFarmerIdAsync(Guid farmerId);
+		Task<ICollection<FarmInfoViewModel>?> GetAllFarmsByFarmerIdAsync(string farmerId);
 
-		Task<ICollection<string>> GetFarmIdsByFarmerId(Guid farmerId);
+		Task<ICollection<string>?> GetOnlyFarmIdsByFarmerId(string farmerId);
 
-		Task<Farm> AddNewFarmAsync(AddFarmViewModel model, Guid farmerId);
+		Task<string> AddNewFarmAsync(AddFarmViewModel model, string farmerId);
 
 		Task<bool> EditFarmAsync(AddFarmViewModel model);
 
-		Task<List<AddProductFarmOptions>> GetFarmNameAndIdForNewProductAsync(Guid farmerId);
+		Task<IEnumerable<AddProductFarmOptions>?> GetFarmNameAndIdForNewProductAsync(string farmerId);
 
 		Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel();
 
