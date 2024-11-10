@@ -33,6 +33,10 @@ namespace FarmersMarketApp.Web.Controllers
 			//add farm info to json object
 			foreach (var f in farms)
 			{
+				if (string.IsNullOrEmpty(f.ImageUrl))
+				{
+					f.ImageUrl = "/img/no-image.png";
+				}
 				farmsForApi.Add(f.Id.ToString(), new { f.Name, f.Address, f.City, f.ImageUrl });
 			}
 

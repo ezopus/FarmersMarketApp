@@ -81,7 +81,7 @@ namespace FarmersMarketApp.Web.Controllers
 			model.Categories = await categoryService.GetCategoriesAsync();
 			model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
 			model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
-			model.Farms = farmerFarms;
+			model.Farms = (List<AddProductFarmOptions>)farmerFarms;
 			model.FarmerId = farmerId;
 
 			return View(model);
@@ -244,6 +244,7 @@ namespace FarmersMarketApp.Web.Controllers
 				model.Categories = await categoryService.GetCategoriesAsync();
 				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
 				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
+				model.Farms = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId);
 				return View(model);
 			}
 

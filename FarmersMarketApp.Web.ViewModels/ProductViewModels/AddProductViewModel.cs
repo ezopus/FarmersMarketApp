@@ -59,7 +59,7 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 		public bool HasDiscount { get; set; }
 
 		//percentage cannot be more than 100 and less than 1 percent, no point of constants
-		[Range(typeof(string), "0.0", "100.0")]
+		[Range(0.0, 100.0)]
 		public decimal DiscountPercentage { get; set; }
 
 		public string? Barcode { get; set; }
