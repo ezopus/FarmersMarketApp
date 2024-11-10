@@ -2,13 +2,13 @@
 
 namespace FarmersMarketApp.Services.Contracts
 {
-    public interface IFarmerService
-    {
-        Task<Guid> BecomeFarmerAsync(Guid userId, FarmerBecomeViewModel model);
+	public interface IFarmerService
+	{
+		Task<string?> BecomeFarmerAsync(string userId, FarmerBecomeViewModel model);
 
-        Task<Guid?> GetFarmerIdByUserIdAsync(Guid userId);
-        Task<FarmerInfoViewModel?> GetFarmerIdByAsync(string farmerId);
+		Task<string?> GetFarmerIdByUserIdAsync(string userId);
+		Task<FarmerInfoViewModel?> GetFarmerByIdAsync(string farmerId);
 
-        Task<IEnumerable<FarmerInfoViewModel>> GetAllFarmersAsync();
-    }
+		Task<IEnumerable<FarmerInfoViewModel>> GetAllFarmersAsync();
+	}
 }

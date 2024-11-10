@@ -18,14 +18,19 @@ namespace FarmersMarketApp.Services
 		}
 
 		//become a farmer post action
-		public async Task<Guid> BecomeFarmerAsync(Guid userId, FarmerBecomeViewModel model)
+		public async Task<string?> BecomeFarmerAsync(string userId, FarmerBecomeViewModel model)
 		{
 			var user = await userService.GetCurrentUserByIdAsync(userId);
+
+			if (user == null)
+			{
+				return null;
+			}
 
 			var newFarmer = new Farmer()
 			{
 				Id = Guid.NewGuid(),
-				UserId = user!.Id,
+				UserId = user.Id,
 				CompanyName = model.CompanyName,
 				CompanyAddress = model.CompanyAddress,
 				CompanyRegistrationNumber = model.CompanyRegistrationNumber,
@@ -35,24 +40,30 @@ namespace FarmersMarketApp.Services
 
 			user.IsFarmer = true;
 
-			await repository.AddAsync<Farmer>(newFarmer);
+			await repository.AddAsync(newFarmer);
 			await repository.SaveChangesAsync();
 
-			return newFarmer.Id;
+			return newFarmer.Id.ToString();
 		}
 
-		//get specific farmer id if exists
-		public async Task<Guid?> GetFarmerIdByUserIdAsync(Guid userId)
+		//get specific farmer id if user id exists
+		public async Task<string?> GetFarmerIdByUserIdAsync(string userId)
 		{
+			if (string.IsNullOrEmpty(userId))
+			{
+				return null;
+			}
+
 			var farmer = await repository
 				.AllReadOnly<Farmer>()
-				.FirstOrDefaultAsync(f => f.UserId == userId);
+				.FirstOrDefaultAsync(f => f.UserId == Guid.Parse(userId));
 
-			return farmer?.Id;
+			return farmer?.Id.ToString();
 		}
 
-		public async Task<FarmerInfoViewModel?> GetFarmerIdByAsync(string farmerId)
+		public async Task<FarmerInfoViewModel?> GetFarmerByIdAsync(string farmerId)
 		{
+			//TODO: think about HasProducts and how to use it
 			return await repository
 				.AllReadOnly<Farmer>()
 				.Where(f => f.Id.ToString() == farmerId)
@@ -60,8 +71,8 @@ namespace FarmersMarketApp.Services
 				{
 					Id = f.Id.ToString(),
 					FullName = f.User.FirstName + " " + f.User.LastName,
-					CompanyName = f.CompanyName,
-					CompanyAddress = f.CompanyAddress,
+					CompanyName = f.CompanyName ?? string.Empty,
+					CompanyAddress = f.CompanyAddress ?? string.Empty,
 					ImageUrl = f.ImageUrl,
 					AcceptsDeliveries = f.AcceptsDeliveries,
 					HasProducts = f.HasProducts
@@ -78,8 +89,8 @@ namespace FarmersMarketApp.Services
 				{
 					Id = f.Id.ToString(),
 					FullName = f.User.FirstName + " " + f.User.LastName,
-					CompanyName = f.CompanyName!,
-					CompanyAddress = f.CompanyAddress!,
+					CompanyName = f.CompanyName ?? string.Empty,
+					CompanyAddress = f.CompanyAddress ?? string.Empty,
 					ImageUrl = f.ImageUrl,
 					AcceptsDeliveries = f.AcceptsDeliveries,
 					HasProducts = f.HasProducts,
