@@ -6,10 +6,10 @@
 @inject IFarmerService FarmerService
 
 @{
-	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(Guid.Parse(User.GetId())) ?? null;
-	var hasFarmerId = ViewData["farmerId"] != null;
+	var hasFarmerId = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
+	var farmerId = ViewData["farmerId"] != null;
 	var hasFarmName = ViewData["farmName"] != null;
-	if (hasFarmerId)
+	if (farmerId)
 	{
 		ViewData["Title"] = $"All products from {ViewData["farmerFullName"]}";
 	}
@@ -27,7 +27,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
 	<h2>@ViewData["Title"]</h2>
-	@if (User?.Identity?.IsAuthenticated == true)
+	@if (User?.Identity?.IsAuthenticated == true && hasFarmerId)
 	{
 		<a asp-controller="Product" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Product</a>
 	}
@@ -64,7 +64,7 @@
 						</p>
 					}
 					<div class="d-flex justify-content-between mt-auto">
-						@if (User?.Identity?.IsAuthenticated == true && !isUserFarmer.HasValue)
+						@if (!hasFarmerId)
 						{
 							<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="btn btn-success w-100">Buy</a>
 						}

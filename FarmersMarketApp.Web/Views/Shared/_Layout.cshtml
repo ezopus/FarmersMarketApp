@@ -1,13 +1,11 @@
 ﻿@using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
-@inject IUserService userService
+@inject IUserService UserService
+@inject IFarmerService FarmerService
 @{
-	var userLogged = Guid.TryParse(User.GetId(), out var currentUserId);
-	bool isUserFarmer = false;
-	if (User.Identity.IsAuthenticated)
-	{
-		isUserFarmer = await userService.IsUserFarmerAsync(currentUserId);
-	}
+	var currentUserId = User.GetId();
+	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(currentUserId);
+	var isUserFarmer = !string.IsNullOrEmpty(currentFarmerId);
 }
 
 <!DOCTYPE html>
@@ -32,9 +30,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 	                <ul class="navbar-nav flex-grow-1">
-		                <li class="nav-item">
-			                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-		                </li>
+		                
 		                @if (!User.Identity.IsAuthenticated)
 		                {
 		                <li class="nav-item">
