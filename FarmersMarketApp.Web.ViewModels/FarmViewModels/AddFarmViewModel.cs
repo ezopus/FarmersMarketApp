@@ -6,7 +6,7 @@ namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
 {
 	public class AddFarmViewModel
 	{
-		public Guid Id { get; set; }
+		public string Id { get; set; } = string.Empty;
 
 		[StringLength(FarmNameMaxLength,
 			MinimumLength = FarmNameMinLength,
