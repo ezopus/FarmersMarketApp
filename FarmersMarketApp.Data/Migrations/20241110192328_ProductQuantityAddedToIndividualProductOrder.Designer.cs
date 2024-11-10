@@ -4,6 +4,7 @@ using FarmersMarketApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110192328_ProductQuantityAddedToIndividualProductOrder")]
+    partial class ProductQuantityAddedToIndividualProductOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,7 +116,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82a0b13b-7dc0-4da8-93bc-0760a86a6ff7",
+                            ConcurrencyStamp = "505817c0-bc00-4c72-b06a-f2957a63524d",
                             Email = "dwight@office.com",
                             EmailConfirmed = true,
                             FirstName = "Dwight",
@@ -122,7 +125,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DWIGHT@OFFICE.COM",
                             NormalizedUserName = "DWIGHT@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOxa5OPF26fGxCzCuoVpzdqKc59Bv+SfpgAa1lFM6jIywXrr1stRp078gqBxoy2GIA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA92M1E+yqxXTGbKIT4vn8ddE6hx1Ljal0pQIL6vmnEjKxudcgw+uziFdwEbrk7hXw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "618a1cc6-6284-4702-871c-1e58fe74f3f8",
                             TwoFactorEnabled = false,
@@ -132,7 +135,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a7671c7-5f9b-4a1c-a6c2-acdc7224f9cd",
+                            ConcurrencyStamp = "4be98aeb-c0cc-47c8-90aa-24cd395162fe",
                             Email = "kevin@office.com",
                             EmailConfirmed = true,
                             FirstName = "Kevin",
@@ -141,7 +144,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KEVIN@OFFICE.COM",
                             NormalizedUserName = "KEVIN@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG+q2n7NAls+CIEibKiNu4J6LZTI8RKtaq9ucMakGK6kLPv14GZ4fFuOmR1rDzZ+Ig==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIoRCo2nEZnvcAzw3ORRqykqqzziGYE1C2Aj8Wrw7BotYCM91QylLQE9uuhSwOTxMQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "fd625ce4-2475-4d80-a609-df9d3ddf4598",
                             TwoFactorEnabled = false,
@@ -151,7 +154,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "56ce5abc-bd75-4dc5-b101-e204b52b9b04",
+                            ConcurrencyStamp = "9df6f28e-d4ed-4f7a-a5bc-5470f15c3f99",
                             Email = "michael@office.com",
                             EmailConfirmed = true,
                             FirstName = "Michael",
@@ -160,7 +163,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MICHAEL@OFFICE.COM",
                             NormalizedUserName = "MICHAEL@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHpWbFjdd13o/Py5b7Tmap84KuEKsCzN3TIJlTWN3wYQriLy1//G+u45LjtBSF4IUg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEVwqCdRujdWSTXKGauLDVg0ebumaPy3PrZwXVvICKZ/ajaTRYlWnei3LbdHR84d7Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "288b8da7-b517-4f95-af28-3916b878adc1",
                             TwoFactorEnabled = false,
@@ -170,7 +173,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3d666f8e-38cd-4f94-97e3-c7fd9aa5bd45",
+                            ConcurrencyStamp = "de66d87f-4946-4a93-a79e-e9b821bbc9bf",
                             Email = "jim@office.com",
                             EmailConfirmed = true,
                             FirstName = "Jim",
@@ -179,7 +182,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JIM@OFFICE.COM",
                             NormalizedUserName = "JIM@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMxUUtrdrNkZ48lQbtwchi7ges/oEiygfxqHUJTKXcvzvzEvomX7RvDmB1parMwp3g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOMQR1Jp9frEimiV4P0IbzWkZJeHwKgIrfdTcIzUG6FR9E4O84inF3EaKoZROeZpBA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "08f6ec97-4269-466d-b207-47e30c651036",
                             TwoFactorEnabled = false,
@@ -189,7 +192,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d115ffb4-03a8-417b-a953-a5d6b1bb58be",
+                            ConcurrencyStamp = "758e8918-2497-4bce-870d-fb2abad756cf",
                             Email = "creed@office.com",
                             EmailConfirmed = true,
                             FirstName = "Creed",
@@ -198,7 +201,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CREED@OFFICE.COM",
                             NormalizedUserName = "CREED@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHUuwGld7D5+Eq5Wh9jK12ORfOjQGf66Ts78Jy0swiynl5MAhbnxOl/xEkPJMHDVpA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHbR69cYbJ3i2XKszge/DO9rEvAqBa66GM9m+cCB+kdY43bYR2A4y0JDyWLAyAX4AA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "a361e509-ad28-459e-b4c6-449937b3e998",
                             TwoFactorEnabled = false,
@@ -762,6 +765,22 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                     b.Property<Guid?>("PaymentId")
                         .HasColumnType("uniqueidentifier")
                         .HasComment("Unique payment Id gets inserted when order is processed successfully or remains empty if not.");
+
+                    b.Property<decimal?>("TotalDiscount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Total discount if applicable.");
+
+                    b.Property<double>("TotalNetWeight")
+                        .HasColumnType("float")
+                        .HasComment("Total net weight of all items in order.");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Total price of order including discounts.");
+
+                    b.Property<int>("TotalUnitItems")
+                        .HasColumnType("int")
+                        .HasComment("Total number of units of products contained in order.");
 
                     b.HasKey("Id");
 
@@ -1449,20 +1468,10 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasComment("Unique product identifier.");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Boolean check if product is part of an order which is deleted.");
-
-                    b.Property<decimal>("ProductDiscountAtTimeOfOrder")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Product discount at time of purchasing for statistical purposes.");
-
-                    b.Property<decimal>("ProductPriceAtTimeOfOrder")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Product price at time of purchasing for history purposes.");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductQuantity")
-                        .HasColumnType("int")
-                        .HasComment("Product quantity in order");
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
 
