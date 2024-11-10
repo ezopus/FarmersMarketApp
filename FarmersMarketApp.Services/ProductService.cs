@@ -144,6 +144,7 @@ namespace FarmersMarketApp.Services
 					DateTimeRequiredFormat, CultureInfo.InvariantCulture);
 				productToEdit.ExpirationDate = DateTime.ParseExact(model.ExpirationDate,
 					DateTimeRequiredFormat, CultureInfo.InvariantCulture);
+				productToEdit.FarmId = Guid.Parse(model.FarmId);
 			}
 			catch
 			{
