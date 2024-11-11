@@ -236,7 +236,9 @@ namespace FarmersMarketApp.Services
 					Name = f.Name,
 					Address = f.Address,
 					City = f.City,
-					ImageUrl = f.ImageUrl,
+					ImageUrl = !string.IsNullOrEmpty(f.ImageUrl)
+						? f.ImageUrl
+						: "/img/no-image.png",
 				})
 				.ToListAsync();
 
