@@ -70,8 +70,10 @@
 
 						<form class="d-flex mb-2" asp-controller="Order" asp-action="AddToCart" method="post">
 							<input type="hidden" name="productId" value="@product.Id"/>
-							<input id="productAmount" name="productAmount" type="number" class="form-control w-50 me-2" value="1"/>
-							<button class="btn btn-success w-50">Add to cart</button>
+							<input id="productAmount" name="productAmount" type="number" class="form-control w-25 me-2 text-end" style="-webkit-appearance: none; -moz-appearance: textfield;"value="1"/>
+							<button class="btn btn-success w-75">
+								Add to cart <i class="fa-solid fa-cart-plus"></i>
+							</button>
 						</form>
 
 					}
