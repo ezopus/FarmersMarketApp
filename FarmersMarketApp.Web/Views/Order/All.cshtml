@@ -10,14 +10,14 @@
 }
 
 <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
-	<button type="button" class="btn btn-primary" id="ordersBtn">All orders</button>
+	<button type="button" class="btn btn-info" id="ordersBtn">Current order</button>
 	<div class="btn-group" role="group">
-		<button id="btnGroupDrop" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+		<button id="btnGroupDrop" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 		<div class="dropdown-menu" aria-labelledby="btnGroupDrop" style="">
-			<a class="dropdown-item text-light" href="#">All orders</a>
-			<a class="dropdown-item text-info" href="#">Open orders</a>
-			<a class="dropdown-item text-success" href="#">Completed orders</a>
-			<a class="dropdown-item text-danger" href="#">Cancelled orders</a>
+			<a class="dropdown-item text-light" href="#" id="allOrdersBtn">All orders</a>
+			<a class="dropdown-item text-info" href="#" id="openOrdersBtn">Open orders</a>
+			<a class="dropdown-item text-success" href="#" id="completedOrderBtn">Completed orders</a>
+			<a class="dropdown-item text-danger" href="#" id="cancelledOrdersBtn">Cancelled orders</a>
 		</div>
 	</div>
 </div>
@@ -26,9 +26,7 @@
 {
 	<table class="table table-hover table-striped align-middle text-center" id="openOrdersTable">
 		<thead>
-			<tr>
-				<th colspan="7" class="table-info">Current order</th>
-			</tr>
+			
 			<tr>
 				<th colspan="2" class="text-center">Product</th>
 				<th>Product price per unit</th>
@@ -41,7 +39,7 @@
 			@foreach (var product in openOrder.Products)
 			{
 				<tr class="table-light" scope="row">
-					<td class="d-flex justify-content-center">
+					<td class="text-center">
 						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-primary">
 							<img src="@product.ImageUrl" class="fluid-img" style="max-height: 50px;" />
 						</a>
@@ -76,11 +74,9 @@
 
 @* COMPLETED ORDERS TABLE *@
 
-<table class="table table-hover table-striped align-middle text-center" id="completedOrdersTable">
+<table class="table table-hover table-striped align-middle text-center visually-hidden" id="completedOrdersTable">
 	<thead>
-	<tr colspan="7">
-		<th colspan="7" class="table-default">Completed orders</th>
-	</tr>
+	
 	<tr>
 		<th>Order number</th>
 		<th>Order placed</th>
@@ -123,11 +119,9 @@
 
 
 @* CANCELLED ORDERS TABLE *@
-<table class="table table-hover table-striped align-middle text-center" id="cancelledOrdersTable">
+<table class="table table-hover table-striped align-middle text-center visually-hidden" id="cancelledOrdersTable">
 	<thead>
-	<tr colspan="7">
-		<th colspan="7" class="table-warning">Cancelled orders</th>
-	</tr>
+	
 	<tr>
 		<th>Order number</th>
 		<th>Order placed</th>
@@ -140,7 +134,7 @@
 	@if (cancelledOrders.Any())
 	{
 		<tbody>
-			@foreach (var order in cancelledOrders)
+		@foreach (var order in cancelledOrders)
 		{
 			<tr class="table-light" scope="row">
 				<td>Order @order.Id</td>
@@ -167,3 +161,5 @@
 		</tbody>
 	}
 </table>
+
+<script src="/../js/ordersTableSwitcher.js" type="module"></script>
