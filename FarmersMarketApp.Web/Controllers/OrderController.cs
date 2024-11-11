@@ -65,6 +65,12 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
 			}
 
+			//check if order id is null
+			if (string.IsNullOrEmpty(orderId))
+			{
+				return RedirectToAction(nameof(All));
+			}
+
 			var result = await orderService.RemoveFromOrderAsync(currentUserId, orderId, productId);
 
 			return RedirectToAction(nameof(All));
@@ -77,6 +83,12 @@ namespace FarmersMarketApp.Web.Controllers
 			if (string.IsNullOrEmpty(currentUserId))
 			{
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
+			}
+
+			//check if order id is null
+			if (string.IsNullOrEmpty(orderId))
+			{
+				return RedirectToAction(nameof(All));
 			}
 
 			var result = await orderService.RemoveAllProductsFromOrderAsync(currentUserId, orderId);
@@ -93,6 +105,12 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
 			}
 
+			//check if order id is null
+			if (string.IsNullOrEmpty(orderId))
+			{
+				return RedirectToAction(nameof(All));
+			}
+
 			var model = await orderService.GetOrderForCheckoutAsync(currentUserId, orderId);
 
 			//if order not found, return to all orders
@@ -105,14 +123,14 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model)
 		{
 			//todo: add payment here maybe
+			//todo: figure out how to add delivery details to model to avoid empty model on error
 
 			if (!ModelState.IsValid)
 			{
-
 				return View(model);
 			}
 
