@@ -11,8 +11,6 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 
 		public string CreateDate { get; set; } = string.Empty;
 
-		public double TotalNetWeight => Products.Sum(pr => pr.Amount);
-
 		public int TotalUnitItems => Products.Sum(pr => pr.Amount);
 
 		public decimal TotalDiscount => Products.Sum(pr => pr.Discount * pr.Amount);
