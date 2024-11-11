@@ -8,8 +8,10 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<bool> RemoveFromOrderAsync(string userId, string orderId, string productId);
 
-		Task<bool> RemoveFromAllFromOrderAsync(string orderId, string userId);
+		Task<bool> RemoveAllProductsFromOrderAsync(string userId, string orderId);
 
 		Task<IEnumerable<OrderProductsViewModel>?> GetOrdersByUserIdAsync(string userId);
+
+		Task<OrderCheckoutViewModel?> GetOrderForCheckoutAsync(string userId, string orderId);
 	}
 }

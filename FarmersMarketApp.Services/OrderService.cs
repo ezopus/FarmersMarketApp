@@ -5,6 +5,7 @@ using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.ViewModels.OrderViewModels;
 using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Services
 {
@@ -130,9 +131,9 @@ namespace FarmersMarketApp.Services
 			return true;
 		}
 
-		public async Task<bool> RemoveFromAllFromOrderAsync(string orderId, string userId)
+		public async Task<bool> RemoveAllProductsFromOrderAsync(string userId, string orderId)
 		{
-			//check to see if order is open
+			//check to see if order exists and is open
 			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
 			if (currentOrder == null || currentOrder.OrderStatus != OrderStatus.Open)
 			{
@@ -145,15 +146,19 @@ namespace FarmersMarketApp.Services
 				return false;
 			}
 
+			//get all products in order
+			currentOrder.ProductsOrders =
+				await repository.AllAsync<ProductOrder>()
+					.Where(o => o.OrderId == currentOrder.Id)
+					.ToListAsync();
+
 			//remove all products from order
 			if (currentOrder.ProductsOrders.Any())
 			{
-				foreach (var product in currentOrder.ProductsOrders)
-				{
-					await repository.DeleteAsync<ProductOrder>(product);
-				}
+				currentOrder.ProductsOrders.Clear();
 			}
 
+			await repository.DeleteAsync<Order>(currentOrder.Id);
 			await repository.SaveChangesAsync();
 
 			return true;
@@ -185,6 +190,46 @@ namespace FarmersMarketApp.Services
 				.ToListAsync();
 
 			return currentOrders;
+		}
+
+		public async Task<OrderCheckoutViewModel?> GetOrderForCheckoutAsync(string userId, string orderId)
+		{
+			//check to see if order exists and is open
+			var currentOrder = await repository
+				.AllReadOnly<Order>()
+				.Where(o => o.Id == Guid.Parse(orderId))
+				.Select(o => new OrderCheckoutViewModel()
+				{
+					Id = o.Id.ToString(),
+					CustomerId = o.CustomerId.ToString(),
+					CreateDate = o.CreateDate.ToString(DateTimeRequiredFormat),
+					OrderStatus = o.OrderStatus,
+					Products = o.ProductsOrders.Select(pr => new ProductOrderViewModel()
+					{
+						Id = pr.ProductId.ToString(),
+						Name = pr.Product.Name,
+						PriceAtPurchase = pr.ProductPriceAtTimeOfOrder,
+						Amount = pr.ProductQuantity,
+						ImageUrl = pr.Product.ImageUrl,
+						Discount = pr.Product.DiscountPercentage.HasValue
+							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
+							: 0,
+					}).ToList(),
+				})
+				.FirstOrDefaultAsync();
+
+			if (currentOrder == null || currentOrder.OrderStatus != OrderStatus.Open)
+			{
+				return null;
+			}
+
+			//check to see if customer of order is the same as the one trying to checkout
+			if (currentOrder.CustomerId.ToString().ToLower() != userId.ToLower())
+			{
+				return null;
+			}
+
+			return currentOrder;
 		}
 	}
 }
