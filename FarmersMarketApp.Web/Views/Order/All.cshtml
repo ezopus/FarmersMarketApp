@@ -22,20 +22,20 @@
 	</div>
 </div>
 
-@if (openOrder != null)
-{
-	<table class="table table-hover table-striped align-middle text-center" id="openOrdersTable">
-		<thead>
-			
-			<tr>
-				<th colspan="2" class="text-center">Product</th>
-				<th>Product price per unit</th>
-				<th>Total amount of units</th>
-				<th>Total price of units</th>
-				<th colspan="2"></th>
-			</tr>
-		</thead>
-		<tbody>
+<table class="table table-hover table-striped align-middle text-center" id="openOrdersTable">
+	<thead>
+
+		<tr>
+			<th colspan="2" class="text-center">Product</th>
+			<th colspan="1">Product price per unit</th>
+			<th colspan="1">Total amount of units</th>
+			<th colspan="1">Total price of units</th>
+			<th colspan="2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (openOrder != null && openOrder.Products.Any())
+		{
 			@foreach (var product in openOrder.Products)
 			{
 				<tr class="table-light" scope="row">
@@ -60,7 +60,9 @@
 				<td colspan="3"></td>
 				<td class="">Total products: @openOrder.TotalUnitItems</td>
 				<td class="">Total discount: @openOrder.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-				<td colspan="2"></td>
+				<td colspan="2">
+					<a asp-controller="Order" asp-action="RemoveAllFromCart" asp-route-orderId="@openOrder.Id" class="btn btn-sm btn-danger me-2">Remove All</a>
+				</td>
 			</tr>
 			<tr class="table-primary">
 				<td colspan="5" class="text-end pe-5">Total price: @openOrder.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
@@ -68,51 +70,57 @@
 					<a asp-controller="Order" asp-action="Checkout" asp-route-orderId="@openOrder.Id" class="btn btn-success me-2">Checkout</a>
 				</td>
 			</tr>
-		</tbody>
-	</table>
-}
+		}
+		else
+		{
+			<tr>
+				<td colspan="7" class="table-light pt-4 pb-4">You have no open orders at this moment.</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
 @* COMPLETED ORDERS TABLE *@
 
 <table class="table table-hover table-striped align-middle text-center visually-hidden" id="completedOrdersTable">
 	<thead>
-	
-	<tr>
-		<th>Order number</th>
-		<th>Order placed</th>
-		<th>Total items</th>
-		<th>Total discount</th>
-		<th>Total price</th>
-		<th colspan="2"></th>
-	</tr>
+
+		<tr>
+			<th>Order number</th>
+			<th>Order placed</th>
+			<th>Total items</th>
+			<th>Total discount</th>
+			<th>Total price</th>
+			<th colspan="2"></th>
+		</tr>
 	</thead>
 	@if (completedOrders.Any())
 	{
 		<tbody>
-		@foreach (var order in completedOrders)
-		{
-			<tr class="table-light" scope="row">
-				<td>Order @order.Id</td>
-				<td>@order.CreateDate</td>
-				<td>@order.TotalUnitItems</td>
-				<td>@order.TotalPrice</td>
-				<td>@order.TotalDiscount</td>
-				<td colspan="2" class="">
-					<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
-				</td>
-			</tr>
-		}
+			@foreach (var order in completedOrders)
+			{
+				<tr class="table-light" scope="row">
+					<td>Order @order.Id</td>
+					<td>@order.CreateDate</td>
+					<td>@order.TotalUnitItems</td>
+					<td>@order.TotalPrice</td>
+					<td>@order.TotalDiscount</td>
+					<td colspan="2" class="">
+						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+					</td>
+				</tr>
+			}
 
 		</tbody>
 	}
 	else
 	{
 		<tbody>
-		<tr class="table-light" scope="row">
-			<td colspan="7" class="pt-4 pb-4">
-				No previous orders available.
-			</td>
-		</tr>
+			<tr class="table-light" scope="row">
+				<td colspan="7" class="pt-4 pb-4">
+					No previous completed orders available.
+				</td>
+			</tr>
 		</tbody>
 	}
 </table>
@@ -121,43 +129,43 @@
 @* CANCELLED ORDERS TABLE *@
 <table class="table table-hover table-striped align-middle text-center visually-hidden" id="cancelledOrdersTable">
 	<thead>
-	
-	<tr>
-		<th>Order number</th>
-		<th>Order placed</th>
-		<th>Total items</th>
-		<th>Total discount</th>
-		<th>Total price</th>
-		<th colspan="2"></th>
-	</tr>
+
+		<tr>
+			<th>Order number</th>
+			<th>Order placed</th>
+			<th>Total items</th>
+			<th>Total discount</th>
+			<th>Total price</th>
+			<th colspan="2"></th>
+		</tr>
 	</thead>
 	@if (cancelledOrders.Any())
 	{
 		<tbody>
-		@foreach (var order in cancelledOrders)
-		{
-			<tr class="table-light" scope="row">
-				<td>Order @order.Id</td>
-				<td>@order.CreateDate</td>
-				<td>@order.TotalUnitItems</td>
-				<td>@order.TotalPrice</td>
-				<td>@order.TotalDiscount</td>
-				<td colspan="2" class="">
-					<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
-				</td>
-			</tr>
-		}
+			@foreach (var order in cancelledOrders)
+			{
+				<tr class="table-light" scope="row">
+					<td>Order @order.Id</td>
+					<td>@order.CreateDate</td>
+					<td>@order.TotalUnitItems</td>
+					<td>@order.TotalPrice</td>
+					<td>@order.TotalDiscount</td>
+					<td colspan="2" class="">
+						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+					</td>
+				</tr>
+			}
 
 		</tbody>
 	}
 	else
 	{
 		<tbody>
-		<tr class="table-light" scope="row">
-			<td colspan="7" class="pt-4 pb-4">
-				No previous orders available.
-			</td>
-		</tr>
+			<tr class="table-light" scope="row">
+				<td colspan="7" class="pt-4 pb-4">
+					No previous cancelled orders available.
+				</td>
+			</tr>
 		</tbody>
 	}
 </table>
