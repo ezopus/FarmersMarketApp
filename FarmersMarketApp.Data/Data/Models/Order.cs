@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants.ApplicationUserValidation;
 
 namespace FarmersMarketApp.Infrastructure.Data.Models
 {
@@ -30,6 +31,27 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
 		[Comment("Status of the current order.")]
 		public OrderStatus OrderStatus { get; set; }
+
+		[MaxLength(FirstNameMaxLength)]
+		[Comment("First name of person for delivery of order.")]
+		public string? DeliveryFirstName { get; set; }
+
+		[MaxLength(LastNameMaxLength)]
+		[Comment("Last name of person for delivery of order.")]
+		public string? DeliveryLastName { get; set; }
+
+		[MaxLength(AddressMaxLength)]
+		[Comment("Address for delivery of order.")]
+		public string? DeliveryAddress { get; set; }
+
+		[MaxLength(CityMaxLength)]
+		[Comment("City for delivery of order.")]
+		public string? DeliveryCity { get; set; }
+
+		[MaxLength(PhoneMaxLength)]
+		[Comment("Phone number to contact for delivery of order.")]
+		public string? DeliveryPhoneNumber { get; set; }
+
 	}
 
 }
