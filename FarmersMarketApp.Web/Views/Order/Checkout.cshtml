@@ -1,4 +1,5 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.OrderViewModels
+@using System.Globalization
 @model OrderCheckoutViewModel
 
 <div class="container">
@@ -6,68 +7,73 @@
 		<div class="col">
 			<ul class="list-group">
 				<li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
-					Cras justo odio
-					<span class="badge bg-primary rounded-pill">14</span>
+					Products in order
+					<span class="badge bg-light rounded-pill">@Model.Products.Count()</span>
 				</li>
-				<li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
-					Dapibus ac facilisis in
-					<span class="badge bg-primary rounded-pill">2</span>
-				</li>
-				<li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
-					Morbi leo risus
-					<span class="badge bg-primary rounded-pill">1</span>
-				</li><li class="list-group-item list-group-item-info d-flex justify-content-between align-items-center">
-					Cras justo odio
-					<span class="badge bg-primary rounded-pill">5</span>
-				</li>
-				<li class="list-group-item list-group-item-warning d-flex justify-content-between align-items-center">
-					Dapibus ac facilisis in
-					<span class="badge bg-primary rounded-pill">4</span>
-				</li>
-				<li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-center">
-					Morbi leo risus
-					<span class="badge bg-primary rounded-pill">9</span>
-				</li>
-				<li class="list-group-item list-group-item-light d-flex justify-content-between align-items-center">
-					Morbi leo risus
-					<span class="badge bg-primary rounded-pill">8</span>
-				</li>
-				<li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
-					Morbi leo risus
-					<span class="badge bg-primary rounded-pill">0</span>
-				</li>
+				@foreach (var product in Model.Products)
+				{
+					<li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+						<div>
+							<img src="@product.ImageUrl" class="fluid-img me-2" style="max-width: 32px; object-fit: cover;" />
+							@product.Name
+						</div>
+						<span class="badge bg-light rounded-pill">@product.Amount</span>
+					</li>
+				}
 			</ul>
 		</div>
 		<div class="col">
-			<div class="card mb-3">
-				<h3 class="card-header">Order @Model.Id</h3>
-				<div class="card-body">
-					<h5 class="card-title">Special title treatment</h5>
-					<h6 class="card-subtitle text-muted">Support card subtitle</h6>
-				</div>
-				<div class="card-body">
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Cras justo odio</li>
-					<li class="list-group-item">Dapibus ac facilisis in</li>
-					<li class="list-group-item">Vestibulum at eros</li>
-				</ul>
-				<div class="card-body">
-					<a href="#" class="card-link">Card link</a>
-					<a href="#" class="card-link">Another link</a>
-				</div>
-				<div class="card-footer text-muted">
-					2 days ago
-				</div>
-			</div>
 			<div class="card">
-				<div class="card-body">
-					<h4 class="card-title">Card title</h4>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					<a href="#" class="card-link">Card link</a>
-					<a href="#" class="card-link">Another link</a>
+				<div class="card-body px-4">
+					<form method="post" enctype="multipart/form-data" asp-action="Checkout" class="text-center">
+						<h4 class="card-title mb-4 text-light text-center">Delivery details:</h4>
+						<div class="col d-flex mb-2">
+							<label asp-for="@Model.DeliveryFirstName" class="form-label mt-2 me-4 w-25 text-end">First name</label>
+							<input asp-for="@Model.DeliveryFirstName" class="form-control-sm w-100" aria-required="true" />
+						</div>
+						<p class="mb-1">
+							<span asp-validation-for="@Model.DeliveryFirstName" class="text-danger"></span>
+						</p>
+						<div class="col d-flex mb-2">
+							<label asp-for="@Model.DeliveryLastName" class="form-label mt-2 me-4 w-25  text-end">Last name</label>
+							<input asp-for="@Model.DeliveryLastName" class="form-control-sm  w-100" aria-required="true" />
+						</div>
+						<p class="mb-1">
+							<span asp-validation-for="@Model.DeliveryLastName" class="text-danger"></span>
+						</p>
+						<div class="col d-flex mb-2">
+							<label asp-for="@Model.DeliveryAddress" class="form-label mt-2 me-4 w-25  text-end">Address</label>
+							<input asp-for="@Model.DeliveryAddress" class="form-control-sm w-100" aria-required="true" />
+						</div>
+						<p class="mb-1">
+							<span asp-validation-for="@Model.DeliveryAddress" class="text-danger"></span>
+						</p>
+						<div class="col d-flex mb-2">
+							<label asp-for="@Model.DeliveryCity" class="form-label mt-2 me-4 w-25  text-end">City</label>
+							<input asp-for="@Model.DeliveryCity" class="form-control-sm w-100" aria-required="true" />
+						</div>
+						<p class="mb-1">
+							<span asp-validation-for="@Model.DeliveryCity" class="text-danger"></span>
+						</p>
+						<div class="col d-flex mb-2">
+							<label asp-for="@Model.DeliveryPhoneNumber" class="form-label mt-2 me-4 w-25  text-end">Phone number</label>
+							<input asp-for="@Model.DeliveryPhoneNumber" class="form-control-sm  w-100" aria-required="true" />
+						</div>
+						<p class="mb-1">
+							<span asp-validation-for="@Model.DeliveryPhoneNumber" class="text-danger"></span>
+						</p>
+
+						<h4 class="card-title mb-3 mt-1 text-light text-center">Total price: @Model.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h4>
+						<h6 class="card-subtitle mb-2 text-muted text-center">Total discounts: @Model.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h6>
+						<h6 class="card-subtitle mb-2 text-muted text-center">Order from @Model.CreateDate</h6>
+						<p class="card-text text-center">Your order will be placed to each farmer and will be handled accordingly.</p>
+						<div class="text-center">
+							<button type="submit" class="btn btn-success mb-3">Proceed to payment</button>
+						</div>
+						<div class="text-center">
+							<a asp-controller="Order" asp-action="All" class="btn btn-secondary btn-sm">Back to my orders</a>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

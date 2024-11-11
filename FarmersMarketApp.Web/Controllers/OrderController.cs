@@ -106,11 +106,17 @@ namespace FarmersMarketApp.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Checkout(OrderCheckoutViewModel order)
+		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model)
 		{
 			//todo: add payment here maybe
 
-			return View(nameof(All));
+			if (!ModelState.IsValid)
+			{
+
+				return View(model);
+			}
+
+			return RedirectToAction(nameof(All));
 		}
 	}
 }

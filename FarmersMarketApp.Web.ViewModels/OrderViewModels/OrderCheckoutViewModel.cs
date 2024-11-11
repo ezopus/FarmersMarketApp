@@ -29,24 +29,24 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 		[StringLength(FirstNameMaxLength,
 			MinimumLength = FirstNameMinLength,
 			ErrorMessage = ErrorUserFirstName)]
-		public string? DeliveryFirstName { get; set; }
+		public string DeliveryFirstName { get; set; } = string.Empty;
 
 		[StringLength(LastNameMaxLength,
 			MinimumLength = LastNameMinLength,
 			ErrorMessage = ErrorUserLastName)]
-		public string? DeliveryLastName { get; set; }
+		public string DeliveryLastName { get; set; } = string.Empty;
 
 		[StringLength(AddressMaxLength,
 			MinimumLength = AddressMinLength,
 			ErrorMessage = ErrorUserAddress)]
-		public string? DeliveryAddress { get; set; }
+		public string DeliveryAddress { get; set; } = string.Empty;
 
 		[StringLength(CityMaxLength,
 			MinimumLength = CityMinLength,
 			ErrorMessage = ErrorUserCity)]
-		public string? DeliveryCity { get; set; }
+		public string DeliveryCity { get; set; } = string.Empty;
 
 		[RegularExpression(PhoneNumberRegex, ErrorMessage = ErrorUserPhoneNumber)]
-		public string? DeliveryPhoneNumber { get; set; }
+		public string DeliveryPhoneNumber { get; set; } = string.Empty;
 	}
 }
