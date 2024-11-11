@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.Extensions;
+using FarmersMarketApp.Web.ViewModels.OrderViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers
@@ -40,6 +41,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		[AutoValidateAntiforgeryToken]
 		public async Task<IActionResult> AddToCart(string productId, int productAmount)
 		{
 			var currentUserId = User.GetId();
@@ -69,9 +71,46 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> RemoveAllFromCart(string orderId)
+		{
+			var currentUserId = User.GetId();
+			if (string.IsNullOrEmpty(currentUserId))
+			{
+				return RedirectToPage("/Account/Login", new { area = "Identity" });
+			}
+
+			var result = await orderService.RemoveAllProductsFromOrderAsync(currentUserId, orderId);
+
+			return RedirectToAction(nameof(All));
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> Checkout(string orderId)
 		{
-			return View();
+			var currentUserId = User.GetId();
+			if (string.IsNullOrEmpty(currentUserId))
+			{
+				return RedirectToPage("/Account/Login", new { area = "Identity" });
+			}
+
+			var model = await orderService.GetOrderForCheckoutAsync(currentUserId, orderId);
+
+			//if order not found, return to all orders
+			if (model == null)
+			{
+				return View(nameof(All));
+			}
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Checkout(OrderCheckoutViewModel order)
+		{
+			//todo: add payment here maybe
+
+			return View(nameof(All));
 		}
 	}
 }
