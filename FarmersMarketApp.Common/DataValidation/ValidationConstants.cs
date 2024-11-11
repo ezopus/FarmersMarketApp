@@ -12,6 +12,11 @@
 			public const int LastNameMaxLength = 100;
 			public const int AddressMinLength = 5;
 			public const int AddressMaxLength = 100;
+			public const int CityMinLength = 3;
+			public const int CityMaxLength = 30;
+			public const int PhoneMixLength = 4;
+			public const int PhoneMaxLength = 17;
+			public const string PhoneNumberRegex = @"\+?[\d]{4,17}";
 		}
 
 		public static class ProductValidation

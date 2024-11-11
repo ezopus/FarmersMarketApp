@@ -5,6 +5,8 @@
 		public const string ErrorUserFirstName = "First name must be between 2 and 100 symbols.";
 		public const string ErrorUserLastName = "Last name must be between 2 and 100 symbols.";
 		public const string ErrorUserAddress = "Address must be between 5 and 100 symbols.";
+		public const string ErrorUserCity = "Please enter a valid city name between 3 and 30 symbols.";
+		public const string ErrorUserPhoneNumber = "Please enter a valid phone number.";
 
 
 		public const string ErrorProductName = "Product name must be between 2 and 60 symbols.";
