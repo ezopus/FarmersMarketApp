@@ -37,7 +37,7 @@ namespace FarmersMarketApp.Web.Controllers
 				{
 					f.ImageUrl = "/img/no-image.png";
 				}
-				farmsForApi.Add(f.Id.ToString(), new { f.Name, f.Address, f.City, f.ImageUrl });
+				farmsForApi.Add(f.Id!, new { f.Name, f.Address, f.City, f.ImageUrl });
 			}
 
 			//return object with three random farms and their info

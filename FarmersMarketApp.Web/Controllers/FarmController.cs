@@ -63,6 +63,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		[AutoValidateAntiforgeryToken]
 		//todo: add anti-forgery token to post action
 		public async Task<IActionResult> Add(AddFarmViewModel model)
 		{
@@ -145,6 +146,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		[AutoValidateAntiforgeryToken]
 		//todo: add anti-forgery token here
 		public async Task<IActionResult> Edit(AddFarmViewModel model)
 		{

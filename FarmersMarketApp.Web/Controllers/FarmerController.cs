@@ -60,6 +60,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		[AutoValidateAntiforgeryToken]
 		//todo: add anti-forgery token here
 		public async Task<IActionResult> Become(FarmerBecomeViewModel model)
 		{

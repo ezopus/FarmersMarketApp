@@ -14,6 +14,7 @@ builder.Services.AddControllersWithViews(options =>
 
 });
 
+builder.Services.AddAntiforgery();
 
 builder.Services.AddRazorPages();
 

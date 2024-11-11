@@ -36,7 +36,7 @@
 
 			services.AddScoped<IRepository, FarmersMarketRepository>();
 
-			//services.AddDatabaseDeveloperPageExceptionFilter();
+			services.AddDatabaseDeveloperPageExceptionFilter();
 
 			return services;
 		}
