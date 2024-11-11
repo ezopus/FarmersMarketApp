@@ -23,7 +23,10 @@
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
 			<div class="container">
-				<a class="navbar-brand bg-dark" asp-area="" asp-controller="Home" asp-action="Index">The <span class="text-info">Jolly Farmers</span> Market</a>
+				<a class="navbar-brand bg-dark" asp-area="" asp-controller="Home" asp-action="Index">
+					The <span class="text-info">Jolly Farmers</span> Market
+					<i class="fa-solid fa-wheat-awn ps-1 pe-0 text-info"></i>
+				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -43,7 +46,10 @@
 						{
 
 							<li class="nav-item">
-								<a class="nav-link text-action text-danger" asp-area="" asp-controller="Farmer" asp-action="Become"><strong>Become a farmer!</strong></a>
+								<a class="nav-link text-action text-danger" asp-area="" asp-controller="Farmer" asp-action="Become">
+									<i class="fa-solid fa-tractor ps-1"></i>
+									<span class="fw-bold px-1">Become a farmer!</span>
+								</a>
 							</li>
 						}
 						else
@@ -53,6 +59,11 @@
 							</li>
 							<li class="nav-item bg-dark">
 								<a class="nav-link text-info" asp-area="" asp-controller="Farmer" asp-action="MyFarms"><strong>My Farms</strong></a>
+							</li>
+							<li class="nav-item align-items-center fw-bold bg-dark">
+								<a asp-controller="Order" asp-action="All" class="nav-link text-warning">
+									My Orders
+								</a>
 							</li>
 						}
 					</ul>
