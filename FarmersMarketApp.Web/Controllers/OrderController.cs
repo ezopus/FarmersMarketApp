@@ -154,6 +154,7 @@ namespace FarmersMarketApp.Web.Controllers
 
 			if (result)
 			{
+				TempData["success"] = "Payment successful!";
 				return RedirectToAction(nameof(All));
 			}
 
