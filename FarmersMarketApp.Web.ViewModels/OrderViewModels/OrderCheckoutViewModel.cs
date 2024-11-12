@@ -14,8 +14,6 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 
 		public string CreateDate { get; set; } = string.Empty;
 
-		public double TotalNetWeight => Products.Sum(pr => pr.Amount);
-
 		public int TotalUnitItems => Products.Sum(pr => pr.Amount);
 
 		public decimal TotalDiscount => Products.Sum(pr => pr.Discount * pr.Amount);
@@ -29,24 +27,24 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 		[StringLength(FirstNameMaxLength,
 			MinimumLength = FirstNameMinLength,
 			ErrorMessage = ErrorUserFirstName)]
-		public string DeliveryFirstName { get; set; } = string.Empty;
+		public string DeliveryFirstName { get; set; }
 
 		[StringLength(LastNameMaxLength,
 			MinimumLength = LastNameMinLength,
 			ErrorMessage = ErrorUserLastName)]
-		public string DeliveryLastName { get; set; } = string.Empty;
+		public string DeliveryLastName { get; set; }
 
 		[StringLength(AddressMaxLength,
 			MinimumLength = AddressMinLength,
 			ErrorMessage = ErrorUserAddress)]
-		public string DeliveryAddress { get; set; } = string.Empty;
+		public string DeliveryAddress { get; set; }
 
 		[StringLength(CityMaxLength,
 			MinimumLength = CityMinLength,
 			ErrorMessage = ErrorUserCity)]
-		public string DeliveryCity { get; set; } = string.Empty;
+		public string DeliveryCity { get; set; }
 
 		[RegularExpression(PhoneNumberRegex, ErrorMessage = ErrorUserPhoneNumber)]
-		public string DeliveryPhoneNumber { get; set; } = string.Empty;
+		public string DeliveryPhoneNumber { get; set; }
 	}
 }

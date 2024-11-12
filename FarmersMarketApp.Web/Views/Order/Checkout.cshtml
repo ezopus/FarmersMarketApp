@@ -2,6 +2,17 @@
 @using System.Globalization
 @model OrderCheckoutViewModel
 
+@{
+	int totalUnits = 0;
+	decimal totalPrice = 0.0m;
+	decimal totalDiscount = 0.0m;
+	if (Model.Products.Any())
+	{
+		totalUnits = Model.Products.Sum(p => p.Amount);
+
+	}
+}
+
 <div class="container">
 	<div class="row">
 		<div class="col">
@@ -25,7 +36,7 @@
 		<div class="col">
 			<div class="card">
 				<div class="card-body px-4">
-					<form asp-action="Checkout" method="post" enctype="multipart/form-data" class="text-center">
+					<form asp-action="Checkout" asp-route-orderId="@Model.Id" method="post" enctype="multipart/form-data" class="text-center">
 						<h4 class="card-title mb-4 text-light text-center">Delivery details:</h4>
 						<div class="col d-flex mb-2">
 							<label asp-for="@Model.DeliveryFirstName" class="form-label mt-2 me-4 w-25 text-end">First name</label>
@@ -69,12 +80,6 @@
 						<p class="card-text text-center">Your order will be placed to each farmer and will be handled accordingly.</p>
 						<div class="text-center">
 							<button type="submit" class="btn btn-success mb-3">Proceed to payment</button>
-							<input type="hidden" asp-for="@Model.Id" value="@Model.Id"/>
-							<input type="hidden" asp-for="@Model.TotalPrice" value="@Model.TotalPrice"/>
-							<input type="hidden" asp-for="@Model.TotalUnitItems" value="@Model.TotalUnitItems"/>
-							<input type="hidden" asp-for="@Model.TotalNetWeight" value="@Model.TotalNetWeight"/>
-							<input type="hidden" asp-for="@Model.TotalDiscount" value="@Model.TotalDiscount"/>
-							
 						</div>
 						<div class="text-center">
 							<a asp-controller="Order" asp-action="All" class="btn btn-secondary btn-sm">Back to my orders</a>
