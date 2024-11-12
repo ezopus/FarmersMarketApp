@@ -231,5 +231,19 @@ namespace FarmersMarketApp.Services
 
 			return currentOrder;
 		}
+
+		public async Task<bool> ChangeOrderToPending(string orderId)
+		{
+			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
+
+			if (currentOrder != null)
+			{
+				currentOrder.OrderStatus = OrderStatus.Pending;
+				await repository.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
+		}
 	}
 }

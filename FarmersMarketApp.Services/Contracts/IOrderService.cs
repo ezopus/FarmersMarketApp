@@ -13,5 +13,7 @@ namespace FarmersMarketApp.Services.Contracts
 		Task<IEnumerable<OrderProductsViewModel>?> GetOrdersByUserIdAsync(string userId);
 
 		Task<OrderCheckoutViewModel?> GetOrderForCheckoutAsync(string userId, string orderId);
+
+		Task<bool> ChangeOrderToPending(string orderId);
 	}
 }
