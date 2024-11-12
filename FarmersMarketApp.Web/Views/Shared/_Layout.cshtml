@@ -16,6 +16,7 @@
 	<title>@ViewData["Title"] - The Jolly Farmers Market!</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	
 	<script src="https://kit.fontawesome.com/c9881530a5.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -73,6 +74,7 @@
 	</header>
 	<div class="container">
 		<main role="main" class="pb-3">
+			<partial name="Partials/_Notification" />
 			@RenderBody()
 		</main>
 	</div>
