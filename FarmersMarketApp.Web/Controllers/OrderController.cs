@@ -124,17 +124,40 @@ namespace FarmersMarketApp.Web.Controllers
 
 		[HttpPost]
 		//[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model)
+		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model, string orderId)
 		{
 			//todo: add payment here maybe
 			//todo: figure out how to add delivery details to model to avoid empty model on error
+
+			var currentUserId = User.GetId();
+			if (string.IsNullOrEmpty(currentUserId))
+			{
+				return RedirectToPage("/Account/Login", new { area = "Identity" });
+			}
+
+			var modelReload = await orderService.GetOrderForCheckoutAsync(currentUserId, orderId);
+			if (modelReload != null)
+			{
+				model.Id = modelReload.Id;
+				model.CustomerId = modelReload.CustomerId;
+				model.OrderStatus = modelReload.OrderStatus;
+				model.CreateDate = modelReload.CreateDate;
+				model.Products = modelReload.Products;
+			}
 
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
 
-			return RedirectToAction(nameof(All));
+			var result = await orderService.ChangeOrderToPending(orderId);
+
+			if (result)
+			{
+				return RedirectToAction(nameof(All));
+			}
+
+			return RedirectToAction("All", "Product");
 		}
 	}
 }
