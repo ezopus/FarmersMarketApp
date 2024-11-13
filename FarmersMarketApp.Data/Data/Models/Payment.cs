@@ -27,7 +27,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Date and time on which payment is made.")]
 		public required DateTime PaymentDate { get; set; }
 
-		[Comment("Flag is payment is successful.")]
+		[Comment("Flag if payment is successful.")]
 		public bool IsSuccessful { get; set; }
 
 		public virtual Order? Order { get; set; }
