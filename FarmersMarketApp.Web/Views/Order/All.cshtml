@@ -7,6 +7,7 @@
 	var openOrder = Model.FirstOrDefault(o => o.OrderStatus == OrderStatus.Open);
 	var completedOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Completed);
 	var cancelledOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Cancelled);
+	var pendingOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Pending);
 }
 
 <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
@@ -47,9 +48,9 @@
 					<th scope="row" class="text-start">
 						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-primary">@product.Name</a>
 					</th>
-					<td>@product.PriceAtPurchase.ToString("f2")</td>
+					<td>@product.PriceAtPurchase.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td>@product.Amount</td>
-					<td>@(product.PriceAtPurchase * product.Amount)</td>
+					<td>@((product.PriceAtPurchase * product.Amount).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))</td>
 					<td colspan="2" class="">
 						<a asp-controller="Order" asp-action="RemoveFromCart" asp-route-orderId="@openOrder.Id" asp-route-productId="@product.Id" class="btn btn-sm btn-danger me-2">Remove</a>
 					</td>
@@ -80,6 +81,53 @@
 	</tbody>
 </table>
 
+@* PENDING ORDERS TABLE *@
+
+<table class="table table-hover table-striped align-middle text-center" id="pendingOrdersTable">
+	<thead>
+
+		<tr>
+			<th>Order number</th>
+			<th>Order placed</th>
+			<th>Total items</th>
+			<th>Total discount</th>
+			<th>Total price</th>
+			<th>Status</th>
+			<th colspan="2"></th>
+		</tr>
+	</thead>
+	@if (pendingOrders.Any())
+	{
+		<tbody>
+			@foreach (var order in pendingOrders)
+			{
+				<tr class="table-light" scope="row">
+					<td>@order.Id</td>
+					<td>@order.CreateDate</td>
+					<td>@order.TotalUnitItems</td>
+					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+					<td>@order.OrderStatus</td>
+					<td colspan="2" class="">
+						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+					</td>
+				</tr>
+			}
+
+		</tbody>
+	}
+	else
+	{
+		<tbody>
+			<tr class="table-light" scope="row">
+				<td colspan="7" class="pt-4 pb-4">
+					No pending orders available.
+				</td>
+			</tr>
+		</tbody>
+	}
+</table>
+
 @* COMPLETED ORDERS TABLE *@
 
 <table class="table table-hover table-striped align-middle text-center visually-hidden" id="completedOrdersTable">
@@ -100,11 +148,11 @@
 			@foreach (var order in completedOrders)
 			{
 				<tr class="table-light" scope="row">
-					<td>Order @order.Id</td>
+					<td>@order.Id</td>
 					<td>@order.CreateDate</td>
 					<td>@order.TotalUnitItems</td>
-					<td>@order.TotalPrice</td>
-					<td>@order.TotalDiscount</td>
+					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td colspan="2" class="">
 						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
 					</td>
@@ -145,11 +193,11 @@
 			@foreach (var order in cancelledOrders)
 			{
 				<tr class="table-light" scope="row">
-					<td>Order @order.Id</td>
+					<td>@order.Id</td>
 					<td>@order.CreateDate</td>
 					<td>@order.TotalUnitItems</td>
-					<td>@order.TotalPrice</td>
-					<td>@order.TotalDiscount</td>
+					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td colspan="2" class="">
 						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
 					</td>
