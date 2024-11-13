@@ -126,15 +126,13 @@ namespace FarmersMarketApp.Web.Controllers
 		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model, string orderId)
 		{
-			//todo: add payment here maybe
-			//todo: figure out how to add delivery details to model to avoid empty model on error
-
 			var currentUserId = User.GetId();
 			if (string.IsNullOrEmpty(currentUserId))
 			{
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
 			}
 
+			//fetch model to reload display data for razor view in case validations fail
 			var modelReload = await orderService.GetOrderForCheckoutAsync(currentUserId, orderId);
 			if (modelReload != null)
 			{
@@ -145,20 +143,20 @@ namespace FarmersMarketApp.Web.Controllers
 				model.Products = modelReload.Products;
 			}
 
+			//check if delivery details are added properly
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
 
-			var result = await orderService.ChangeOrderToPending(orderId);
+			var addDeliveryResult = await orderService.AddDeliveryDetailsToOrderByIdAsync(orderId, model);
 
-			if (result)
+			if (!addDeliveryResult)
 			{
-				TempData["success"] = "Payment successful!";
-				return RedirectToAction(nameof(All));
+				return RedirectToAction("Checkout", "Order", new { orderId });
 			}
 
-			return RedirectToAction("All", "Product");
+			return RedirectToAction("Checkout", "Payment", new { customerId = currentUserId, orderId });
 		}
 	}
 }
