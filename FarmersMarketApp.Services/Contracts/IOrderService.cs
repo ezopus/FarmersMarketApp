@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Web.ViewModels.OrderViewModels;
+﻿using FarmersMarketApp.Infrastructure.Data.Models;
+using FarmersMarketApp.Web.ViewModels.OrderViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
@@ -14,6 +15,10 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<OrderCheckoutViewModel?> GetOrderForCheckoutAsync(string userId, string orderId);
 
-		Task<bool> ChangeOrderToPending(string orderId);
+		Task<bool> ChangeOrderToPendingAsync(string orderId);
+
+		Task<Order?> GetOrderByIdAsync(string orderId);
+
+		Task<bool> AddDeliveryDetailsToOrderByIdAsync(string orderId, OrderCheckoutViewModel model);
 	}
 }

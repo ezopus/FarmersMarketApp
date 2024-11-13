@@ -79,6 +79,8 @@ namespace FarmersMarketApp.Services
 					ProductId = currentProduct.Id,
 					ProductQuantity = productAmount,
 					ProductPriceAtTimeOfOrder = currentProduct.Price,
+					FarmId = currentProduct.FarmId,
+					FarmerId = currentProduct.FarmerId,
 				});
 			}
 
@@ -232,13 +234,37 @@ namespace FarmersMarketApp.Services
 			return currentOrder;
 		}
 
-		public async Task<bool> ChangeOrderToPending(string orderId)
+		public async Task<bool> ChangeOrderToPendingAsync(string orderId)
 		{
 			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
 
 			if (currentOrder != null)
 			{
 				currentOrder.OrderStatus = OrderStatus.Pending;
+				await repository.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
+		}
+
+		public async Task<Order?> GetOrderByIdAsync(string orderId)
+		{
+			return await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
+		}
+
+		public async Task<bool> AddDeliveryDetailsToOrderByIdAsync(string orderId, OrderCheckoutViewModel model)
+		{
+			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
+
+			if (currentOrder != null)
+			{
+				currentOrder.DeliveryFirstName = model.DeliveryFirstName;
+				currentOrder.DeliveryLastName = model.DeliveryLastName;
+				currentOrder.DeliveryAddress = model.DeliveryAddress;
+				currentOrder.DeliveryCity = model.DeliveryCity;
+				currentOrder.DeliveryPhoneNumber = model.DeliveryPhoneNumber;
+
 				await repository.SaveChangesAsync();
 				return true;
 			}
