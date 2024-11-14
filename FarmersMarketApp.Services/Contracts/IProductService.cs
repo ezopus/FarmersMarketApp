@@ -25,5 +25,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<Product?> GetProductForOrderByProductIdAsync(string productId);
 
+		Task<bool> SetProductIsDeletedByIdAsync(string productId);
+
 	}
 }

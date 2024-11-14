@@ -245,6 +245,7 @@ namespace FarmersMarketApp.Services
 				.ToListAsync(); ;
 		}
 
+		//create new product
 		public async Task<string?> CreateProductAsync(AddProductViewModel model)
 		{
 			var newProduct = new Product
@@ -281,9 +282,25 @@ namespace FarmersMarketApp.Services
 			return newProduct.Id.ToString();
 		}
 
+		//get product for populating order details
 		public async Task<Product?> GetProductForOrderByProductIdAsync(string productId)
 		{
 			return await repository.AllReadOnly<Product>().FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(productId));
+		}
+
+		//set product Is Deleted to true
+		public async Task<bool> SetProductIsDeletedByIdAsync(string productId)
+		{
+			var productToDelete = await repository.GetByIdAsync<Product>(Guid.Parse(productId));
+
+			if (productToDelete != null)
+			{
+				productToDelete.IsDeleted = true;
+				await repository.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
