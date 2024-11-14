@@ -38,5 +38,8 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
 		public virtual ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
+
+		[Comment("Boolean flag if farmer decides to deactivate his account.")]
+		public bool IsDeleted { get; set; }
 	}
 }
