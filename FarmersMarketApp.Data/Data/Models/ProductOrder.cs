@@ -28,5 +28,12 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Product discount at time of purchasing for statistical purposes.")]
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal ProductDiscountAtTimeOfOrder { get; set; }
+
+		[Comment("Unique farmer id for person handling the order.")]
+		public Guid FarmerId { get; set; }
+
+		[Comment("Unique farm identifier where product is being made.")]
+		public Guid FarmId { get; set; }
+
 	}
 }

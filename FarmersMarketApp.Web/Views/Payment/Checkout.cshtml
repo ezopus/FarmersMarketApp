@@ -1,0 +1,66 @@
+﻿@using FarmersMarketApp.Web.ViewModels.PaymentVIewModels
+@using FarmersMarketApp.Common.Enums
+@using System.Globalization
+@using FarmersMarketApp.Web.Extensions
+@model PaymentCheckoutViewModel
+
+@{
+
+}
+
+<form asp-action="Checkout" type="post">
+
+	<div class="row justify-content-center mb-4">
+		<div class="card">
+			<h3 class="text-light fw-bold text-center my-3">Total order price: @Model.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h3>
+		</div>
+		<div class="row mt-4">
+			<h5 class="text-light fw-bold text-center mb-3">Choose your preferred method of payment:</h5>
+		</div>
+		<div id="paymentOptions" class="btn-group mb-4 col-8" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="paymentType" id="btnradio1" value="@PaymentType.CashOnDemand">
+			<label class="btn btn-outline-primary" for="btnradio1">Cash on delivery</label>
+			<input type="radio" class="btn-check" name="paymentType" id="btnradio2" value="@PaymentType.CardPayment">
+			<label class="btn btn-outline-primary" for="btnradio2">Credit/Debit card</label>
+			<input type="radio" class="btn-check" name="paymentType" id="btnradio3" value="@PaymentType.BankTransfer">
+			<label class="btn btn-outline-primary" for="btnradio3">Bank transfer</label>
+		</div>
+		<div id="cardDetails" class="col-8 mb-4 pt-3 pb-5 d-flex border border-secondary visually-hidden">
+			<div>
+				<label asp-for="@Model.CardHolder" class="form-label mb-2">Card holder:</label>
+				<input asp-for="@Model.CardHolder" type="text" class="form-control-sm" placeholder="NAME">
+			</div>
+			<div>
+				<label asp-for="@Model.CardNumber" class="form-label mb-2">Card number:</label>
+				<input asp-for="@Model.CardNumber" type="text"  class="form-control-sm" placeholder="1234 5678 9012 3456" />
+			</div>
+			<div>
+				<label asp-for="@Model.CardExpirationDate"class="form-label mb-2">Expiration date:</label>
+				<input asp-for="@Model.CardExpirationDate" type="text" class="form-control-sm" placeholder="MM/YY" />
+			</div>
+			<div>
+				<label asp-for="@Model.CardCVV" class="form-label mb-2">CVV2:</label>
+				<input asp-for="@Model.CardCVV" type="number" class="form-control-sm" style="-webkit-appearance: none; -moz-appearance: textfield;" />
+			</div>
+		</div>
+		<div id="bankDetails" class="col-8 mb-4 py-3 text-center text-light border border-secondary visually-hidden">
+			<h5 class="">Bank details:</h5>
+			<h5>Best Farm Bank LLC.</h5>
+			<h5>The Jolly Farmers Market</h5>
+			<h5>IBAN BB BF 1234 5678 9012 3456 78</h5>
+		</div>
+		<div id="payButtons" class="visually-hidden">
+			<div class="text-center">
+				<button asp-route-orderId="@Model.OrderId" class="btn btn-success px-5 mb-2 fw-bold" type="submit">Pay</button>
+				<input type="hidden" asp-for="@Model.CustomerId" value="@User.GetId()"/>
+			</div>
+			<div class="text-center">
+				<button class="btn btn-primary px-5" onclick="window.history.back();">Back</button>
+			</div>
+		</div>
+	</div>
+
+</form>
+
+
+<script src="/../js/paymentDetails.js"></script>
