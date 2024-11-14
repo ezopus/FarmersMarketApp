@@ -98,5 +98,21 @@ namespace FarmersMarketApp.Services
 				.ToListAsync();
 
 		}
+
+		//set farmer is deleted 
+		public async Task<bool> SetFarmerIsDeletedByIdAsync(string farmerId)
+		{
+			var farmerToDelete = await repository.GetByIdAsync<Farmer>(Guid.Parse(farmerId));
+
+			if (farmerToDelete != null)
+			{
+				farmerToDelete.IsDeleted = true;
+				await repository.SaveChangesAsync();
+
+				return true;
+			}
+
+			return false;
+		}
 	}
 }
