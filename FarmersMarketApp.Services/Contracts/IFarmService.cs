@@ -23,5 +23,6 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel();
 
+		Task<bool> SetFarmIsDeletedByAsync(string farmId);
 	}
 }

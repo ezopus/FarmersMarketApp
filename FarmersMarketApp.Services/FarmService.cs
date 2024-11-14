@@ -256,5 +256,19 @@ namespace FarmersMarketApp.Services
 
 			return randomFarms;
 		}
+
+		public async Task<bool> SetFarmIsDeletedByAsync(string farmId)
+		{
+			var farmToDelete = await repository.GetByIdAsync<Farm>(Guid.Parse(farmId));
+			if (farmToDelete != null)
+			{
+				farmToDelete.IsDeleted = true;
+				await repository.SaveChangesAsync();
+
+				return true;
+			}
+
+			return false;
+		}
 	}
 }
