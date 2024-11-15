@@ -5,7 +5,7 @@ var dropDown = document.getElementById('farmDropDown');
 dropDown.addEventListener('change', async () => {
 
     var farmerId = document.getElementById("farmerId").value;
-    var response = await fetch(API_URL + farmerId);
+    var response = await fetch(API_URL + "/farm/info/" + farmerId);
     var farms = await response.json();
     var farmId = dropDown.value;
 

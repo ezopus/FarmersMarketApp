@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/farm")]
 	[ApiController]
 	public class FarmApiController : ControllerBase
 	{
