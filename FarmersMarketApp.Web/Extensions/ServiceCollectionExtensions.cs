@@ -21,8 +21,6 @@
 			services.AddScoped<IPaymentService, PaymentService>();
 			services.AddScoped<IOrderService, OrderService>();
 
-
-
 			return services;
 		}
 
@@ -57,7 +55,11 @@
 				})
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
-
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.Cookie.HttpOnly = true;
+				options.SlidingExpiration = true;
+			});
 
 			return services;
 		}
