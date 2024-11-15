@@ -109,7 +109,7 @@
 					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td>@order.OrderStatus</td>
 					<td colspan="2" class="">
-						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+						<button class="btn btn-sm btn-info me-2 orderBtn" data-order-id="@order.Id">Details</button>
 					</td>
 				</tr>
 			}
@@ -154,7 +154,7 @@
 					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td colspan="2" class="">
-						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
+						<button class="btn btn-sm btn-info me-2 orderBtn" data-order-id="@order.Id">Details</button>
 					</td>
 				</tr>
 			}
@@ -178,44 +178,64 @@
 <table class="table table-hover table-striped align-middle text-center visually-hidden" id="cancelledOrdersTable">
 	<thead>
 
-		<tr>
-			<th>Order number</th>
-			<th>Order placed</th>
-			<th>Total items</th>
-			<th>Total discount</th>
-			<th>Total price</th>
-			<th colspan="2"></th>
-		</tr>
+	<tr>
+		<th>Order number</th>
+		<th>Order placed</th>
+		<th>Total items</th>
+		<th>Total discount</th>
+		<th>Total price</th>
+		<th colspan="2"></th>
+	</tr>
 	</thead>
 	@if (cancelledOrders.Any())
 	{
 		<tbody>
-			@foreach (var order in cancelledOrders)
-			{
-				<tr class="table-light" scope="row">
-					<td>@order.Id</td>
-					<td>@order.CreateDate</td>
-					<td>@order.TotalUnitItems</td>
-					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-					<td colspan="2" class="">
-						<a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-sm btn-info me-2">Details</a>
-					</td>
-				</tr>
-			}
+		@foreach (var order in cancelledOrders)
+		{
+			<tr class="table-light" scope="row">
+				<td>@order.Id</td>
+				<td>@order.CreateDate</td>
+				<td>@order.TotalUnitItems</td>
+				<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td colspan="2" class="">
+					<button class="btn btn-sm btn-info me-2 orderBtn" data-order-id="@order.Id">Details</button>
+				</td>
+			</tr>
+		}
 
 		</tbody>
 	}
 	else
 	{
 		<tbody>
-			<tr class="table-light" scope="row">
-				<td colspan="7" class="pt-4 pb-4">
-					No previous cancelled orders available.
-				</td>
-			</tr>
+		<tr class="table-light" scope="row">
+			<td colspan="7" class="pt-4 pb-4">
+				No previous cancelled orders available.
+			</td>
+		</tr>
 		</tbody>
 	}
 </table>
 
+@* modal for view *@
+<div id="orderDetailsModal" class="modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"></span>
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="/../js/ordersTableSwitcher.js" type="module"></script>
+<script src="/../js/orderDetails.js" type="module"></script>
