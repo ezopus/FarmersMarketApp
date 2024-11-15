@@ -20,5 +20,7 @@ namespace FarmersMarketApp.Services.Contracts
 		Task<Order?> GetOrderByIdAsync(string orderId);
 
 		Task<bool> AddDeliveryDetailsToOrderByIdAsync(string orderId, OrderCheckoutViewModel model);
+
+		Task<OrderDetailsViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId);
 	}
 }

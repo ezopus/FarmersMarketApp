@@ -78,7 +78,10 @@ namespace FarmersMarketApp.Services
 					OrderId = currentOrder.Id,
 					ProductId = currentProduct.Id,
 					ProductQuantity = productAmount,
-					ProductPriceAtTimeOfOrder = currentProduct.Price,
+					ProductPriceAtTimeOfOrder = currentProduct.DiscountPercentage.HasValue
+						? currentProduct.Price - (currentProduct.Price * currentProduct.DiscountPercentage.Value / 100)
+						: currentProduct.Price,
+					ProductDiscountAtTimeOfOrder = currentProduct.DiscountPercentage ?? 0,
 					FarmId = currentProduct.FarmId,
 					FarmerId = currentProduct.FarmerId,
 				});
@@ -270,6 +273,33 @@ namespace FarmersMarketApp.Services
 			}
 
 			return false;
+		}
+
+		public async Task<OrderDetailsViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId)
+		{
+			var orderProducts = await repository
+				.AllReadOnly<ProductOrder>()
+				.Include(p => p.Product)
+				.Where(o => o.OrderId == Guid.Parse(orderId))
+				.ToListAsync();
+
+			if (orderProducts.Count == 0)
+			{
+				return null;
+			}
+
+			var products = orderProducts
+				.Select(p => new OrderDetailsViewModel()
+				{
+					Id = p.ProductId.ToString(),
+					Name = p.Product.Name,
+					Quantity = p.ProductQuantity,
+					Price = p.ProductPriceAtTimeOfOrder,
+					Discount = p.ProductDiscountAtTimeOfOrder,
+				})
+				.ToList();
+
+			return products.ToArray();
 		}
 	}
 }
