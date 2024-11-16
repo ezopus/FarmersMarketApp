@@ -36,5 +36,6 @@ namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
 		public virtual ICollection<FarmerFarm> FarmersFarms { get; set; } = new List<FarmerFarm>();
 
 		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
 	}
 }
