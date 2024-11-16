@@ -10,8 +10,11 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<FarmerInfoViewModel?> GetFarmerByIdAsync(string farmerId);
 
-		Task<IEnumerable<FarmerInfoViewModel>> GetAllFarmersAsync();
+		Task<IEnumerable<FarmerInfoAdminViewModel>> GetAllFarmersAsync();
+
+		Task<IEnumerable<FarmerInfoViewModel>> GetAllActiveFarmersAsync();
 
 		Task<bool> SetFarmerIsDeletedByIdAsync(string farmerId);
+		Task<bool> RestoreFarmerByIdAsync(string farmerId);
 	}
 }
