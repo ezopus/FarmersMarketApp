@@ -5,7 +5,8 @@ namespace FarmersMarketApp.Services.Contracts
 {
 	public interface IFarmService
 	{
-		Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync();
+		Task<IEnumerable<FarmInfoAdminViewModel>> GetAllFarmsAsync();
+		Task<IEnumerable<FarmInfoViewModel>> GetActiveFarmsAsync();
 
 		Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(string id);
 
@@ -23,6 +24,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel();
 
-		Task<bool> SetFarmIsDeletedByAsync(string farmId);
+		Task<bool> SetFarmIsDeletedByFarmIdAsync(string farmId);
+		Task<bool> RestoreFarmByFarmIdAsync(string farmId);
 	}
 }

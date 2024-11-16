@@ -16,8 +16,25 @@ namespace FarmersMarketApp.Services
 			this.repository = repository;
 		}
 
-		//get all farms async
-		public async Task<IEnumerable<FarmInfoViewModel>> GetFarmsAsync()
+		//get all active farms async
+		public async Task<IEnumerable<FarmInfoAdminViewModel>> GetAllFarmsAsync()
+		{
+			return await repository
+				.AllAsync<Farm>()
+				.Select(f => new FarmInfoAdminViewModel()
+				{
+					Id = f.Id.ToString(),
+					Name = f.Name,
+					Address = f.Address,
+					City = f.City,
+					ImageUrl = f.ImageUrl,
+					IsDeleted = f.IsDeleted,
+				})
+				.ToListAsync();
+		}
+
+		//get all active farms async
+		public async Task<IEnumerable<FarmInfoViewModel>> GetActiveFarmsAsync()
 		{
 			return await repository
 				.AllAsync<Farm>()
@@ -257,12 +274,25 @@ namespace FarmersMarketApp.Services
 			return randomFarms;
 		}
 
-		public async Task<bool> SetFarmIsDeletedByAsync(string farmId)
+		public async Task<bool> SetFarmIsDeletedByFarmIdAsync(string farmId)
 		{
 			var farmToDelete = await repository.GetByIdAsync<Farm>(Guid.Parse(farmId));
 			if (farmToDelete != null)
 			{
 				farmToDelete.IsDeleted = true;
+				await repository.SaveChangesAsync();
+
+				return true;
+			}
+
+			return false;
+		}
+		public async Task<bool> RestoreFarmByFarmIdAsync(string farmId)
+		{
+			var farmToDelete = await repository.GetByIdAsync<Farm>(Guid.Parse(farmId));
+			if (farmToDelete != null)
+			{
+				farmToDelete.IsDeleted = false;
 				await repository.SaveChangesAsync();
 
 				return true;
