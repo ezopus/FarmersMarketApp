@@ -42,7 +42,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//TODO: add switch case for filtration by category 
 			var farms = !string.IsNullOrEmpty(farmerId)
 				? await farmService.GetAllFarmsByFarmerIdAsync(farmerId)
-				: await farmService.GetFarmsAsync();
+				: await farmService.GetActiveFarmsAsync();
 
 			return View(farms);
 		}
