@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Product\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

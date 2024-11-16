@@ -18,11 +18,7 @@ builder.Services.AddAntiforgery();
 
 builder.Services.AddRazorPages();
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-	options.LoginPath = "/Identity/Account/Login"; // Set the login path
-});
-
+// Building starts here, configure beforehand
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +33,9 @@ else
 	app.UseHsts();
 }
 
+await app.SeedRolesAsync();
+await app.EnsureAdminRole();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -45,7 +44,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+	name: "areas",
+	pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
+);
+
 app.MapDefaultControllerRoute();
+
 app.MapRazorPages();
 
 app.Run();
