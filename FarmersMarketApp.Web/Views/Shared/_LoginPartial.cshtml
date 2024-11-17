@@ -26,7 +26,7 @@
 				<a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hi, @firstName!</a>
 			}
 		</li>
-		@if (string.IsNullOrEmpty(isUserFarmer))
+		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
 		{
 			<li class="nav-item d-flex justify-content-center">
 				<a class="nav-link text-light bg-dark" asp-controller="Order" asp-action="All">
@@ -36,7 +36,7 @@
 			</li>
 		}
 		<li class="nav-item">
-			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
+			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = ""})">
 				<button type="submit" class="nav-link btn btn-link text-light">Logout</button>
 			</form>
 		</li>
