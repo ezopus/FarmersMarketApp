@@ -36,7 +36,7 @@ namespace FarmersMarketApp.Web.Controllers
 			{
 				ViewData["farmerId"] = farmerId;
 				ViewData["farmerFullName"] = farmerFullName;
-				var model = await productService.GetProductsByFarmerIdAsync(farmerId);
+				var model = await productService.GetActiveProductsByFarmerIdAsync(farmerId);
 				return View(model);
 			}
 
@@ -44,12 +44,12 @@ namespace FarmersMarketApp.Web.Controllers
 			if (!string.IsNullOrEmpty(farmId))
 			{
 				ViewData["farmName"] = farmName;
-				var model = await productService.GetProductsByFarmIdAsync(farmId);
+				var model = await productService.GetActiveProductsByFarmIdAsync(farmId);
 				return View(model);
 			}
 
 			//gets all products which are not deleted
-			var allModels = await productService.GetProductsAsync();
+			var allModels = await productService.GetActiveProductsAsync();
 
 			return View(allModels);
 		}
@@ -154,22 +154,22 @@ namespace FarmersMarketApp.Web.Controllers
 			var model = await productService.GetProductByIdAsync(id);
 			if (model == null)
 			{
-				return RedirectToAction("All");
+				return RedirectToAction(nameof(All));
 			}
 
-			//try to get farm of product
+			//try to get farm and farmer of product and check if they are deleted
 			var modelFarm = await farmService.GetFarmByIdReadOnlyAsync(model.FarmId);
-			if (modelFarm != null)
-			{
-				model.Farm = modelFarm;
-			}
-
-			//try to get farmer of product
 			var modelFarmer = await farmerService.GetFarmerByIdAsync(model.FarmerId);
-			if (modelFarmer != null)
+
+			if (modelFarm == null ||
+				modelFarmer == null ||
+				modelFarm.IsDeleted ||
+				modelFarmer.IsDeleted)
 			{
-				model.Farmer = modelFarmer;
+				return RedirectToAction(nameof(All));
 			}
+			model.Farm = modelFarm;
+			model.Farmer = modelFarmer;
 
 			return View(model);
 		}
@@ -263,10 +263,5 @@ namespace FarmersMarketApp.Web.Controllers
 			return RedirectToAction("Details", "Product", new { id = model.Id });
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Delete()
-		{
-			return View();
-		}
 	}
 }

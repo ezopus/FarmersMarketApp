@@ -212,6 +212,12 @@ namespace FarmersMarketApp.Web.Controllers
 		{
 			var model = await farmService.GetFarmByIdReadOnlyAsync(farmId);
 
+			//check if farm has been deleted, if yes - redirect to all farms
+			if (model == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
 			return View(model);
 		}
 	}
