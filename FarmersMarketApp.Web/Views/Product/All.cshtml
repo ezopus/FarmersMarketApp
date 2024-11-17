@@ -2,71 +2,55 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
-@using Microsoft.IdentityModel.Tokens
 @using FarmersMarketApp.Common.Enums
-@model IEnumerable<ProductInfoViewModel>
+@model ProductsQueryModel
 @inject IFarmerService FarmerService
 @inject IFarmService FarmService
 
 @{
-	var hasFarmerId = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
-	var farmerId = ViewData["productId"] != null;
-	var hasFarmName = ViewData["farmName"] != null;
 	var categories = Enum.GetValues<ProductType>();
 	var farms = await FarmService.GetAllFarmNamesAndIdsAsync();
-	if (farmerId)
-	{
-		ViewData["Title"] = $"All products from {ViewData["farmerFullName"]}";
-	}
-	else if (hasFarmName)
-	{
-		ViewData["Title"] = $"All products from {ViewData["farmName"]}";
-	}
-	else
-	{
-		ViewData["Title"] = "All products";
-	}
+
+	string? selectedCategory = Context.Request.Query["categoryId"];
+	string? selectedFarm = Context.Request.Query["farmId"];
+	string? selectedSorting = Context.Request.Query["filter"];
+
+	var hasFarmerId = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
+	ViewData["Title"] = "Products";
 }
 
 
 
-<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-	<div class="d-flex align-items-center">
-	<h4 class="me-3">@ViewData["Title"]</h4>
-		<ul class="nav nav-pills">
-			<li class="nav-item dropdown me-3">
-				<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories </a>
-				<div class="dropdown-menu" style="">
-					@foreach (var type in categories)
-					{
-						<a class="dropdown-item" asp-route-categoryId="@type">@type</a>
-					}
-				</div>
-			</li>
-			<li class="nav-item dropdown me-3">
-				<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Farms </a>
-				<div class="dropdown-menu" style="">
-					<a class="dropdown-item" asp-action="All">All farms</a>
-					<div class="dropdown-divider"></div>
-					@foreach (var farm in farms)
-					{
-						<a class="dropdown-item" asp-route-farmId="@farm.Id">@farm.Name</a>
-					}
-				</div>
-			</li>
-		</ul>
-	</div>
+<div class="d-flex justify-content-end align-items-center mb-2" style="margin-top: 20px;">
 	@if (User?.Identity?.IsAuthenticated == true && hasFarmerId)
 	{
 		<a asp-controller="Product" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Product</a>
 	}
 </div>
+<form method="get">
+	<div class="d-flex align-items-center">
+		<select id="categoryDropdown" asp-for="@Model.Category" class="nav nav-pills nav-item nav-link bg-dark text-light form-control-sm me-3" aria-required="true" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+			<option value="">All categories</option>
+		</select>
+		<select id="farmDropDown" asp-for="@Model.FarmId" class="nav-link bg-dark text-light form-control-sm me-3" aria-required="true" asp-items="@(new SelectList(Model.Farms, "Id", "Name"))">
+			<option value="">All farms</option>
+		</select>
+		<select id="sortingDropdown" asp-for="@Model.Sorting" class="nav-link bg-dark text-light form-control-sm me-3" aria-required="true">
+			<option value="@ProductSorting.Newest">Newest</option>
+			<option value="@ProductSorting.PriceAscending">Price ascending</option>
+			<option value="@ProductSorting.PriceDescending">Price descending</option>
+			<option value="@ProductSorting.Oldest">Oldest</option>
+		</select>
+		<input class="form-control-sm me-3 w-100" asp-for="SearchTerm" type="text" name="SearchTerm" placeholder="Search for product..." />
+		<button class="btn btn-info" asp-controller="Product" asp-action="All">Filter</button>
+	</div>
+</form>
 <hr />
 
 <div class="row text-center">
-	@foreach (var product in Model)
+	@foreach (var product in Model.Products)
 	{
-		<div class="col-md-3 mb-5">
+		<div class="col-md-3 mb-3">
 			<div class="card h-100" style="width: 100%;">
 				@if (!string.IsNullOrEmpty(product.ImageUrl))
 				{
