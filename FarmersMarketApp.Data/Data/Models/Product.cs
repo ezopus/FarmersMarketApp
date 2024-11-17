@@ -45,6 +45,9 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Expiration date of product.")]
 		public required DateTime ExpirationDate { get; set; }
 
+		[Comment("Date when product was added to the market.")]
+		public DateTime DateAdded { get; set; }
+
 		[Comment("Category identifier of product.")]
 		public required int CategoryId { get; set; }
 
