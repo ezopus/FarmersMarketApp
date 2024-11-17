@@ -12,6 +12,8 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<ICollection<FarmInfoViewModel>?> GetAllFarmsByFarmerIdAsync(string farmerId);
 
+		Task<IEnumerable<FarmsForDropDown>> GetAllFarmNamesAndIdsAsync();
+
 		Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(string id);
 
 		Task<AddFarmViewModel?> GetFarmToEditByIdAsync(string id);

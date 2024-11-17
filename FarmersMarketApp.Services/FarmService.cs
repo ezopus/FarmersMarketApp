@@ -86,6 +86,18 @@ namespace FarmersMarketApp.Services
 			return farms;
 		}
 
+		public async Task<IEnumerable<FarmsForDropDown>> GetAllFarmNamesAndIdsAsync()
+		{
+			return await repository
+				.AllReadOnly<Farm>()
+				.Select(f => new FarmsForDropDown()
+				{
+					Id = f.Id.ToString(),
+					Name = f.Name,
+				})
+				.ToListAsync();
+		}
+
 		//get read-only copy of specific farm by id async
 		public async Task<FarmInfoViewModel?> GetFarmByIdReadOnlyAsync(string id)
 		{
