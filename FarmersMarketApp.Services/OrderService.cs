@@ -190,6 +190,7 @@ namespace FarmersMarketApp.Services
 						Discount = pr.Product.DiscountPercentage.HasValue
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
+						IsDeleted = pr.Product.IsDeleted,
 					}).ToList(),
 				})
 				.ToListAsync();
@@ -209,17 +210,19 @@ namespace FarmersMarketApp.Services
 					CustomerId = o.CustomerId.ToString(),
 					CreateDate = o.CreateDate.ToString(DateTimeRequiredFormat),
 					OrderStatus = o.OrderStatus,
-					Products = o.ProductsOrders.Select(pr => new ProductOrderViewModel()
-					{
-						Id = pr.ProductId.ToString(),
-						Name = pr.Product.Name,
-						PriceAtPurchase = pr.ProductPriceAtTimeOfOrder,
-						Amount = pr.ProductQuantity,
-						ImageUrl = pr.Product.ImageUrl,
-						Discount = pr.Product.DiscountPercentage.HasValue
+					Products = o.ProductsOrders
+						.Where(p => p.IsDeleted == false)
+						.Select(pr => new ProductOrderViewModel()
+						{
+							Id = pr.ProductId.ToString(),
+							Name = pr.Product.Name,
+							PriceAtPurchase = pr.ProductPriceAtTimeOfOrder,
+							Amount = pr.ProductQuantity,
+							ImageUrl = pr.Product.ImageUrl,
+							Discount = pr.Product.DiscountPercentage.HasValue
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
-					}).ToList(),
+						}).ToList(),
 				})
 				.FirstOrDefaultAsync();
 
@@ -229,7 +232,7 @@ namespace FarmersMarketApp.Services
 			}
 
 			//check to see if customer of order is the same as the one trying to checkout
-			if (currentOrder.CustomerId.ToString().ToLower() != userId.ToLower())
+			if (currentOrder.CustomerId.ToLower() != userId.ToLower())
 			{
 				return null;
 			}

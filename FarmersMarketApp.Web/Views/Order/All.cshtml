@@ -35,9 +35,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		@if (openOrder != null && openOrder.Products.Any())
+		@if (openOrder != null && openOrder.Products.Any(pr => pr.IsDeleted == false))
 		{
-			@foreach (var product in openOrder.Products)
+			@foreach (var product in openOrder.Products.Where(pr => pr.IsDeleted == false))
 			{
 				<tr class="table-light" scope="row">
 					<td class="text-center">
@@ -59,14 +59,14 @@
 
 			<tr class="table-secondary">
 				<td colspan="3"></td>
-				<td class="">Total products: @openOrder.TotalUnitItems</td>
-				<td class="">Total discount: @openOrder.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td class="">Total products: @openOrder.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Amount)</td>
+				<td class="">Total discount: @openOrder.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Discount * pr.Amount).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 				<td colspan="2">
 					<a asp-controller="Order" asp-action="RemoveAllFromCart" asp-route-orderId="@openOrder.Id" class="btn btn-sm btn-danger me-2">Remove All</a>
 				</td>
 			</tr>
 			<tr class="table-primary">
-				<td colspan="5" class="text-end pe-5">Total price: @openOrder.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td colspan="5" class="text-end pe-5">Total price: @openOrder.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Amount * pr.PriceAtPurchase).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 				<td colspan="2" class="text-center">
 					<a asp-controller="Order" asp-action="Checkout" asp-route-orderId="@openOrder.Id" class="btn btn-success me-2">Checkout</a>
 				</td>
