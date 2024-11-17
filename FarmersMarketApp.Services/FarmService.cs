@@ -11,9 +11,13 @@ namespace FarmersMarketApp.Services
 	public class FarmService : IFarmService
 	{
 		private readonly IRepository repository;
-		public FarmService(IRepository repository)
+		private readonly IProductService productService;
+		public FarmService(
+			IRepository repository,
+			IProductService productService)
 		{
 			this.repository = repository;
+			this.productService = productService;
 		}
 
 		//get all active farms async
@@ -54,6 +58,32 @@ namespace FarmersMarketApp.Services
 					Products = f.Products,
 				})
 				.ToListAsync();
+		}
+
+		//get all farms of specific farmer
+		public async Task<ICollection<FarmInfoViewModel>?> GetAllFarmsByFarmerIdAsync(string farmerId)
+		{
+			var farms = await repository
+				.AllReadOnly<Farm>()
+				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId))
+							&& !f.IsDeleted)
+				.Select(f => new FarmInfoViewModel()
+				{
+					Id = f.Id.ToString(),
+					Name = f.Name,
+					Address = f.Address,
+					PhoneNumber = f.PhoneNumber,
+					City = f.City,
+					CloseHours = f.CloseHours.ToString(),
+					OpenHours = f.OpenHours.ToString(),
+					Email = f.Email,
+					ImageUrl = f.ImageUrl,
+					FarmersFarms = f.FarmersFarms,
+					Products = f.Products,
+				})
+				.ToListAsync();
+
+			return farms;
 		}
 
 		//get read-only copy of specific farm by id async
@@ -114,32 +144,6 @@ namespace FarmersMarketApp.Services
 			};
 
 			return model;
-		}
-
-		//get all farms of specific farmer
-		public async Task<ICollection<FarmInfoViewModel>?> GetAllFarmsByFarmerIdAsync(string farmerId)
-		{
-			var farms = await repository
-				.AllReadOnly<Farm>()
-				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId))
-							&& !f.IsDeleted)
-				.Select(f => new FarmInfoViewModel()
-				{
-					Id = f.Id.ToString(),
-					Name = f.Name,
-					Address = f.Address,
-					PhoneNumber = f.PhoneNumber,
-					City = f.City,
-					CloseHours = f.CloseHours.ToString(),
-					OpenHours = f.OpenHours.ToString(),
-					Email = f.Email,
-					ImageUrl = f.ImageUrl,
-					FarmersFarms = f.FarmersFarms,
-					Products = f.Products,
-				})
-				.ToListAsync();
-
-			return farms;
 		}
 
 		//Used for validation in views to show edit button only for farmers part of specific farm
@@ -274,31 +278,58 @@ namespace FarmersMarketApp.Services
 			return randomFarms;
 		}
 
+		public async Task<IEnumerable<Farm>> GetAllFarmsByFarmerIdForDeletion(string farmerId)
+		{
+			return await repository.AllAsync<Farm>()
+				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId)))
+				.ToListAsync();
+		}
+
 		public async Task<bool> SetFarmIsDeletedByFarmIdAsync(string farmId)
 		{
 			var farmToDelete = await repository.GetByIdAsync<Farm>(Guid.Parse(farmId));
-			if (farmToDelete != null)
+			if (farmToDelete == null)
 			{
-				farmToDelete.IsDeleted = true;
-				await repository.SaveChangesAsync();
-
-				return true;
+				return false;
 			}
 
-			return false;
+			var productsToDelete = await productService.GetProductsForDeletionByFarmIdAsync(farmId);
+
+			if (productsToDelete.Any())
+			{
+				foreach (var product in productsToDelete)
+				{
+					product.IsDeleted = true;
+				}
+			}
+
+			farmToDelete.IsDeleted = true;
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 		public async Task<bool> RestoreFarmByFarmIdAsync(string farmId)
 		{
 			var farmToDelete = await repository.GetByIdAsync<Farm>(Guid.Parse(farmId));
-			if (farmToDelete != null)
+			if (farmToDelete == null)
 			{
-				farmToDelete.IsDeleted = false;
-				await repository.SaveChangesAsync();
-
-				return true;
+				return false;
 			}
 
-			return false;
+			var productsToDelete = await productService.GetProductsForDeletionByFarmIdAsync(farmId);
+
+			if (productsToDelete.Any())
+			{
+				foreach (var product in productsToDelete)
+				{
+					product.IsDeleted = false;
+				}
+			}
+
+			farmToDelete.IsDeleted = false;
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }
