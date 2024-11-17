@@ -40,6 +40,5 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 		public string ProductionDate { get; set; } = null!;
 		public string ExpirationDate { get; set; } = null!;
 
-
 	}
 }

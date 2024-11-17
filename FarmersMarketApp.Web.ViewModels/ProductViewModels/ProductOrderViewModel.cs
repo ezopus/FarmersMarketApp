@@ -9,8 +9,9 @@
 		public required decimal PriceAtPurchase { get; set; }
 		public int Amount { get; set; }
 		public string? ImageUrl { get; set; }
-
 		public decimal Discount { get; set; }
+
+		public bool IsDeleted { get; set; }
 
 	}
 }

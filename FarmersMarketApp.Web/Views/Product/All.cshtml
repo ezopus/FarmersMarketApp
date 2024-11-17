@@ -8,7 +8,7 @@
 
 @{
 	var hasFarmerId = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
-	var farmerId = ViewData["farmerId"] != null;
+	var farmerId = ViewData["productId"] != null;
 	var hasFarmName = ViewData["farmName"] != null;
 	if (farmerId)
 	{

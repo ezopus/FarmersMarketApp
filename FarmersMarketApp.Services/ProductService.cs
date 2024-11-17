@@ -18,7 +18,27 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products
-		public async Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync()
+		public async Task<IEnumerable<ProductInfoAdminViewModel>> GetAllProductsAsync()
+		{
+			return await repository
+				.AllAsync<Product>()
+				.Select(p => new ProductInfoAdminViewModel()
+				{
+					Id = p.Id.ToString(),
+					Name = p.Name,
+					FarmId = p.FarmId.ToString(),
+					FarmerId = p.FarmerId.ToString(),
+					CategoryId = p.CategoryId,
+					Price = p.Price,
+					DiscountPercentage = p.DiscountPercentage ?? 0,
+					ImageUrl = p.ImageUrl ?? "",
+					IsDeleted = p.IsDeleted,
+				})
+				.ToListAsync();
+		}
+
+		//get all active products
+		public async Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync()
 		{
 			return await repository
 				.AllAsync<Product>()
@@ -165,11 +185,12 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made by specific farmer
-		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmerIdAsync(string farmerId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmerIdAsync(string farmerId)
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId))
+				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId)
+						&& !pr.IsDeleted)
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -192,11 +213,12 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made at specific farm
-		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmIdAsync(string farmId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmIdAsync(string farmId)
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farm.Id == Guid.Parse(farmId) && !pr.IsDeleted)
+				.Where(pr => pr.Farm.Id == Guid.Parse(farmId)
+							 && !pr.IsDeleted)
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -218,7 +240,7 @@ namespace FarmersMarketApp.Services
 				.ToListAsync();
 		}
 
-		//get all products from specific category
+		//TODO: get all products from specific category
 		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId)
 		{
 			return await repository
@@ -285,7 +307,23 @@ namespace FarmersMarketApp.Services
 		//get product for populating order details
 		public async Task<Product?> GetProductForOrderByProductIdAsync(string productId)
 		{
-			return await repository.AllReadOnly<Product>().FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(productId));
+			return await repository
+				.AllReadOnly<Product>()
+				.Where(pr => !pr.IsDeleted)
+				.FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(productId));
+		}
+
+		public async Task<IEnumerable<Product>> GetProductsForDeletionByFarmIdAsync(string farmId)
+		{
+			return await repository.AllAsync<Product>()
+				.Where(p => p.FarmId == Guid.Parse(farmId))
+				.ToListAsync();
+		}
+		public async Task<IEnumerable<Product>> GetProductsForDeletionByFarmerIdAsync(string farmerId)
+		{
+			return await repository.AllAsync<Product>()
+				.Where(p => p.FarmerId == Guid.Parse(farmerId))
+				.ToListAsync();
 		}
 
 		//set product Is Deleted to true
@@ -296,6 +334,21 @@ namespace FarmersMarketApp.Services
 			if (productToDelete != null)
 			{
 				productToDelete.IsDeleted = true;
+				await repository.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
+		}
+
+		//restore product by id
+		public async Task<bool> RestoreProductByIdAsync(string productId)
+		{
+			var productToDelete = await repository.GetByIdAsync<Product>(Guid.Parse(productId));
+
+			if (productToDelete != null)
+			{
+				productToDelete.IsDeleted = false;
 				await repository.SaveChangesAsync();
 				return true;
 			}

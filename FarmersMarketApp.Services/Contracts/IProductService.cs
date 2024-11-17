@@ -5,7 +5,8 @@ namespace FarmersMarketApp.Services.Contracts
 {
 	public interface IProductService
 	{
-		Task<IEnumerable<ProductInfoViewModel>> GetProductsAsync();
+		Task<IEnumerable<ProductInfoAdminViewModel>> GetAllProductsAsync();
+		Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync();
 
 		Task<ProductInfoViewModel?> GetProductByIdAsync(string id);
 
@@ -15,9 +16,9 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<Product?> GetProductByNameAsync(string name);
 
-		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmerIdAsync(string farmerId);
+		Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmerIdAsync(string farmerId);
 
-		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByFarmIdAsync(string farmId);
+		Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmIdAsync(string farmId);
 
 		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId);
 
@@ -25,7 +26,10 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<Product?> GetProductForOrderByProductIdAsync(string productId);
 
+		Task<IEnumerable<Product>> GetProductsForDeletionByFarmIdAsync(string farmId);
+		Task<IEnumerable<Product>> GetProductsForDeletionByFarmerIdAsync(string farmerId);
 		Task<bool> SetProductIsDeletedByIdAsync(string productId);
+		Task<bool> RestoreProductByIdAsync(string productId);
 
 	}
 }
