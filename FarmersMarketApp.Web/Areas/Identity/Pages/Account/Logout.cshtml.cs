@@ -24,7 +24,7 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            Response.Redirect($"Home/Index");
+            Response.Redirect($"/Home/Index/");
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
@@ -33,7 +33,7 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account
             {
                 // This needs to be a redirect so that the browser performs a new
                 // request and the identity for the user gets updated.
-                return RedirectToPage();
+                return RedirectToPage("Index", "Home");
             }
         }
     }

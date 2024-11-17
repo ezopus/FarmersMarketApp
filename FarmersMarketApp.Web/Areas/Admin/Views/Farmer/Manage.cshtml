@@ -2,48 +2,55 @@
 @model IEnumerable<FarmerInfoAdminViewModel>
 
 @{
-    ViewData["Title"] = "All Farms";
+	ViewData["Title"] = "All Farms";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
+	<h2>@ViewData["Title"]</h2>
 </div>
 <hr />
 
 <div class="row text-center justify-content-center">
-    @foreach (var farmer in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100" style="width: 100%;">
-                @if (!string.IsNullOrEmpty(farmer.ImageUrl))
-                {
-                    <img src="@farmer.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover; object-position: top;" alt="@farmer.ImageUrl">
-                }
-                else
-                {
-                    <img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
-                }
+	@foreach (var farmer in Model)
+	{
+		<div class="col-md-3 mb-4">
+			<div class="card h-100" style="width: 100%;">
+				@if (!string.IsNullOrEmpty(farmer.ImageUrl))
+				{
+					<img src="@farmer.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover; object-position: top;" alt="@farmer.ImageUrl">
+				}
+				else
+				{
+					<img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
+				}
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@farmer.FullName</h5>
-                    <p class="card-text">@farmer.CompanyName</p>
-	                <p class="card-text">@farmer.CompanyAddress</p>
-	                <p class="card-text">
-		                Current status:
-		                @if (farmer.IsDeleted)
-		                {
-			                <span class="text-danger fw-bold">Deactivated</span>
-		                }
-		                else
-		                {
-			                <span class="text-success fw-bold">Active</span>
-		                }
-	                </p>
-                   <a asp-controller="Farmer" asp-action="Restore" asp-route-farmerId="@farmer.Id" class="btn btn-warning mb-2">Restore</a>
-                   <a asp-controller="Farmer" asp-action="Delete" asp-route-farmerId="@farmer.Id" class="btn btn-danger">Deactivate</a>
-                   
-                </div>
-            </div>
-        </div>
-    }
+				<div class="card-body d-flex flex-column">
+					<h5 class="card-title">@farmer.FullName</h5>
+					<p class="card-text">@farmer.CompanyName</p>
+					<p class="card-text">@farmer.CompanyAddress</p>
+					@if (farmer.IsDeleted)
+					{
+						<p class="card-text">
+							Current status:
+							<span class="text-danger fw-bold">Deactivated</span>
+						</p>
+
+						<a asp-controller="Farmer" asp-action="Restore" asp-route-farmerId="@farmer.Id" class="btn btn-warning mb-2">Restore farmer only</a>
+						<a asp-controller="Farmer" asp-action="RestoreAll" asp-route-farmerId="@farmer.Id" class="btn btn-warning">Restore all farmer entities</a>
+					}
+					else
+					{
+						<p class="card-text">
+							Current status:
+							<span class="text-success fw-bold">Active</span>
+						</p>
+						<a asp-controller="Farmer" asp-action="Delete" asp-route-farmerId="@farmer.Id" class="btn btn-danger mb-2">Deactivate farmer only</a>
+						<a asp-controller="Farmer" asp-action="DeleteAll" asp-route-farmerId="@farmer.Id" class="btn btn-danger">Deactivate all farmer entities</a>
+					}
+
+
+				</div>
+			</div>
+		</div>
+	}
 </div>
