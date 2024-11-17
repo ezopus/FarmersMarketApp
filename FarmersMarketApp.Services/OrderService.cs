@@ -211,7 +211,7 @@ namespace FarmersMarketApp.Services
 					CreateDate = o.CreateDate.ToString(DateTimeRequiredFormat),
 					OrderStatus = o.OrderStatus,
 					Products = o.ProductsOrders
-						.Where(p => p.IsDeleted == false)
+						.Where(p => p.Product.IsDeleted == false)
 						.Select(pr => new ProductOrderViewModel()
 						{
 							Id = pr.ProductId.ToString(),
@@ -222,6 +222,7 @@ namespace FarmersMarketApp.Services
 							Discount = pr.Product.DiscountPercentage.HasValue
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
+							IsDeleted = pr.Product.IsDeleted,
 						}).ToList(),
 				})
 				.FirstOrDefaultAsync();
