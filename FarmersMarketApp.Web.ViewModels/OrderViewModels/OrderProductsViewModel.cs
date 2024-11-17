@@ -21,5 +21,6 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 
 		public IEnumerable<ProductOrderViewModel> Products { get; set; } = new List<ProductOrderViewModel>();
 
+		public bool IsDeleted { get; set; }
 	}
 }

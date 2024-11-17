@@ -37,5 +37,6 @@ namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
 
 		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
+		public bool IsDeleted { get; set; }
 	}
 }

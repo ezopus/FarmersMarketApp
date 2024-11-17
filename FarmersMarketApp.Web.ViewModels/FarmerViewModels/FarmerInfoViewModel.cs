@@ -9,5 +9,6 @@
 		public string? ImageUrl { get; set; }
 		public bool AcceptsDeliveries { get; set; }
 		public bool? HasProducts { get; set; }
+		public bool IsDeleted { get; set; }
 	}
 }
