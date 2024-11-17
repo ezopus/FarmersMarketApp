@@ -29,29 +29,22 @@ namespace FarmersMarketApp.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpGet]
-		public async Task<IActionResult> All(string? farmerId, string? farmerFullName, string? farmId, string? farmName)
+		public async Task<IActionResult> All([FromQuery] ProductsQueryModel model)
 		{
-			//check if user wants only products by one farmer
-			if (!string.IsNullOrEmpty(farmerId))
-			{
-				ViewData["farmerId"] = farmerId;
-				ViewData["farmerFullName"] = farmerFullName;
-				var model = await productService.GetActiveProductsByFarmerIdAsync(farmerId);
-				return View(model);
-			}
+			var products = await productService.GetAllProductsWithQueryAsync(
+				model.Category,
+				model.FarmId,
+				model.FarmerId,
+				model.SearchTerm,
+				model.Sorting,
+				model.CurrentPage,
+				model.ProductsPerPage);
 
-			//check if user wants only products by one farm
-			if (!string.IsNullOrEmpty(farmId))
-			{
-				ViewData["farmName"] = farmName;
-				var model = await productService.GetActiveProductsByFarmIdAsync(farmId);
-				return View(model);
-			}
+			model.Products = products.Products;
+			model.Categories = await categoryService.GetCategoriesAsync();
+			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
 
-			//gets all products which are not deleted
-			var allModels = await productService.GetActiveProductsAsync();
-
-			return View(allModels);
+			return View(model);
 		}
 
 		[HttpGet]

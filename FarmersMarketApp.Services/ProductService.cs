@@ -37,6 +37,82 @@ namespace FarmersMarketApp.Services
 				.ToListAsync();
 		}
 
+		public async Task<ProductsQueryModel> GetAllProductsWithQueryAsync(
+			int? categoryId,
+			string? farmId,
+			string? farmerId,
+			string? searchTerm,
+			ProductSorting sorting = ProductSorting.Newest,
+			int currentPage = 1,
+			int productsPerPage = 12
+			)
+		{
+			var productsToShow = repository
+				.AllReadOnly<Product>()
+				.Where(pr => !pr.IsDeleted);
+
+			if (categoryId != null)
+			{
+				productsToShow = productsToShow.Where(pr => pr.CategoryId == categoryId);
+			}
+
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				string normalizedSearchTerm = searchTerm.ToLower().Trim();
+				productsToShow = productsToShow
+					.Where(pr => pr.Name.ToLower().Contains(normalizedSearchTerm));
+			}
+
+			if (!string.IsNullOrEmpty(farmId))
+			{
+				productsToShow = productsToShow
+					.Where(pr => pr.FarmId.ToString().ToLower() == farmId.ToLower());
+			}
+			if (!string.IsNullOrEmpty(farmerId))
+			{
+				productsToShow = productsToShow
+					.Where(pr => pr.FarmerId.ToString().ToLower() == farmerId.ToLower());
+			}
+
+			productsToShow = sorting switch
+			{
+				ProductSorting.PriceAscending => productsToShow.OrderBy(pr => pr.Price),
+				ProductSorting.PriceDescending => productsToShow.OrderByDescending(pr => pr.Price),
+				ProductSorting.Newest => productsToShow.OrderByDescending(pr => pr.DateAdded),
+				ProductSorting.Oldest => productsToShow.OrderBy(pr => pr.DateAdded),
+				_ => productsToShow
+			};
+
+			var products = await productsToShow
+				.Skip((currentPage - 1) * productsPerPage)
+				.Take(productsPerPage)
+				.Select(pr => new ProductInfoViewModel()
+				{
+					Id = pr.Id.ToString(),
+					Name = pr.Name,
+					Description = pr.Description,
+					FarmId = pr.FarmId.ToString(),
+					FarmerId = pr.FarmerId.ToString(),
+					CategoryId = pr.CategoryId,
+					Price = pr.Price,
+					DiscountPercentage = pr.DiscountPercentage ?? 0,
+					UnitType = pr.UnitType.ToString(),
+					Size = pr.Size,
+					Quantity = pr.Quantity,
+					Origin = pr.Origin ?? "",
+					ImageUrl = pr.ImageUrl ?? "",
+					ProductionDate = pr.ProductionDate.ToString(DateTimeRequiredFormat),
+					ExpirationDate = pr.ExpirationDate.ToString(DateTimeRequiredFormat),
+					DateAdded = pr.DateAdded.ToString(DateTimeRequiredFormat)
+				})
+				.ToListAsync();
+
+			return new ProductsQueryModel()
+			{
+				Products = products,
+			};
+		}
+
 		//get all active products
 		public async Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync()
 		{

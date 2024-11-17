@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
+﻿using FarmersMarketApp.Common.Enums;
+using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
@@ -6,6 +7,8 @@ namespace FarmersMarketApp.Services.Contracts
 	public interface IProductService
 	{
 		Task<IEnumerable<ProductInfoAdminViewModel>> GetAllProductsAsync();
+
+		Task<ProductsQueryModel> GetAllProductsWithQueryAsync(int? categoryId, string? farmId, string? farmerId, string? searchTerm, ProductSorting sorting, int currentPage, int productsPerPage);
 		Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync();
 
 		Task<ProductInfoViewModel?> GetProductByIdAsync(string id);
