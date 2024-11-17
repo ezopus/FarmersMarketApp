@@ -3,13 +3,17 @@
 @using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
 @using Microsoft.IdentityModel.Tokens
+@using FarmersMarketApp.Common.Enums
 @model IEnumerable<ProductInfoViewModel>
 @inject IFarmerService FarmerService
+@inject IFarmService FarmService
 
 @{
 	var hasFarmerId = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
 	var farmerId = ViewData["productId"] != null;
 	var hasFarmName = ViewData["farmName"] != null;
+	var categories = Enum.GetValues<ProductType>();
+	var farms = await FarmService.GetAllFarmNamesAndIdsAsync();
 	if (farmerId)
 	{
 		ViewData["Title"] = $"All products from {ViewData["farmerFullName"]}";
@@ -27,7 +31,31 @@
 
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-	<h2>@ViewData["Title"]</h2>
+	<div class="d-flex align-items-center">
+	<h4 class="me-3">@ViewData["Title"]</h4>
+		<ul class="nav nav-pills">
+			<li class="nav-item dropdown me-3">
+				<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories </a>
+				<div class="dropdown-menu" style="">
+					@foreach (var type in categories)
+					{
+						<a class="dropdown-item" asp-route-categoryId="@type">@type</a>
+					}
+				</div>
+			</li>
+			<li class="nav-item dropdown me-3">
+				<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Farms </a>
+				<div class="dropdown-menu" style="">
+					<a class="dropdown-item" asp-action="All">All farms</a>
+					<div class="dropdown-divider"></div>
+					@foreach (var farm in farms)
+					{
+						<a class="dropdown-item" asp-route-farmId="@farm.Id">@farm.Name</a>
+					}
+				</div>
+			</li>
+		</ul>
+	</div>
 	@if (User?.Identity?.IsAuthenticated == true && hasFarmerId)
 	{
 		<a asp-controller="Product" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Product</a>
@@ -42,11 +70,11 @@
 			<div class="card h-100" style="width: 100%;">
 				@if (!string.IsNullOrEmpty(product.ImageUrl))
 				{
-					<img src="@product.ImageUrl" class="card-img-top rounded" style="max-height:200px; object-fit: cover;" alt="@product.Name">
+					<img src="@product.ImageUrl" class="card-img-top rounded" style="height:200px; object-fit: cover;" alt="@product.Name">
 				}
 				else
 				{
-					<img src="/img/no-image.png" class="card-img-top" style="max-height: 200px; object-fit: cover;" alt="No Image Available">
+					<img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
 				}
 
 				<div class="card-body d-flex flex-column">
@@ -69,8 +97,8 @@
 					{
 
 						<form class="d-flex mb-2" asp-controller="Order" asp-action="AddToCart" method="post">
-							<input type="hidden" name="productId" value="@product.Id"/>
-							<input id="productAmount" name="productAmount" type="number" class="form-control w-25 me-2 text-end" style="-webkit-appearance: none; -moz-appearance: textfield;"value="1"/>
+							<input type="hidden" name="productId" value="@product.Id" />
+							<input id="productAmount" name="productAmount" type="number" class="form-control w-25 me-2 text-end" style="-webkit-appearance: none; -moz-appearance: textfield;" value="1" />
 							<button class="btn btn-success w-75">
 								Add to cart <i class="fa-solid fa-cart-plus"></i>
 							</button>
@@ -84,4 +112,30 @@
 			</div>
 		</div>
 	}
+</div>
+
+<div class="">
+	<ul class="pagination justify-content-center">
+		<li class="page-item">
+			<a class="page-link" href="#">&laquo;</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">1</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">2</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">3</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">4</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">5</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#">&raquo;</a>
+		</li>
+	</ul>
 </div>
