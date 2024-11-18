@@ -372,6 +372,7 @@ namespace FarmersMarketApp.Services
 				Barcode = model.Barcode,
 				ImageUrl = model.ImageUrl,
 				Origin = model.Origin,
+				DateAdded = DateTime.Now,
 			};
 
 			await repository.AddAsync(newProduct);
