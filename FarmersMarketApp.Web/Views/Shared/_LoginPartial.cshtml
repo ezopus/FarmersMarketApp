@@ -20,10 +20,15 @@
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
-		<li class="nav-item">
+		<li class="nav-item dropdown">
 			@if (User.Identity.IsAuthenticated && !string.IsNullOrEmpty(firstName))
 			{
-				<a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hi, @firstName!</a>
+				<a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Hi, @firstName!</a>
+				<div class="dropdown-menu" data-bs-popper="static">
+					<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Change profile details</a>
+					<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Email">Change email</a>
+					<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change password</a>
+				</div>
 			}
 		</li>
 		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
