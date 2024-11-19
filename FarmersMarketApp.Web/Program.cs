@@ -1,5 +1,7 @@
 using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ModelBinders;
+using FarmersMarketApp.Web.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,14 @@ builder.Services.AddControllersWithViews(options =>
 	options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
 
 });
+
+
+// Add email sender service
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+// Configure EmailSettings from appsettings.json
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection
+("EmailSettings"));
 
 builder.Services.AddAntiforgery();
 
