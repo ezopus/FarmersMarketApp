@@ -154,5 +154,12 @@ namespace FarmersMarketApp.Web.Controllers
 			return View(products);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> MyOrders(string farmerId)
+		{
+			var model = await farmerService.GetFarmerProductOrderAsync(farmerId);
+
+			return View(model);
+		}
 	}
 }

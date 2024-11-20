@@ -1,0 +1,67 @@
+﻿@using FarmersMarketApp.Web.ViewModels.FarmerViewModels
+@model IEnumerable<FarmerProductOrderViewModel>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+<table class="table table-hover align-middle text-center" id="pendingOrdersTable">
+	<thead>
+		<tr class="table-active">
+			<th colspan="2">Order placed</th>
+			<th colspan="3">Total items</th>
+			<th>Total price</th>
+			<th>Customer</th>
+			<th>Customer Phone number</th>
+			<th>Delivery Address</th>
+			<th>Delivery City</th>
+			<th colspan="2">Actions</th>
+		</tr>
+	</thead>
+	@if (Model.Any())
+	{
+		<tbody>
+			@foreach (var order in Model.OrderByDescending(o => o.OrderDate))
+			{
+				<tr class="table-primary" scope="row">
+					<td colspan="2">@order.OrderDate</td>
+					<td colspan="3">@order.OrderProducts.Sum(p => p.ProductQuantity) items</td>
+					<td>@order.OrderProducts.Sum(p => p.ProductPriceAtPurchase * p.ProductQuantity)</td>
+					<td>@order.DeliveryName</td>
+					<td>@order.DeliveryPhoneNumber</td>
+					<td>@order.DeliveryAddress</td>
+					<td>@order.DeliveryCity</td>
+					<td colspan="2">
+						<button class="btn btn-sm btn-success me-2 orderBtn" data-order-id="@order.OrderId">Complete</button>
+						<button class="btn btn-sm btn-danger orderBtn" data-order-id="@order.OrderId">Cancel</button>
+					</td>
+				</tr>
+				@foreach (var product in order.OrderProducts)
+				{
+					<tr class="table-secondary">
+						<td colspan="2"></td>
+						<td>@product.ProductName</td>
+						<td>@product.ProductQuantity</td>
+						<td>@product.ProductPriceAtPurchase</td>
+						<td colspan="1">@(product.ProductPriceAtPurchase * product.ProductQuantity)</td>
+						<td colspan="7"></td>
+					</tr>
+				}
+			}
+
+		</tbody>
+	}
+	else
+	{
+		<tbody>
+			<tr class="table-light" scope="row">
+				<td colspan="7" class="pt-4 pb-4">
+					No pending orders available.
+				</td>
+			</tr>
+		</tbody>
+	}
+</table>
