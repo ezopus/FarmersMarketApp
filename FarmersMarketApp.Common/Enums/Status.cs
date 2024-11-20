@@ -1,6 +1,6 @@
 ﻿namespace FarmersMarketApp.Common.Enums;
 
-public enum OrderStatus
+public enum Status
 {
 	Open = 1,
 	Pending,

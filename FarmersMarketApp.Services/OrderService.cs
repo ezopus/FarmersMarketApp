@@ -35,7 +35,7 @@ namespace FarmersMarketApp.Services
 			//check to see if user has open order
 			var currentOrder = await repository
 				.AllAsync<Order>()
-				.Where(o => o.CustomerId == Guid.Parse(userId) && o.OrderStatus == OrderStatus.Open)
+				.Where(o => o.CustomerId == Guid.Parse(userId) && o.Status == Status.Open)
 				.FirstOrDefaultAsync();
 
 			//if no open order exists, create a new one
@@ -46,7 +46,7 @@ namespace FarmersMarketApp.Services
 					Id = Guid.NewGuid(),
 					CustomerId = Guid.Parse(userId),
 					CreateDate = DateTime.Now,
-					OrderStatus = OrderStatus.Open,
+					Status = Status.Open,
 				};
 
 				//add new order to db
@@ -56,7 +56,7 @@ namespace FarmersMarketApp.Services
 			var productsInOpenOrder =
 				await repository.AllAsync<ProductOrder>()
 					.Where(o => o.OrderId == currentOrder.Id
-								&& o.Order.OrderStatus == OrderStatus.Open)
+								&& o.Order.Status == Status.Open)
 					.ToListAsync();
 
 			//perform check if product is already added to order
@@ -104,7 +104,7 @@ namespace FarmersMarketApp.Services
 
 			//check to see if order is open
 			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
-			if (currentOrder == null || currentOrder.OrderStatus != OrderStatus.Open)
+			if (currentOrder == null || currentOrder.Status != Status.Open)
 			{
 				return false;
 			}
@@ -140,7 +140,7 @@ namespace FarmersMarketApp.Services
 		{
 			//check to see if order exists and is open
 			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
-			if (currentOrder == null || currentOrder.OrderStatus != OrderStatus.Open)
+			if (currentOrder == null || currentOrder.Status != Status.Open)
 			{
 				return false;
 			}
@@ -179,7 +179,7 @@ namespace FarmersMarketApp.Services
 					Id = o.Id.ToString(),
 					CustomerId = o.CustomerId.ToString(),
 					CreateDate = o.CreateDate.ToString("dd-MM-yyyy HH:mm"),
-					OrderStatus = o.OrderStatus,
+					Status = o.Status,
 					Products = o.ProductsOrders.Select(pr => new ProductOrderViewModel()
 					{
 						Id = pr.ProductId.ToString(),
@@ -209,7 +209,7 @@ namespace FarmersMarketApp.Services
 					Id = o.Id.ToString(),
 					CustomerId = o.CustomerId.ToString(),
 					CreateDate = o.CreateDate.ToString(DateTimeRequiredFormat),
-					OrderStatus = o.OrderStatus,
+					Status = o.Status,
 					Products = o.ProductsOrders
 						.Where(p => p.Product.IsDeleted == false)
 						.Select(pr => new ProductOrderViewModel()
@@ -227,7 +227,7 @@ namespace FarmersMarketApp.Services
 				})
 				.FirstOrDefaultAsync();
 
-			if (currentOrder == null || currentOrder.OrderStatus != OrderStatus.Open)
+			if (currentOrder == null || currentOrder.Status != Status.Open)
 			{
 				return null;
 			}
@@ -247,7 +247,7 @@ namespace FarmersMarketApp.Services
 
 			if (currentOrder != null)
 			{
-				currentOrder.OrderStatus = OrderStatus.Pending;
+				currentOrder.Status = Status.Pending;
 				await repository.SaveChangesAsync();
 				return true;
 			}

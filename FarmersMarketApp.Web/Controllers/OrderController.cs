@@ -138,7 +138,7 @@ namespace FarmersMarketApp.Web.Controllers
 			{
 				model.Id = modelReload.Id;
 				model.CustomerId = modelReload.CustomerId;
-				model.OrderStatus = modelReload.OrderStatus;
+				model.Status = modelReload.Status;
 				model.CreateDate = modelReload.CreateDate;
 				model.Products = modelReload.Products;
 			}

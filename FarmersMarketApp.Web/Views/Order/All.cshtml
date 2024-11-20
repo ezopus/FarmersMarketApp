@@ -4,10 +4,10 @@
 @model IEnumerable<OrderProductsViewModel>
 
 @{
-	var openOrder = Model.FirstOrDefault(o => o.OrderStatus == OrderStatus.Open);
-	var completedOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Completed);
-	var cancelledOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Cancelled);
-	var pendingOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.OrderStatus == OrderStatus.Pending);
+	var openOrder = Model.FirstOrDefault(o => o.Status == Status.Open);
+	var completedOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Completed);
+	var cancelledOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Cancelled);
+	var pendingOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Pending);
 }
 
 <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
@@ -107,7 +107,7 @@
 					<td>@order.TotalUnitItems</td>
 					<td>@order.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td>@order.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-					<td>@order.OrderStatus</td>
+					<td>@order.Status</td>
 					<td colspan="2" class="">
 						<button class="btn btn-sm btn-info me-2 orderBtn" data-order-id="@order.Id">Details</button>
 					</td>

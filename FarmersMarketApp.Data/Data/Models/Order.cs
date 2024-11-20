@@ -30,7 +30,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		public virtual ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
 
 		[Comment("Status of the current order.")]
-		public OrderStatus OrderStatus { get; set; }
+		public Status Status { get; set; }
 
 		[MaxLength(FirstNameMaxLength)]
 		[Comment("First name of person for delivery of order.")]

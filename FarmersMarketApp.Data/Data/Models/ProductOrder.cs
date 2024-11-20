@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FarmersMarketApp.Common.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FarmersMarketApp.Infrastructure.Data.Models
@@ -34,6 +35,9 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
 		[Comment("Unique farm identifier where product is being made.")]
 		public Guid FarmId { get; set; }
+
+		[Comment("Status for each individual product in order")]
+		public Status Status { get; set; }
 
 	}
 }

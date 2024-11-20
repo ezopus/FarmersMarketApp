@@ -20,7 +20,7 @@ namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
 
 		public decimal TotalPrice => Products.Sum(pr => pr.PriceAtPurchase * pr.Amount);
 
-		public OrderStatus OrderStatus { get; set; }
+		public Status Status { get; set; }
 
 		public IEnumerable<ProductOrderViewModel> Products { get; set; } = new List<ProductOrderViewModel>();
 
