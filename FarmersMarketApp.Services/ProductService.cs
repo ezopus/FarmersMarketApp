@@ -432,5 +432,19 @@ namespace FarmersMarketApp.Services
 
 			return false;
 		}
+
+		public async Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string orderId)
+		{
+			return await repository
+				.AllReadOnly<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId))
+				.Select(po => new ProductFarmerOrderViewModel()
+				{
+					ProductName = po.Product.Name,
+					ProductPriceAtPurchase = po.ProductPriceAtTimeOfOrder,
+					ProductQuantity = po.ProductQuantity,
+				})
+				.ToListAsync();
+		}
 	}
 }
