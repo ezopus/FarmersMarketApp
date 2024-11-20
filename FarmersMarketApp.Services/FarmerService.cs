@@ -208,6 +208,34 @@ namespace FarmersMarketApp.Services
 			await repository.SaveChangesAsync();
 			return true;
 		}
+
+		public async Task<IEnumerable<FarmerProductOrderViewModel>?> GetFarmerProductOrderAsync(string farmerId)
+		{
+			//todo: add check for deleted items
+			var farmerOrders = await repository.AllReadOnly<ProductOrder>()
+				.Where(o => o.FarmerId == Guid.Parse(farmerId))
+				.Select(po => new FarmerProductOrderViewModel
+				{
+					OrderId = po.OrderId.ToString(),
+					DeliveryName = po.Order.DeliveryFirstName + " " + po.Order.DeliveryLastName,
+					DeliveryAddress = po.Order.DeliveryAddress,
+					DeliveryCity = po.Order.DeliveryCity,
+					DeliveryPhoneNumber = po.Order.DeliveryPhoneNumber,
+					OrderDate = po.Order.CreateDate,
+					Status = po.Status
+				})
+				.ToListAsync();
+
+			farmerOrders = farmerOrders.DistinctBy(o => o.OrderId).ToList();
+
+			foreach (var farmerOrder in farmerOrders)
+			{
+				farmerOrder.OrderProducts = await productService.GetFarmerProductOrdersByOrderIdAsync(farmerOrder.OrderId);
+			}
+
+			return farmerOrders;
+		}
+
 		//restore farmer 
 		public async Task<bool> RestoreFarmerByIdAsync(string farmerId)
 		{
