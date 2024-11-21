@@ -157,9 +157,55 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> MyOrders(string farmerId)
 		{
-			var model = await farmerService.GetFarmerProductOrderAsync(farmerId);
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if farmer exists, redirect to become one if not
+			if (string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("Become", "Farmer");
+			}
+
+			var model = await farmerService.GetFarmerOpenOrdersAsync(farmerId);
 
 			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CompleteOrder(string orderId)
+		{
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if farmer exists, redirect to become one if not
+			if (string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("Become", "Farmer");
+			}
+
+			var result = await farmerService.CompleteOrderByOrderIdAsync(currentFarmerId, orderId);
+
+			return RedirectToAction(nameof(MyOrders), new { farmerId = currentFarmerId });
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CancelOrder(string orderId)
+		{
+			//get current user id
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if farmer exists, redirect to become one if not
+			if (string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("Become", "Farmer");
+			}
+
+			var result = await farmerService.CancelOrderByOrderIdAsync(currentFarmerId, orderId);
+
+			return RedirectToAction(nameof(MyOrders), new { farmerId = currentFarmerId });
 		}
 	}
 }

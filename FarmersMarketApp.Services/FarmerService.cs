@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
+﻿using FarmersMarketApp.Common.Enums;
+using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
@@ -209,7 +210,7 @@ namespace FarmersMarketApp.Services
 			return true;
 		}
 
-		public async Task<IEnumerable<FarmerProductOrderViewModel>?> GetFarmerProductOrderAsync(string farmerId)
+		public async Task<IEnumerable<FarmerProductOrderViewModel>?> GetFarmerOpenOrdersAsync(string farmerId)
 		{
 			//todo: add check for deleted items
 			var farmerOrders = await repository.AllReadOnly<ProductOrder>()
@@ -230,10 +231,51 @@ namespace FarmersMarketApp.Services
 
 			foreach (var farmerOrder in farmerOrders)
 			{
-				farmerOrder.OrderProducts = await productService.GetFarmerProductOrdersByOrderIdAsync(farmerOrder.OrderId);
+				farmerOrder.OrderProducts = await productService.GetFarmerProductOrdersByOrderIdAsync(farmerId, farmerOrder.OrderId);
 			}
 
 			return farmerOrders;
+		}
+
+		public async Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId)
+		{
+			var farmerOrder = await repository.AllAsync<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId)
+				&& o.FarmerId == Guid.Parse(farmerId))
+				.ToListAsync();
+
+			if (!farmerOrder.Any())
+			{
+				return false;
+			}
+
+			foreach (var order in farmerOrder)
+			{
+				order.Status = Status.Completed;
+			}
+
+			await repository.SaveChangesAsync();
+			return true;
+		}
+		public async Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId)
+		{
+			var farmerOrder = await repository.AllAsync<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId)
+				&& o.FarmerId == Guid.Parse(farmerId))
+				.ToListAsync();
+
+			if (!farmerOrder.Any() || !farmerOrder.Any(o => o.Status != Status.InProgress))
+			{
+				return false;
+			}
+
+			foreach (var order in farmerOrder)
+			{
+				order.Status = Status.Cancelled;
+			}
+
+			await repository.SaveChangesAsync();
+			return true;
 		}
 
 		//restore farmer 
