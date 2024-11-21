@@ -190,7 +190,7 @@ namespace FarmersMarketApp.Services
 						Discount = pr.Product.DiscountPercentage.HasValue
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
-						IsDeleted = pr.Product.IsDeleted,
+						IsDeleted = pr.Product.IsDeleted
 					}).ToList(),
 				})
 				.ToListAsync();
@@ -247,7 +247,7 @@ namespace FarmersMarketApp.Services
 
 			if (currentOrder != null)
 			{
-				currentOrder.Status = Status.Pending;
+				currentOrder.Status = Status.InProgress;
 				await repository.SaveChangesAsync();
 				return true;
 			}
@@ -285,6 +285,15 @@ namespace FarmersMarketApp.Services
 				.AllReadOnly<ProductOrder>()
 				.Include(p => p.Product)
 				.Where(o => o.OrderId == Guid.Parse(orderId))
+				.Select(pr => new OrderDetailsViewModel()
+				{
+					Id = pr.ProductId.ToString(),
+					Name = pr.Product.Name,
+					Quantity = pr.ProductQuantity,
+					Price = pr.ProductPriceAtTimeOfOrder,
+					Discount = pr.ProductDiscountAtTimeOfOrder,
+					Status = pr.Status.ToString()
+				})
 				.ToListAsync();
 
 			if (orderProducts.Count == 0)
@@ -292,18 +301,19 @@ namespace FarmersMarketApp.Services
 				return null;
 			}
 
-			var products = orderProducts
-				.Select(p => new OrderDetailsViewModel()
-				{
-					Id = p.ProductId.ToString(),
-					Name = p.Product.Name,
-					Quantity = p.ProductQuantity,
-					Price = p.ProductPriceAtTimeOfOrder,
-					Discount = p.ProductDiscountAtTimeOfOrder,
-				})
-				.ToList();
+			//var products = orderProducts
+			//	.Select(p => new OrderDetailsViewModel()
+			//	{
+			//		Id = p.ProductId.ToString(),
+			//		Name = p.Product.Name,
+			//		Quantity = p.ProductQuantity,
+			//		Price = p.ProductPriceAtTimeOfOrder,
+			//		Discount = p.ProductDiscountAtTimeOfOrder,
+			//		Status = p.Status.ToString(),
+			//	})
+			//	.ToList();
 
-			return products.ToArray();
+			return orderProducts.ToArray();
 		}
 	}
 }
