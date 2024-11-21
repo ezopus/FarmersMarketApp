@@ -244,12 +244,13 @@ namespace FarmersMarketApp.Services
 				&& o.FarmerId == Guid.Parse(farmerId))
 				.ToListAsync();
 
-			if (!farmerOrder.Any())
+			if (!farmerOrder.Any()
+				|| farmerOrder.All(o => o.Status != Status.InProgress))
 			{
 				return false;
 			}
 
-			foreach (var order in farmerOrder)
+			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
 			{
 				order.Status = Status.Completed;
 			}
@@ -264,12 +265,13 @@ namespace FarmersMarketApp.Services
 				&& o.FarmerId == Guid.Parse(farmerId))
 				.ToListAsync();
 
-			if (!farmerOrder.Any() || !farmerOrder.Any(o => o.Status != Status.InProgress))
+			if (!farmerOrder.Any()
+				|| farmerOrder.All(o => o.Status != Status.InProgress))
 			{
 				return false;
 			}
 
-			foreach (var order in farmerOrder)
+			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
 			{
 				order.Status = Status.Cancelled;
 			}
