@@ -1,14 +1,15 @@
 ﻿using FarmersMarketApp.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers
 {
 	[Route("api/order")]
 	[ApiController]
+	[Authorize]
 	public class OrderApiController : ControllerBase
 	{
 		private readonly IOrderService orderService;
-
 		public OrderApiController(IOrderService orderService)
 		{
 			this.orderService = orderService;
@@ -27,5 +28,7 @@ namespace FarmersMarketApp.Web.Controllers
 
 			return Ok(products);
 		}
+
+
 	}
 }
