@@ -34,7 +34,7 @@ namespace FarmersMarketApp.Services.Contracts
 		Task<bool> SetProductIsDeletedByIdAsync(string productId);
 		Task<bool> RestoreProductByIdAsync(string productId);
 
-		Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string orderId);
+		Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string farmerId, string orderId);
 
 	}
 }

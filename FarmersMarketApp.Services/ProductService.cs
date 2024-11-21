@@ -433,11 +433,12 @@ namespace FarmersMarketApp.Services
 			return false;
 		}
 
-		public async Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string orderId)
+		public async Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string farmerId, string orderId)
 		{
 			return await repository
 				.AllReadOnly<ProductOrder>()
-				.Where(o => o.OrderId == Guid.Parse(orderId))
+				.Where(o => o.OrderId == Guid.Parse(orderId)
+				&& o.FarmerId == Guid.Parse(farmerId))
 				.Select(po => new ProductFarmerOrderViewModel()
 				{
 					ProductName = po.Product.Name,
