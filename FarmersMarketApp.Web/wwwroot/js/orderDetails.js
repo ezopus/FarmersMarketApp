@@ -23,6 +23,7 @@ orderDetailsBtns.forEach(btn => {
 			<td colspan="2">${products[i]["name"]}</td>
 			<td>${products[i]["quantity"]}</td>
 			<td>$${products[i]["price"]}</td>
+			<td>${products[i]["status"]}</td>
 			</tr>
 			`
 		}
@@ -36,6 +37,7 @@ orderDetailsBtns.forEach(btn => {
 				<td colspan="2">Product</td>
 				<td colspan="1">Quantity</td>
 				<td colspan="1">Price</td>
+				<td colspan="1">Status</td>
 			</tr>
 			</thead>
 			<tbody>`

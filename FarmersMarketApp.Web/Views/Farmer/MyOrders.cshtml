@@ -1,11 +1,14 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.FarmerViewModels
+@using System.Globalization
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.Web.Extensions
 @model IEnumerable<FarmerProductOrderViewModel>
-
+@inject IFarmerService FarmerService
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-
+	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
 }
 
 <table class="table table-hover align-middle text-center" id="pendingOrdersTable">
@@ -29,14 +32,20 @@
 				<tr class="table-primary" scope="row">
 					<td colspan="2">@order.OrderDate</td>
 					<td colspan="3">@order.OrderProducts.Sum(p => p.ProductQuantity) items</td>
-					<td>@order.OrderProducts.Sum(p => p.ProductPriceAtPurchase * p.ProductQuantity)</td>
+					<td>@order.OrderProducts.Sum(p => p.ProductPriceAtPurchase * p.ProductQuantity).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
 					<td>@order.DeliveryName</td>
 					<td>@order.DeliveryPhoneNumber</td>
 					<td>@order.DeliveryAddress</td>
 					<td>@order.DeliveryCity</td>
 					<td colspan="2">
-						<button class="btn btn-sm btn-success me-2 orderBtn" data-order-id="@order.OrderId">Complete</button>
-						<button class="btn btn-sm btn-danger orderBtn" data-order-id="@order.OrderId">Cancel</button>
+						<form method="post">
+							<button class="btn btn-sm btn-success me-2 orderBtn" asp-action="CompleteOrder" asp-controller="Farmer" asp-route-orderId="@order.OrderId">Complete</button>
+							<button class="btn btn-sm btn-danger orderBtn" asp-action="CancelOrder" asp-controller="Farmer" asp-route-orderId="@order.OrderId">Cancel</button>
+						</form>
+						<form method="get">
+							<button class="btn btn-sm btn-success me-2 orderBtn" onclick="completeOrder(@currentFarmerId, @order.OrderId)">Complete api</button>
+							<button class="btn btn-sm btn-danger orderBtn" onclick="cancelOrder(@currentFarmerId, @order.OrderId)">Cancel api</button>
+						</form>
 					</td>
 				</tr>
 				@foreach (var product in order.OrderProducts)
@@ -45,8 +54,8 @@
 						<td colspan="2"></td>
 						<td>@product.ProductName</td>
 						<td>@product.ProductQuantity</td>
-						<td>@product.ProductPriceAtPurchase</td>
-						<td colspan="1">@(product.ProductPriceAtPurchase * product.ProductQuantity)</td>
+						<td>@product.ProductPriceAtPurchase.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+						<td colspan="1">@((product.ProductPriceAtPurchase * product.ProductQuantity).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))</td>
 						<td colspan="7"></td>
 					</tr>
 				}
@@ -65,3 +74,5 @@
 		</tbody>
 	}
 </table>
+
+<script src="~/js/orderActions.js" type="module"></script>
