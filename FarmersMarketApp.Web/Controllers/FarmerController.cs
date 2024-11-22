@@ -4,6 +4,7 @@ using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -186,6 +187,14 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			var result = await farmerService.CompleteOrderByOrderIdAsync(currentFarmerId, orderId);
+			if (result)
+			{
+				TempData[SuccessMessage] = "Successfully completed order!";
+			}
+			else
+			{
+				TempData[ErrorMessage] = "Operation failed. Please try again.";
+			}
 
 			return RedirectToAction(nameof(MyOrders), new { farmerId = currentFarmerId });
 		}
@@ -204,6 +213,15 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			var result = await farmerService.CancelOrderByOrderIdAsync(currentFarmerId, orderId);
+
+			if (result)
+			{
+				TempData[SuccessMessage] = "Successfully cancelled order!";
+			}
+			else
+			{
+				TempData[ErrorMessage] = "Operation failed. Please try again.";
+			}
 
 			return RedirectToAction(nameof(MyOrders), new { farmerId = currentFarmerId });
 		}

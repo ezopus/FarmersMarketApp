@@ -1,0 +1,26 @@
+﻿@using static FarmersMarketApp.Common.NotificationConstants
+
+@if (TempData[SuccessMessage] != null)
+{
+	<script>
+        message.showSuccess('@TempData[SuccessMessage]')
+    </script>
+}
+@if (TempData[ErrorMessage] != null)
+{
+	<script>
+        message.showError('@TempData[ErrorMessage]')
+    </script>
+}
+@if (TempData[InfoMessage] != null)
+{
+	<script>
+        message.showInfo('@TempData[InfoMessage]')
+    </script>
+}
+@if (TempData[WarningMessage] != null)
+{
+	<script>
+        message.showInfo('@TempData[WarningMessage]')
+    </script>
+}
