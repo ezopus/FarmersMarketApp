@@ -36,7 +36,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("cancel/{orderId}")]
+		[Route("cancel")]
 		public async Task<bool> CancelOrder(string orderId)
 		{
 			//get current user id
