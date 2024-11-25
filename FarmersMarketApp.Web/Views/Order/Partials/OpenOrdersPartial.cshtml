@@ -1,0 +1,61 @@
+﻿@using FarmersMarketApp.Web.ViewModels.OrderViewModels
+@using System.Globalization
+@model OrderProductsViewModel
+
+<table class="table table-hover table-striped align-middle text-center" id="openOrdersTable">
+	<thead>
+
+		<tr>
+			<th colspan="2" class="text-center">Product</th>
+			<th colspan="1">Product price per unit</th>
+			<th colspan="1">Total amount of units</th>
+			<th colspan="1">Total price of units</th>
+			<th colspan="2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Products.Any(pr => pr.IsDeleted == false))
+		{
+			@foreach (var product in Model.Products.Where(pr => pr.IsDeleted == false))
+			{
+				<tr class="table-light" scope="row">
+					<td class="text-center">
+						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-primary">
+							<img src="@product.ImageUrl" class="fluid-img" style="max-height: 50px;" />
+						</a>
+					</td>
+					<th scope="row" class="text-start">
+						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none text-primary">@product.Name</a>
+					</th>
+					<td>@product.PriceAtPurchase.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+					<td>@product.Amount</td>
+					<td>@((product.PriceAtPurchase * product.Amount).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))</td>
+					<td colspan="2" class="">
+						<a asp-controller="Order" asp-action="RemoveFromCart" asp-route-orderId="@Model.Id" asp-route-productId="@product.Id" class="btn btn-sm btn-danger me-2">Remove</a>
+					</td>
+				</tr>
+			}
+
+			<tr class="table-secondary">
+				<td colspan="3"></td>
+				<td class="">Total products: @Model.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Amount)</td>
+				<td class="">Total discount: @Model.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Discount * pr.Amount).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td colspan="2">
+					<a asp-controller="Order" asp-action="RemoveAllFromCart" asp-route-orderId="@Model.Id" class="btn btn-sm btn-danger me-2">Remove All</a>
+				</td>
+			</tr>
+			<tr class="table-primary">
+				<td colspan="5" class="text-end pe-5">Total price: @Model.Products.Where(pr => !pr.IsDeleted).Sum(pr => pr.Amount * pr.PriceAtPurchase).ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+				<td colspan="2" class="text-center">
+					<a asp-controller="Order" asp-action="Checkout" asp-route-orderId="@Model.Id" class="btn btn-success me-2">Checkout</a>
+				</td>
+			</tr>
+		}
+		else
+		{
+			<tr>
+				<td colspan="7" class="table-light pt-4 pb-4">You have no open orders at this moment.</td>
+			</tr>
+		}
+	</tbody>
+</table>
