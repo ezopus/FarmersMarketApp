@@ -49,9 +49,9 @@ document.getElementById('openOrdersBtn').addEventListener('click', () => {
 })
 
 document.getElementById('completedOrderBtn').addEventListener('click', () => {
-    openOrdersTable.classList.add('visually-hidden')
     completedOrdersTable.classList.remove('visually-hidden')
-    completedOrdersTable.classList.add('visually-hidden')
+    openOrdersTable.classList.add('visually-hidden')
+    cancelledOrdersTable.classList.add('visually-hidden')
     pendingOrdersTable.classList.add('visually-hidden')
 
     orderBtn.classList.remove('btn-primary')
@@ -70,10 +70,10 @@ document.getElementById('completedOrderBtn').addEventListener('click', () => {
 })
 
 document.getElementById('cancelledOrdersBtn').addEventListener('click', () => {
+    cancelledOrdersTable.classList.remove('visually-hidden')
     openOrdersTable.classList.add('visually-hidden')
     completedOrdersTable.classList.add('visually-hidden')
     pendingOrdersTable.classList.add('visually-hidden')
-    cancelledOrdersTable.classList.remove('visually-hidden')
 
     orderBtn.classList.remove('btn-primary')
     orderBtn.classList.remove('btn-success')
