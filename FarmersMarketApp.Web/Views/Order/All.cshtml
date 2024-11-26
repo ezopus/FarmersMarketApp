@@ -1,13 +1,13 @@
 ﻿@using FarmersMarketApp.Web.ViewModels.OrderViewModels
 @using FarmersMarketApp.Common.Enums
 @using System.Globalization
-@model IEnumerable<OrderProductsViewModel>
+@model ManageOrdersViewModel
 
 @{
-	var openOrder = Model.FirstOrDefault(o => o.Status == Status.Open);
-	var completedOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Completed);
-	var cancelledOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Cancelled);
-	var pendingOrders = Model.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.InProgress);
+	var openOrder = Model.Orders.FirstOrDefault(o => o.Status == Status.Open);
+	var completedOrders = Model.Orders.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Completed);
+	var cancelledOrders = Model.Orders.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.Cancelled);
+	var pendingOrders = Model.Orders.OrderByDescending(o => o.CreateDate).Where(o => o.Status == Status.InProgress);
 }
 
 <div class="btn-group mb-3" role="group" aria-label="Button group with nested dropdown">
@@ -24,16 +24,36 @@
 </div>
 
 @* OPEN ORDERS TABLE *@
-<partial name="Partials/OpenOrdersPartial" model="openOrder" />
+<partial name="Partials/OpenOrdersPartial" 
+         model="openOrder" />
 
 @* PENDING ORDERS TABLE *@
-<partial name="Partials/PendingOrdersPartial" model="pendingOrders"/>
+<partial name="Partials/HandledOrdersPartial" 
+         model="@(new ManageOrdersViewModel() 
+                {
+	                Orders = pendingOrders, 
+	                DefaultText = "No pending orders available.", 
+	                TableId = "pendingOrdersTable"})" />
 
 @* COMPLETED ORDERS TABLE *@
-<partial name="Partials/CompleteOrdersPartial" model="completedOrders"/>
+<partial name="Partials/HandledOrdersPartial" 
+         model="@(new ManageOrdersViewModel() 
+                {
+	                Orders = completedOrders,
+	                DefaultText = "No complete orders available.", 
+	                TableId = "completedOrdersTable",
+					Classes = "visually-hidden"
+                })" />
 
 @* CANCELLED ORDERS TABLE *@
-<partial name ="Partials/CancelledOrdersPartial" model="cancelledOrders"/>
+<partial name="Partials/HandledOrdersPartial" 
+         model="@(new ManageOrdersViewModel() 
+                {
+	                Orders = cancelledOrders, 
+	                DefaultText = "No cancelled orders available.", 
+	                TableId = "cancelledOrdersTable",
+	                Classes = "visually-hidden"
+                })" />
 
 @* modal for view *@
 <div id="orderDetailsModal" class="modal">
