@@ -8,10 +8,6 @@ namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
 	{
 		public string UserId { get; set; } = string.Empty;
 
-		public bool HasProducts { get; set; } = false;
-
-		public bool? AcceptsDeliveries { get; set; }
-
 		[StringLength(CompanyNameMaxLength,
 			MinimumLength = CompanyNameMinLength,
 			ErrorMessage = ErrorFarmerCompanyName)]
@@ -28,7 +24,5 @@ namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
 			ErrorMessage = ErrorFarmerCompanyAddress)]
 		public string CompanyAddress { get; set; } = null!;
 
-		//TODO: Try to implement farmer category from the registration
-		//public List<int> Categories { get; set; }
 	}
 }

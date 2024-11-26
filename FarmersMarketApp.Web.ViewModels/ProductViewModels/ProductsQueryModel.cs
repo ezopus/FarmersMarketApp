@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Infrastructure.Data.Models;
+using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 
 namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
@@ -25,6 +26,8 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 		public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
 		public IEnumerable<FarmsForDropDown> Farms { get; set; } = new List<FarmsForDropDown>();
+
+		public IEnumerable<FarmersForDropDown> Farmers { get; set; } = new List<FarmersForDropDown>();
 
 		public int TotalProducts { get; set; }
 
