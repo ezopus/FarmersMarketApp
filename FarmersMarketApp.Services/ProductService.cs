@@ -206,7 +206,6 @@ namespace FarmersMarketApp.Services
 		{
 			var product = await repository
 				.AllReadOnly<Product>()
-				.Where(p => !p.IsDeleted)
 				.FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(id));
 
 			if (product == null)
@@ -230,6 +229,8 @@ namespace FarmersMarketApp.Services
 				ImageUrl = product.ImageUrl ?? "",
 				ProductionDate = product.ProductionDate.ToString("dd-MM-yyyy"),
 				ExpirationDate = product.ExpirationDate.ToString("dd-MM-yyyy"),
+				IsDeleted = product.IsDeleted,
+				DateAdded = product.DateAdded.ToString(DateTimeRequiredFormat)
 			};
 
 			return model;
@@ -309,7 +310,7 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products made by specific farmer
-		public async Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmerIdAsync(string farmerId)
+		public async Task<IEnumerable<ProductInfoViewModel>?> GetFarmerProductsByFarmerIdAsync(string farmerId)
 		{
 			return await repository
 				.AllAsync<Product>()
@@ -336,8 +337,10 @@ namespace FarmersMarketApp.Services
 					Quantity = pr.Quantity,
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
-					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
+					ProductionDate = pr.ProductionDate.ToString(DateTimeRequiredFormat),
+					ExpirationDate = pr.ExpirationDate.ToString(DateTimeRequiredFormat),
+					IsDeleted = pr.IsDeleted,
+					DateAdded = pr.DateAdded.ToString(DateTimeRequiredFormat),
 				})
 				.ToListAsync();
 		}
