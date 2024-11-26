@@ -136,7 +136,7 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			//get all products for current farmer
-			var products = await productService.GetActiveProductsByFarmerIdAsync(currentFarmerId);
+			var products = await productService.GetFarmerProductsByFarmerIdAsync(currentFarmerId);
 
 			//check if products list is empty, if yes redirect to add product
 			if (products == null || !products.Any())
@@ -217,6 +217,85 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			return RedirectToAction(nameof(MyOrders), new { farmerId = currentFarmerId });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> DeleteProduct(string productId)
+		{
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if user is a farmer, if not redirect him to become one
+			if (string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("Become", "Farmer");
+			}
+
+			//get product from db, if not found redirect to all products
+			var product = await productService.GetProductByIdAsync(productId);
+
+			if (product == null || product.IsDeleted)
+			{
+				return RedirectToAction(nameof(MyProducts));
+			}
+
+			//try to get farm and farmer of product and check if they are deleted
+			var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
+
+			if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
+			{
+				return RedirectToAction(nameof(MyProducts));
+			}
+
+			var result = await productService.SetProductIsDeletedByIdAsync(productId);
+			if (result)
+			{
+				TempData[SuccessMessage] = string.Format(SuccessfullyDeleteProduct, product.Name);
+			}
+			else
+			{
+				TempData[ErrorMessage] = string.Format(FailedDeleteProduct, product.Name);
+			}
+			return RedirectToAction(nameof(MyProducts));
+		}
+		[HttpGet]
+		public async Task<IActionResult> RestoreProduct(string productId)
+		{
+			var currentUserId = User.GetId();
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+
+			//check if user is a farmer, if not redirect him to become one
+			if (string.IsNullOrEmpty(currentFarmerId))
+			{
+				return RedirectToAction("Become", "Farmer");
+			}
+
+			//get product from db, if not found redirect to all products
+			var product = await productService.GetProductByIdAsync(productId);
+
+			if (product == null || !product.IsDeleted)
+			{
+				return RedirectToAction(nameof(MyProducts));
+			}
+
+			//try to get farm and farmer of product and check if they are deleted
+			var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
+
+			if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
+			{
+				return RedirectToAction(nameof(MyProducts));
+			}
+
+			var result = await productService.RestoreProductByIdAsync(productId);
+			if (result)
+			{
+				TempData[SuccessMessage] = string.Format(SuccessfullyRestoreProduct, product.Name);
+			}
+			else
+			{
+				TempData[ErrorMessage] = string.Format(FailedRestoreProduct, product.Name);
+			}
+			return RedirectToAction(nameof(MyProducts));
 		}
 	}
 }
