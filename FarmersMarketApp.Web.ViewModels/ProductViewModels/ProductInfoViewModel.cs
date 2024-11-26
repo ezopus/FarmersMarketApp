@@ -15,8 +15,6 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 
 		public decimal Price { get; set; }
 
-		public double Size { get; set; }
-
 		public double Quantity { get; set; }
 
 		public int CategoryId { get; set; }

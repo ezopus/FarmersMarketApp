@@ -22,7 +22,6 @@
 				<div class="mb-2">
 					<label asp-for="@Model.ImageUrl" class="form-label mt-2">Image URL</label>
 					<input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" placeholder="description of your product" />
-					<span asp-validation-for="@Model.Description" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.UnitType" class="form-label mt-2">UnitType *</label>
@@ -34,10 +33,13 @@
 				<div class="mb-2">
 					<label asp-for="@Model.Quantity" class="form-label mt-2">Quantity *</label>
 					<input asp-for="@Model.Quantity" class="form-control" aria-required="true" placeholder="amount of pieces in one unit" />
+					<span asp-validation-for="@Model.Quantity" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.NetWeight" class="form-label mt-2">Net Weight *</label>
 					<input asp-for="@Model.NetWeight" class="form-control" aria-required="true" placeholder="total unit weight in kilograms" />
+					<span asp-validation-for="@Model.NetWeight" class="text-danger"></span>
+
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.Season" class="form-label mt-2">Season</label>

@@ -25,11 +25,6 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 		public string UnitType { get; set; } = string.Empty;
 		public IEnumerable<UnitType> UnitTypes { get; set; } = new List<UnitType>();
 
-		[Range(ProductSizeMin,
-			ProductSizeMax,
-			ErrorMessage = ErrorProductSize)]
-		public double Size { get; set; }
-
 		[Range(ProductQuantityMin,
 			ProductQuantityMax,
 			ErrorMessage = ErrorProductQuantity)]
@@ -39,8 +34,6 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 			ProductWeightMax,
 			ErrorMessage = ErrorProductWeight)]
 		public double NetWeight { get; set; }
-
-		public double ShippingWeight { get; set; }
 
 		public string? Season { get; set; }
 		public IEnumerable<Season> Seasons { get; set; } = new List<Season>();

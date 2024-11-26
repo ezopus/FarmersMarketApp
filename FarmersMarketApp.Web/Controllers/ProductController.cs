@@ -4,6 +4,7 @@ using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -133,9 +134,11 @@ namespace FarmersMarketApp.Web.Controllers
 			//check if successfully added product
 			if (string.IsNullOrEmpty(result))
 			{
+				TempData[ErrorMessage] = string.Format(FailedAddProduct, model.Name);
 				return View(model);
 			}
 
+			TempData[SuccessMessage] = string.Format(SuccessfullyAddProduct, model.Name);
 			//return product details page to look at newly added product
 			return RedirectToAction("Details", "Product", new { id = result });
 		}
@@ -147,7 +150,8 @@ namespace FarmersMarketApp.Web.Controllers
 		{
 			//get product from db, if not found redirect to all products
 			var model = await productService.GetProductByIdAsync(id);
-			if (model == null)
+
+			if (model == null || model.IsDeleted)
 			{
 				return RedirectToAction(nameof(All));
 			}
@@ -257,6 +261,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//return details of edited product to verify edit is successful
 			return RedirectToAction("Details", "Product", new { id = model.Id });
 		}
+
 
 	}
 }
