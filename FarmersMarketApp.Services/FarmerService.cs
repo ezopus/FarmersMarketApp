@@ -2,8 +2,10 @@
 using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.Web.ViewModels.AdminViewModels;
 using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using Microsoft.EntityFrameworkCore;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Services
 {
@@ -42,8 +44,9 @@ namespace FarmersMarketApp.Services
 				CompanyName = model.CompanyName,
 				CompanyAddress = model.CompanyAddress,
 				CompanyRegistrationNumber = model.CompanyRegistrationNumber,
-				AcceptsDeliveries = model.AcceptsDeliveries!.Value,
-				HasProducts = model.HasProducts,
+				HasProducts = false,
+				IsApproved = false,
+				IsDeleted = false,
 			};
 
 			user.IsFarmer = true;
@@ -71,9 +74,9 @@ namespace FarmersMarketApp.Services
 
 		public async Task<FarmerInfoViewModel?> GetFarmerByIdAsync(string farmerId)
 		{
-			//TODO: think about HasProducts and how to use it
 			return await repository
 				.AllReadOnly<Farmer>()
+				.Include(f => f.Products)
 				.Where(f => f.Id.ToString() == farmerId)
 				.Select(f => new FarmerInfoViewModel()
 				{
@@ -82,10 +85,24 @@ namespace FarmersMarketApp.Services
 					CompanyName = f.CompanyName ?? string.Empty,
 					CompanyAddress = f.CompanyAddress ?? string.Empty,
 					ImageUrl = f.ImageUrl,
-					AcceptsDeliveries = f.AcceptsDeliveries,
-					HasProducts = f.HasProducts
+					HasProducts = f.Products.Any(),
+					IsApproved = f.IsApproved,
+					IsDeleted = f.IsDeleted,
 				})
 				.FirstOrDefaultAsync();
+		}
+
+		public async Task<IEnumerable<FarmersForDropDown>> GetAllApprovedAndActiveFarmerNamesAndIdsAsync()
+		{
+			return await repository
+				.AllReadOnly<Farmer>()
+				.Where(f => f.IsApproved && !f.IsDeleted)
+				.Select(f => new FarmersForDropDown()
+				{
+					Id = f.Id.ToString(),
+					Name = f.User.FirstName + " " + f.User.LastName
+				})
+				.ToListAsync();
 		}
 
 		//get all farmers
@@ -99,8 +116,11 @@ namespace FarmersMarketApp.Services
 					FullName = f.User.FirstName + " " + f.User.LastName,
 					CompanyName = f.CompanyName ?? string.Empty,
 					CompanyAddress = f.CompanyAddress ?? string.Empty,
+					CompanyRegistrationNumber = f.CompanyRegistrationNumber ?? string.Empty,
 					ImageUrl = f.ImageUrl,
 					IsDeleted = f.IsDeleted,
+					IsApproved = f.IsApproved,
+					DateApproved = f.DateApproved.ToString(DateTimeRequiredFormat)
 				})
 				.ToListAsync();
 
@@ -111,7 +131,8 @@ namespace FarmersMarketApp.Services
 		{
 			return await repository
 				.AllReadOnly<Farmer>()
-				.Where(f => f.IsDeleted == false)
+				.Include(f => f.Products)
+				.Where(f => f.IsDeleted == false && f.IsApproved)
 				.Select(f => new FarmerInfoViewModel()
 				{
 					Id = f.Id.ToString(),
@@ -119,11 +140,28 @@ namespace FarmersMarketApp.Services
 					CompanyName = f.CompanyName ?? string.Empty,
 					CompanyAddress = f.CompanyAddress ?? string.Empty,
 					ImageUrl = f.ImageUrl,
-					AcceptsDeliveries = f.AcceptsDeliveries,
-					HasProducts = f.HasProducts,
+					HasProducts = f.Products.Any(),
 				})
 				.ToListAsync();
 
+		}
+
+		//admin action to approve farmer
+		public async Task<bool> ApproveFarmerByFarmerIdAsync(string farmerId)
+		{
+			var farmer = await repository.GetByIdAsync<Farmer>(Guid.Parse(farmerId));
+
+			if (farmer == null)
+			{
+				return false;
+			}
+
+			farmer.IsApproved = true;
+			farmer.DateApproved = DateTime.Now;
+
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 
 		//set farmer is deleted 
