@@ -2,6 +2,7 @@
 using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -18,44 +19,24 @@ namespace FarmersMarketApp.Services
 		}
 
 		//get all products
-		public async Task<IEnumerable<ProductInfoAdminViewModel>> GetAllProductsAsync()
-		{
-			return await repository
-				.AllAsync<Product>()
-				.Select(p => new ProductInfoAdminViewModel()
-				{
-					Id = p.Id.ToString(),
-					Name = p.Name,
-					FarmId = p.FarmId.ToString(),
-					FarmerId = p.FarmerId.ToString(),
-					CategoryId = p.CategoryId,
-					Price = p.Price,
-					DiscountPercentage = p.DiscountPercentage ?? 0,
-					ImageUrl = p.ImageUrl ?? "",
-					IsDeleted = p.IsDeleted,
-				})
-				.ToListAsync();
-		}
-
-		public async Task<ProductsQueryModel> GetAllProductsWithQueryAsync(
-			int? categoryId,
+		public async Task<ProductsQueryModel> GetAllProductsAsync(int? categoryId,
 			string? farmId,
 			string? farmerId,
 			string? searchTerm,
 			ProductSorting sorting = ProductSorting.Newest,
 			int currentPage = 1,
-			int productsPerPage = 12
-			)
+			int productsPerPage = 8)
 		{
 			var productsToShow = repository
-				.AllReadOnly<Product>()
-				.Where(pr => !pr.IsDeleted);
+				.AllReadOnly<Product>();
 
+			//check if category is included in search
 			if (categoryId != null)
 			{
 				productsToShow = productsToShow.Where(pr => pr.CategoryId == categoryId);
 			}
 
+			//check if search input field is empty
 			if (!string.IsNullOrEmpty(searchTerm))
 			{
 				string normalizedSearchTerm = searchTerm.ToLower().Trim();
@@ -63,17 +44,21 @@ namespace FarmersMarketApp.Services
 					.Where(pr => pr.Name.ToLower().Contains(normalizedSearchTerm));
 			}
 
+			//check if specific farm is picked
 			if (!string.IsNullOrEmpty(farmId))
 			{
 				productsToShow = productsToShow
 					.Where(pr => pr.FarmId.ToString().ToLower() == farmId.ToLower());
 			}
+
+			//check if specific farm is picked
 			if (!string.IsNullOrEmpty(farmerId))
 			{
 				productsToShow = productsToShow
 					.Where(pr => pr.FarmerId.ToString().ToLower() == farmerId.ToLower());
 			}
 
+			//sort results
 			productsToShow = sorting switch
 			{
 				ProductSorting.PriceAscending => productsToShow.OrderBy(pr => pr.Price),
@@ -83,6 +68,7 @@ namespace FarmersMarketApp.Services
 				_ => productsToShow
 			};
 
+			//take products to visualize
 			var products = await productsToShow
 				.Skip((currentPage - 1) * productsPerPage)
 				.Take(productsPerPage)
@@ -92,6 +78,108 @@ namespace FarmersMarketApp.Services
 					Name = pr.Name,
 					Description = pr.Description,
 					FarmId = pr.FarmId.ToString(),
+					Farm = new FarmInfoViewModel()
+					{
+						Id = pr.Farm.Id.ToString(),
+						Name = pr.Farm.Name,
+						Address = pr.Farm.Address,
+						City = pr.Farm.City,
+					},
+					FarmerId = pr.FarmerId.ToString(),
+					CategoryId = pr.CategoryId,
+					Price = pr.Price,
+					DiscountPercentage = pr.DiscountPercentage ?? 0,
+					UnitType = pr.UnitType.ToString(),
+					Size = pr.Size,
+					Quantity = pr.Quantity,
+					Origin = pr.Origin ?? "",
+					ImageUrl = pr.ImageUrl ?? "",
+					ProductionDate = pr.ProductionDate.ToString(DateTimeRequiredFormat),
+					ExpirationDate = pr.ExpirationDate.ToString(DateTimeRequiredFormat),
+					DateAdded = pr.DateAdded.ToString(DateTimeRequiredFormat),
+					IsDeleted = pr.IsDeleted,
+				})
+				.ToListAsync();
+
+			//return filtered and paginated results to controller
+			return new ProductsQueryModel()
+			{
+				Products = products,
+				TotalProducts = await productsToShow.CountAsync(),
+			};
+
+		}
+
+		public async Task<ProductsQueryModel> GetAllActiveProductsWithQueryAsync(
+			int? categoryId,
+			string? farmId,
+			string? farmerId,
+			string? searchTerm,
+			ProductSorting sorting = ProductSorting.Newest,
+			int currentPage = 1,
+			int productsPerPage = 8
+			)
+		{
+			var productsToShow = repository
+				.AllReadOnly<Product>()
+				.Include(pr => pr.Farm)
+				.Where(pr => !pr.IsDeleted);
+
+			//check if category is included in search
+			if (categoryId != null)
+			{
+				productsToShow = productsToShow.Where(pr => pr.CategoryId == categoryId);
+			}
+
+			//check if search input field is empty
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				string normalizedSearchTerm = searchTerm.ToLower().Trim();
+				productsToShow = productsToShow
+					.Where(pr => pr.Name.ToLower().Contains(normalizedSearchTerm));
+			}
+
+			//check if specific farm is picked
+			if (!string.IsNullOrEmpty(farmId))
+			{
+				productsToShow = productsToShow
+					.Where(pr => pr.FarmId.ToString().ToLower() == farmId.ToLower());
+			}
+
+			//check if specific farm is picked
+			if (!string.IsNullOrEmpty(farmerId))
+			{
+				productsToShow = productsToShow
+					.Where(pr => pr.FarmerId.ToString().ToLower() == farmerId.ToLower());
+			}
+
+			//sort results
+			productsToShow = sorting switch
+			{
+				ProductSorting.PriceAscending => productsToShow.OrderBy(pr => pr.Price),
+				ProductSorting.PriceDescending => productsToShow.OrderByDescending(pr => pr.Price),
+				ProductSorting.Newest => productsToShow.OrderByDescending(pr => pr.DateAdded),
+				ProductSorting.Oldest => productsToShow.OrderBy(pr => pr.DateAdded),
+				_ => productsToShow
+			};
+
+			//take products to visualize
+			var products = await productsToShow
+				.Skip((currentPage - 1) * productsPerPage)
+				.Take(productsPerPage)
+				.Select(pr => new ProductInfoViewModel()
+				{
+					Id = pr.Id.ToString(),
+					Name = pr.Name,
+					Description = pr.Description,
+					FarmId = pr.FarmId.ToString(),
+					Farm = new FarmInfoViewModel()
+					{
+						Id = pr.Farm.Id.ToString(),
+						Name = pr.Farm.Name,
+						Address = pr.Farm.Address,
+						City = pr.Farm.City,
+					},
 					FarmerId = pr.FarmerId.ToString(),
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
@@ -107,37 +195,12 @@ namespace FarmersMarketApp.Services
 				})
 				.ToListAsync();
 
+			//return filtered and paginated results to controller
 			return new ProductsQueryModel()
 			{
 				Products = products,
+				TotalProducts = await productsToShow.CountAsync(),
 			};
-		}
-
-		//get all active products
-		public async Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync()
-		{
-			return await repository
-				.AllAsync<Product>()
-				.Where(p => !p.IsDeleted)
-				.Select(p => new ProductInfoViewModel()
-				{
-					Id = p.Id.ToString(),
-					Name = p.Name,
-					Description = p.Description,
-					FarmId = p.FarmId.ToString(),
-					FarmerId = p.FarmerId.ToString(),
-					CategoryId = p.CategoryId,
-					Price = p.Price,
-					DiscountPercentage = p.DiscountPercentage ?? 0,
-					UnitType = p.UnitType.ToString(),
-					Size = p.Size,
-					Quantity = p.Quantity,
-					Origin = p.Origin ?? "",
-					ImageUrl = p.ImageUrl ?? "",
-					ProductionDate = p.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = p.ExpirationDate.ToString("dd-MM-yyyy"),
-				})
-				.ToListAsync();
 		}
 
 		//get one product by id
@@ -251,28 +314,26 @@ namespace FarmersMarketApp.Services
 			return true;
 		}
 
-		//TODO: Implement correctly
-		public async Task<Product?> GetProductByNameAsync(string name)
-		{
-			return await repository
-				.AllAsync<Product>()
-				.Where(p => !p.IsDeleted)
-				.FirstOrDefaultAsync(pr => pr.Name == name);
-		}
-
 		//get all products made by specific farmer
 		public async Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmerIdAsync(string farmerId)
 		{
 			return await repository
 				.AllAsync<Product>()
-				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId)
-						&& !pr.IsDeleted)
+				.Include(pr => pr.Farm)
+				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId))
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
 					Name = pr.Name,
 					Description = pr.Description,
 					FarmId = pr.FarmId.ToString(),
+					Farm = new FarmInfoViewModel()
+					{
+						Id = pr.Farm.Id.ToString(),
+						Name = pr.Farm.Name,
+						Address = pr.Farm.Address,
+						City = pr.Farm.City,
+					},
 					FarmerId = pr.FarmerId.ToString(),
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
@@ -286,61 +347,6 @@ namespace FarmersMarketApp.Services
 					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
 				})
 				.ToListAsync();
-		}
-
-		//get all products made at specific farm
-		public async Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmIdAsync(string farmId)
-		{
-			return await repository
-				.AllAsync<Product>()
-				.Where(pr => pr.Farm.Id == Guid.Parse(farmId)
-							 && !pr.IsDeleted)
-				.Select(pr => new ProductInfoViewModel()
-				{
-					Id = pr.Id.ToString(),
-					Name = pr.Name,
-					Description = pr.Description,
-					FarmId = pr.FarmId.ToString(),
-					FarmerId = pr.FarmerId.ToString(),
-					CategoryId = pr.CategoryId,
-					Price = pr.Price,
-					DiscountPercentage = pr.DiscountPercentage ?? 0,
-					UnitType = pr.UnitType.ToString(),
-					Size = pr.Size,
-					Quantity = pr.Quantity,
-					Origin = pr.Origin ?? "",
-					ImageUrl = pr.ImageUrl ?? "",
-					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
-				})
-				.ToListAsync();
-		}
-
-		//TODO: get all products from specific category
-		public async Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId)
-		{
-			return await repository
-				.AllAsync<Product>()
-				.Where(pr => pr.CategoryId == categoryId && !pr.IsDeleted)
-				.Select(pr => new ProductInfoViewModel()
-				{
-					Id = pr.Id.ToString(),
-					Name = pr.Name,
-					Description = pr.Description,
-					FarmId = pr.FarmId.ToString(),
-					FarmerId = pr.FarmerId.ToString(),
-					CategoryId = pr.CategoryId,
-					Price = pr.Price,
-					DiscountPercentage = pr.DiscountPercentage ?? 0,
-					UnitType = pr.UnitType.ToString(),
-					Size = pr.Size,
-					Quantity = pr.Quantity,
-					Origin = pr.Origin ?? "",
-					ImageUrl = pr.ImageUrl ?? "",
-					ProductionDate = pr.ProductionDate.ToString("dd-MM-yyyy"),
-					ExpirationDate = pr.ExpirationDate.ToString("dd-MM-yyyy"),
-				})
-				.ToListAsync(); ;
 		}
 
 		//create new product

@@ -18,13 +18,15 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 
 		public int CurrentPage { get; set; } = 1;
 
-		public int ProductsPerPage { get; set; } = 12;
+		public int ProductsPerPage { get; set; } = 8;
 
 		public IEnumerable<ProductInfoViewModel> Products { get; set; } = new List<ProductInfoViewModel>();
 
 		public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
 		public IEnumerable<FarmsForDropDown> Farms { get; set; } = new List<FarmsForDropDown>();
+
+		public int TotalProducts { get; set; }
 
 	}
 }

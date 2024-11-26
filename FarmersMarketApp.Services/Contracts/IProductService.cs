@@ -6,10 +6,9 @@ namespace FarmersMarketApp.Services.Contracts
 {
 	public interface IProductService
 	{
-		Task<IEnumerable<ProductInfoAdminViewModel>> GetAllProductsAsync();
+		Task<ProductsQueryModel> GetAllProductsAsync(int? categoryId, string? farmId, string? farmerId, string? searchTerm, ProductSorting sorting, int currentPage, int productsPerPage);
 
-		Task<ProductsQueryModel> GetAllProductsWithQueryAsync(int? categoryId, string? farmId, string? farmerId, string? searchTerm, ProductSorting sorting, int currentPage, int productsPerPage);
-		Task<IEnumerable<ProductInfoViewModel>> GetActiveProductsAsync();
+		Task<ProductsQueryModel> GetAllActiveProductsWithQueryAsync(int? categoryId, string? farmId, string? farmerId, string? searchTerm, ProductSorting sorting, int currentPage, int productsPerPage);
 
 		Task<ProductInfoViewModel?> GetProductByIdAsync(string id);
 
@@ -17,13 +16,9 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<bool?> UpdateEditedProductAsync(AddProductViewModel viewModel);
 
-		Task<Product?> GetProductByNameAsync(string name);
 
 		Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmerIdAsync(string farmerId);
 
-		Task<IEnumerable<ProductInfoViewModel>?> GetActiveProductsByFarmIdAsync(string farmId);
-
-		Task<IEnumerable<ProductInfoViewModel>?> GetProductsByCategoryIdAsync(int categoryId);
 
 		Task<string?> CreateProductAsync(AddProductViewModel model);
 

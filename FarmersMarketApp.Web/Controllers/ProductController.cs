@@ -31,7 +31,7 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> All([FromQuery] ProductsQueryModel model)
 		{
-			var products = await productService.GetAllProductsWithQueryAsync(
+			var products = await productService.GetAllActiveProductsWithQueryAsync(
 				model.Category,
 				model.FarmId,
 				model.FarmerId,
@@ -43,6 +43,7 @@ namespace FarmersMarketApp.Web.Controllers
 			model.Products = products.Products;
 			model.Categories = await categoryService.GetCategoriesAsync();
 			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
+			model.TotalProducts = products.TotalProducts;
 
 			return View(model);
 		}

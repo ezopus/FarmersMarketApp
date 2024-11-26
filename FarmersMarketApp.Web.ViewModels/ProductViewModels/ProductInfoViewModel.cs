@@ -42,5 +42,7 @@ namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
 
 		public string DateAdded { get; set; } = null!;
 
+		public bool IsDeleted { get; set; }
+
 	}
 }
