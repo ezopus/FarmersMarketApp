@@ -14,7 +14,7 @@
 			public const int AddressMaxLength = 100;
 			public const int CityMinLength = 3;
 			public const int CityMaxLength = 30;
-			public const int PhoneMixLength = 4;
+			public const int PhoneMinLength = 4;
 			public const int PhoneMaxLength = 17;
 			public const string PhoneNumberRegex = @"\+?[\d]{4,17}";
 		}
@@ -26,9 +26,6 @@
 
 			public const int ProductDescriptionMinLength = 5;
 			public const int ProductDescriptionMaxLength = 500;
-
-			public const double ProductSizeMin = 0.01;
-			public const double ProductSizeMax = 1000;
 
 			public const double ProductQuantityMin = 0.001;
 			public const double ProductQuantityMax = 1000;

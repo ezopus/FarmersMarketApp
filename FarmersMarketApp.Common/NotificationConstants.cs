@@ -21,5 +21,13 @@
 
 		public const string AlreadyFarmer = "You are already a farmer.";
 		public const string SuccessfullyApplyToBeFarmer = "You have successfully applied to become a farmer!";
+
+
+		public const string SuccessfullyAddProduct = "You have successfully added your product - {0}";
+		public const string FailedAddProduct = "Failed to add product - {0}. Please check input fields and try again.";
+		public const string SuccessfullyDeleteProduct = "You have successfully deleted your product - {0}";
+		public const string FailedDeleteProduct = "Failed to delete product - {0}.";
+		public const string SuccessfullyRestoreProduct = "You have successfully restored your product - {0}";
+		public const string FailedRestoreProduct = "Failed to restore product - {0}.";
 	}
 }

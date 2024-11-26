@@ -13,7 +13,6 @@
 		public const string ErrorProductDescription = "Product description must be between 10 and 500 symbols.";
 		public const string ErrorProductQuantity = "Product quantity must be positive integer in range 0.001 to 1000.";
 		public const string ErrorProductWeight = "Product weight must be positive integer in range 0.001 to 1000";
-		public const string ErrorProductSize = "Product size must be in range from 0.01 to 1000.";
 		public const string ErrorProductPrice = "Product price must be in range from 0.001 to 10000.";
 
 		public const string ErrorFarmName = "Farm name must be between 5 and 150 symbols.";
@@ -25,7 +24,6 @@
 		public const string ErrorFarmerCompanyRegistrationNumberLength = "Company number must be between 9 and 10 digits.";
 		public const string ErrorFarmerCompanyRegistrationNumberType = "Company number must consist only of digits.";
 		public const string ErrorFarmerCompanyAddress = "Company address must be between 5 and 120 symbols.";
-		public const string ErrorAcceptDeliveriesNotSelected = "Please indicate if you are open for business.";
 
 	}
 }
