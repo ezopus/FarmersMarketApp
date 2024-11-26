@@ -1,4 +1,5 @@
 ﻿using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +10,36 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IProductService productService;
-		public ProductController(IProductService productService)
+		private readonly ICategoryService categoryService;
+		private readonly IFarmService farmService;
+		public ProductController(
+			IProductService productService,
+			ICategoryService categoryService,
+			IFarmService farmService)
 		{
 			this.productService = productService;
+			this.categoryService = categoryService;
+			this.farmService = farmService;
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Manage()
+		public async Task<IActionResult> Manage([FromQuery] ProductsQueryModel model)
 		{
-			//gets all products which are not deleted
-			var allModels = await productService.GetAllProductsAsync();
+			var products = await productService.GetAllProductsAsync(
+				model.Category,
+				model.FarmId,
+				model.FarmerId,
+				model.SearchTerm,
+				model.Sorting,
+				model.CurrentPage,
+				model.ProductsPerPage);
 
-			return View(allModels);
+			model.Products = products.Products;
+			model.Categories = await categoryService.GetCategoriesAsync();
+			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
+			model.TotalProducts = products.TotalProducts;
+
+			return View(model);
 		}
 
 		public async Task<IActionResult> Restore(string productId)
