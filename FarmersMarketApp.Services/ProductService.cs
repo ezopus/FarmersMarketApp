@@ -90,7 +90,6 @@ namespace FarmersMarketApp.Services
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
 					UnitType = pr.UnitType.ToString(),
-					Size = pr.Size,
 					Quantity = pr.Quantity,
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
@@ -185,7 +184,6 @@ namespace FarmersMarketApp.Services
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
 					UnitType = pr.UnitType.ToString(),
-					Size = pr.Size,
 					Quantity = pr.Quantity,
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
@@ -227,7 +225,6 @@ namespace FarmersMarketApp.Services
 				Price = product.Price,
 				DiscountPercentage = product.DiscountPercentage ?? 0,
 				UnitType = product.UnitType.ToString(),
-				Size = product.Size,
 				Quantity = product.Quantity,
 				Origin = product.Origin ?? "",
 				ImageUrl = product.ImageUrl ?? "",
@@ -258,11 +255,9 @@ namespace FarmersMarketApp.Services
 				Description = product.Description,
 				ImageUrl = product.ImageUrl ?? "",
 				UnitType = product.UnitType.ToString(),
-				Size = product.Size,
 				Quantity = product.Quantity,
 				NetWeight = product.NetWeight,
 				Season = product.Season.ToString(),
-				ShippingWeight = product.ShippingWeight,
 				ProductionDate = product.ProductionDate.ToString("dd-MM-yyyy"),
 				ExpirationDate = product.ExpirationDate.ToString("dd-MM-yyyy"),
 				CategoryId = product.CategoryId,
@@ -295,7 +290,6 @@ namespace FarmersMarketApp.Services
 				productToEdit.Price = model.Price;
 				productToEdit.DiscountPercentage = model.DiscountPercentage;
 				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
-				productToEdit.Size = model.Size;
 				productToEdit.Quantity = model.Quantity;
 				productToEdit.Origin = model.Origin ?? "";
 				productToEdit.ImageUrl = model.ImageUrl ?? "";
@@ -339,7 +333,6 @@ namespace FarmersMarketApp.Services
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
 					UnitType = pr.UnitType.ToString(),
-					Size = pr.Size,
 					Quantity = pr.Quantity,
 					Origin = pr.Origin ?? "",
 					ImageUrl = pr.ImageUrl ?? "",
@@ -358,10 +351,8 @@ namespace FarmersMarketApp.Services
 				Name = model.Name,
 				Description = model.Description,
 				UnitType = Enum.Parse<UnitType>(model.UnitType),
-				Size = model.Size,
 				Quantity = model.Quantity,
 				NetWeight = model.NetWeight,
-				ShippingWeight = model.ShippingWeight,
 				Season = Enum.TryParse(model.Season, true, out Season result)
 				  ? result
 				  : null,

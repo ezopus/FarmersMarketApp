@@ -301,18 +301,6 @@ namespace FarmersMarketApp.Services
 				return null;
 			}
 
-			//var products = orderProducts
-			//	.Select(p => new OrderDetailsViewModel()
-			//	{
-			//		Id = p.ProductId.ToString(),
-			//		Name = p.Product.Name,
-			//		Quantity = p.ProductQuantity,
-			//		Price = p.ProductPriceAtTimeOfOrder,
-			//		Discount = p.ProductDiscountAtTimeOfOrder,
-			//		Status = p.Status.ToString(),
-			//	})
-			//	.ToList();
-
 			return orderProducts.ToArray();
 		}
 	}

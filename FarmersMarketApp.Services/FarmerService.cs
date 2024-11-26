@@ -120,7 +120,7 @@ namespace FarmersMarketApp.Services
 					ImageUrl = f.ImageUrl,
 					IsDeleted = f.IsDeleted,
 					IsApproved = f.IsApproved,
-					DateApproved = f.DateApproved.ToString(DateTimeRequiredFormat)
+					DateApproved = f.DateApproved.HasValue ? f.DateApproved.Value.ToString(DateTimeRequiredFormat) : string.Empty,
 				})
 				.ToListAsync();
 
