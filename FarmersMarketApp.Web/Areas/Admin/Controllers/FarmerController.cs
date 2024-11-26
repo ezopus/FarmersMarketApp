@@ -1,6 +1,7 @@
 ﻿using FarmersMarketApp.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 {
@@ -21,9 +22,34 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 			return View(farmers);
 		}
 
+		public async Task<IActionResult> Approve(string farmerId)
+		{
+			var result = await farmerService.ApproveFarmerByFarmerIdAsync(farmerId);
+
+			if (result)
+			{
+				TempData[SuccessMessage] = SuccessfullyApproveFarmer;
+			}
+			else
+			{
+				TempData[ErrorMessage] = FailedApproveFarmer;
+			}
+
+			return RedirectToAction(nameof(Manage));
+		}
+
 		public async Task<IActionResult> Restore(string farmerId)
 		{
 			var result = await farmerService.RestoreFarmerByIdAsync(farmerId);
+
+			if (result)
+			{
+				TempData[SuccessMessage] = SuccessfullyRestoreFarmer;
+			}
+			else
+			{
+				TempData[ErrorMessage] = FailedRestoreFarmer;
+			}
 
 			return RedirectToAction(nameof(Manage));
 		}
@@ -31,17 +57,44 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 		{
 			var result = await farmerService.RestoreFarmerFarmsProductsByIdAsync(farmerId);
 
+			if (result)
+			{
+				TempData[SuccessMessage] = SuccessfullyRestoreFarmerEntities;
+			}
+			else
+			{
+				TempData[ErrorMessage] = FailedRestoreFarmer;
+			}
+
 			return RedirectToAction(nameof(Manage));
 		}
 		public async Task<IActionResult> Delete(string farmerId)
 		{
 			var result = await farmerService.SetFarmerIsDeletedByIdAsync(farmerId);
 
+			if (result)
+			{
+				TempData[SuccessMessage] = SuccessfullyDeleteFarmer;
+			}
+			else
+			{
+				TempData[ErrorMessage] = FailedDeleteFarmer;
+			}
+
 			return RedirectToAction(nameof(Manage));
 		}
 		public async Task<IActionResult> DeleteAll(string farmerId)
 		{
 			var result = await farmerService.SetFarmerFarmsProductsIsDeletedByIdAsync(farmerId);
+
+			if (result)
+			{
+				TempData[SuccessMessage] = SuccessfullyDeleteFarmerEntities;
+			}
+			else
+			{
+				TempData[ErrorMessage] = FailedDeleteFarmer;
+			}
 
 			return RedirectToAction(nameof(Manage));
 		}
