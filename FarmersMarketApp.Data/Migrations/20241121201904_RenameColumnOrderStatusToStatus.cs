@@ -10,11 +10,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.RenameColumn(
-				name: "OrderStatus",
-				table: "Orders",
-				newName: "Status");
-
 			migrationBuilder.UpdateData(
 				table: "AspNetUsers",
 				keyColumn: "Id",
@@ -54,11 +49,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.RenameColumn(
-				name: "Status",
-				table: "Orders",
-				newName: "OrderStatus");
-
 			migrationBuilder.UpdateData(
 				table: "AspNetUsers",
 				keyColumn: "Id",

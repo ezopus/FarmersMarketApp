@@ -8,8 +8,6 @@
 
 		public bool HasProducts { get; set; }
 
-		public bool AcceptsDeliveries { get; set; }
-
 		public string? CompanyName { get; set; }
 
 		public string? CompanyRegistrationNumber { get; set; }
@@ -19,6 +17,10 @@
 		public bool IsApproved { get; set; }
 
 		public bool IsDeleted { get; set; }
+
+		public string? ImageUrl { get; set; }
+
+		public string? DateApproved { get; set; }
 
 	}
 }

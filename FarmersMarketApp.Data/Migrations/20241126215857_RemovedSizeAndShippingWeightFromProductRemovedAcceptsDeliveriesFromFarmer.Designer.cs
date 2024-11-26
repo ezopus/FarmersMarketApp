@@ -4,6 +4,7 @@ using FarmersMarketApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241126215857_RemovedSizeAndShippingWeightFromProductRemovedAcceptsDeliveriesFromFarmer")]
+    partial class RemovedSizeAndShippingWeightFromProductRemovedAcceptsDeliveriesFromFarmer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +144,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c1ecda55-f671-464f-b19b-4e2d1aead6af",
+                            ConcurrencyStamp = "6f1a89a7-5fd1-4e24-9658-7d6f1bc1936c",
                             Email = "dwight@office.com",
                             EmailConfirmed = true,
                             FirstName = "Dwight",
@@ -150,7 +153,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DWIGHT@OFFICE.COM",
                             NormalizedUserName = "DWIGHT@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDyf6Ah9g3RnhaHY2PsQohibqmcg1riXfbWOytcXrGPhkHL05YENFceeMSooAqf2Wg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECI6+rkOn3TAnnZVge4vRIo8cJkJcKVNQ92/8I6rqDBUhWBhHyzZoH1uwvfo4ATKRw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "618a1cc6-6284-4702-871c-1e58fe74f3f8",
                             TwoFactorEnabled = false,
@@ -160,7 +163,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2996698-1da5-427f-9188-bccb9866e911",
+                            ConcurrencyStamp = "b6e20221-a4b9-4a30-9c63-c5cf08aca328",
                             Email = "kevin@office.com",
                             EmailConfirmed = true,
                             FirstName = "Kevin",
@@ -169,7 +172,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KEVIN@OFFICE.COM",
                             NormalizedUserName = "KEVIN@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELzSjTrAStwaZc5rNbHkXaxlIfeBmr5mc5WCtv80T8pQ0WERQRs4Jw+njf5jare2Rg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHqn4E7IYMsucM/mLbsE2G3ock4FLVm2Dv8afhD9uxKCNpclH6XRUOrqv+qc2wr4Ug==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "fd625ce4-2475-4d80-a609-df9d3ddf4598",
                             TwoFactorEnabled = false,
@@ -179,7 +182,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "71e80d22-f940-4d8a-8827-9f242163e3bd",
+                            ConcurrencyStamp = "9f9279d3-2385-4e94-aa2e-7eb4c25838db",
                             Email = "michael@office.com",
                             EmailConfirmed = true,
                             FirstName = "Michael",
@@ -188,7 +191,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MICHAEL@OFFICE.COM",
                             NormalizedUserName = "MICHAEL@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPRXS3vrWoFr3veUspGKk5XRB0XzQHOFB8dQ8QGEKLRkHNs9b9ssWb5CdnWx3WBpZg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFwDwMLO+C1fy8FGjv0JBT/3jr29DCLtnzFYQ4m/ySY770KOgVjJNn/JFnEmfrS5Rg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "288b8da7-b517-4f95-af28-3916b878adc1",
                             TwoFactorEnabled = false,
@@ -198,7 +201,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5df89e12-bfa2-4859-afa4-635f56f481ee",
+                            ConcurrencyStamp = "c9212210-e923-4c2c-aa19-f462b1b4ab6a",
                             Email = "jim@office.com",
                             EmailConfirmed = true,
                             FirstName = "Jim",
@@ -207,7 +210,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JIM@OFFICE.COM",
                             NormalizedUserName = "JIM@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDA9327GAIgJDZeaJ27utmc3a3uF0gXcjMXmvjQxlDg7IXgsV2Ymj6kUB1+8HEkRtw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPMvHjaf1IUz+aU41k9FUpPi4UxFN0bN/EEYdtIzw3u1RnU8TIVisVWAvQdopTrT8Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "08f6ec97-4269-466d-b207-47e30c651036",
                             TwoFactorEnabled = false,
@@ -217,7 +220,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         {
                             Id = new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d128ea46-307f-469d-add4-c29ebc4c3a58",
+                            ConcurrencyStamp = "e6ad6dc3-2207-4475-a6ef-a01d552c53fa",
                             Email = "creed@office.com",
                             EmailConfirmed = true,
                             FirstName = "Creed",
@@ -226,7 +229,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CREED@OFFICE.COM",
                             NormalizedUserName = "CREED@OFFICE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJsrLEyZVVsbqrXfCTsgLDQxQbvBnEAgqsI1Oj7nHS8RzFd3Yq8+LalraByR6SqbZw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELdPwneCxz83lXBgPNv8a3tX5FgnxCa/B1e5D1czB6M2R3OPWHf3LOWz39OrZAuekQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "a361e509-ad28-459e-b4c6-449937b3e998",
                             TwoFactorEnabled = false,
@@ -370,7 +373,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Riverside",
                             CloseHours = new TimeOnly(18, 0, 0),
                             Email = "contact@sunnyfields.com",
-                            ImageUrl = "/img/farm1.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Sunny Fields",
@@ -384,7 +386,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Hilltop",
                             CloseHours = new TimeOnly(17, 0, 0),
                             Email = "info@mountainviewfarm.com",
-                            ImageUrl = "/img/farm2.jpg",
                             IsDeleted = false,
                             IsOpen = false,
                             Name = "Mountainview Farm",
@@ -398,7 +399,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Lakewood",
                             CloseHours = new TimeOnly(20, 0, 0),
                             Email = "hello@lakesideorchards.com",
-                            ImageUrl = "/img/farm3.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Lakeside Orchards",
@@ -412,7 +412,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Springfield",
                             CloseHours = new TimeOnly(19, 0, 0),
                             Email = "support@greenmeadowfarms.com",
-                            ImageUrl = "/img/farm4.jpg",
                             IsDeleted = false,
                             IsOpen = false,
                             Name = "Green Meadow Farms",
@@ -426,7 +425,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Greenville",
                             CloseHours = new TimeOnly(18, 30, 0),
                             Email = "contact@valleyfarmmarket.com",
-                            ImageUrl = "/img/farm5.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Valley Farm Market",
@@ -440,7 +438,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Clearwater",
                             CloseHours = new TimeOnly(16, 30, 0),
                             Email = "info@sunriseranch.com",
-                            ImageUrl = "/img/farm6.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Sunrise Ranch",
@@ -454,7 +451,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Fairview",
                             CloseHours = new TimeOnly(18, 0, 0),
                             Email = "contact@harvesthill.com",
-                            ImageUrl = "/img/farm7.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Harvest Hill Farm",
@@ -468,7 +464,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Silverlake",
                             CloseHours = new TimeOnly(17, 0, 0),
                             Email = "hello@willowcreek.com",
-                            ImageUrl = "/img/farm8.jpg",
                             IsDeleted = false,
                             IsOpen = false,
                             Name = "Willow Creek Farm",
@@ -482,7 +477,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Brookside",
                             CloseHours = new TimeOnly(20, 0, 0),
                             Email = "support@meadowbrook.com",
-                            ImageUrl = "/img/farm9.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Meadow Brook Orchards",
@@ -496,7 +490,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Eagle Peak",
                             CloseHours = new TimeOnly(17, 30, 0),
                             Email = "info@blueskyfarms.com",
-                            ImageUrl = "/img/farm10.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Blue Sky Farms",
@@ -510,7 +503,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Greenwood",
                             CloseHours = new TimeOnly(19, 30, 0),
                             Email = "contact@evergreenacres.com",
-                            ImageUrl = "/img/farm11.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Evergreen Acres",
@@ -524,7 +516,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Watertown",
                             CloseHours = new TimeOnly(18, 0, 0),
                             Email = "info@riverbendfarm.com",
-                            ImageUrl = "/img/farm12.jpg",
                             IsDeleted = false,
                             IsOpen = false,
                             Name = "Riverbend Farm",
@@ -538,7 +529,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Mapleton",
                             CloseHours = new TimeOnly(16, 0, 0),
                             Email = "hello@autumngrove.com",
-                            ImageUrl = "/img/farm13.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Autumn Grove",
@@ -552,7 +542,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Plainsville",
                             CloseHours = new TimeOnly(18, 0, 0),
                             Email = "contact@prairieview.com",
-                            ImageUrl = "/img/farm14.jpg",
                             IsDeleted = false,
                             IsOpen = false,
                             Name = "Prairie View Farm",
@@ -566,7 +555,6 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             City = "Peach Valley",
                             CloseHours = new TimeOnly(18, 0, 0),
                             Email = "info@orchardhill.com",
-                            ImageUrl = "/img/farm15.jpg",
                             IsDeleted = false,
                             IsOpen = true,
                             Name = "Orchard Hill",
@@ -594,7 +582,7 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Company registration number for VAT and tax purposes.");
 
-                    b.Property<DateTime?>("DateApproved")
+                    b.Property<DateTime>("DateApproved")
                         .HasColumnType("datetime2")
                         .HasComment("Date and time when administrator has approved farmer.");
 
@@ -632,9 +620,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             CompanyAddress = "321 Privet Drive",
                             CompanyName = "Milky Way",
                             CompanyRegistrationNumber = "315252331",
-                            DateApproved = new DateTime(2024, 11, 2, 13, 11, 0, 0, DateTimeKind.Unspecified),
+                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HasProducts = true,
-                            ImageUrl = "/img/dwight.jpg",
                             IsApproved = true,
                             IsDeleted = false,
                             UserId = new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5")
@@ -645,9 +632,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             CompanyAddress = "44 Chicken Road",
                             CompanyName = "Los Pollos Hermanos",
                             CompanyRegistrationNumber = "123772341",
-                            DateApproved = new DateTime(2024, 10, 10, 19, 27, 0, 0, DateTimeKind.Unspecified),
+                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HasProducts = true,
-                            ImageUrl = "/img/kevin.png",
                             IsApproved = true,
                             IsDeleted = false,
                             UserId = new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7")
@@ -658,9 +644,8 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                             CompanyAddress = "1 Ocean Avenue",
                             CompanyName = "FilletOFish",
                             CompanyRegistrationNumber = "335788211",
-                            DateApproved = new DateTime(2024, 10, 18, 15, 44, 0, 0, DateTimeKind.Unspecified),
+                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HasProducts = true,
-                            ImageUrl = "/img/michael.jpg",
                             IsApproved = true,
                             IsDeleted = false,
                             UserId = new Guid("df1516df-4501-475e-c02a-08dcf857a1b7")

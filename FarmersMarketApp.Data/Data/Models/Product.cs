@@ -24,17 +24,11 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Type of unit which product is distributed in - box, carton, bottle, etc.")]
 		public required UnitType UnitType { get; set; }
 
-		[Comment("The size of one individual product in one sold unit.")]
-		public required double Size { get; set; }
-
 		[Comment("Amount of products in each unit.")]
 		public required double Quantity { get; set; }
 
 		[Comment("Weight of product in kilograms")]
 		public required double NetWeight { get; set; }
-
-		[Comment("Weight of product with container")]
-		public double ShippingWeight { get; set; }
 
 		[Comment("Specific season for product if applicable")]
 		public Season? Season { get; set; }

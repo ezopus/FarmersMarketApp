@@ -34,8 +34,10 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 					CompanyName = farmer.CompanyName,
 					CompanyRegistrationNumber = farmer.CompanyRegistrationNumber,
 					CompanyAddress = farmer.CompanyAddress,
+					ImageUrl = string.IsNullOrEmpty(farmer.ImageUrl) ? "/img/no-image.png" : farmer.ImageUrl,
 					IsApproved = farmer.IsApproved,
-					IsDeleted = farmer.IsDeleted
+					IsDeleted = farmer.IsDeleted,
+					DateApproved = string.IsNullOrEmpty(farmer.DateApproved) ? null : DateTime.Parse(farmer.DateApproved),
 				};
 
 				farmers.Add(newFarmer);

@@ -41,6 +41,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		public bool IsApproved { get; set; }
 
 		[Comment("Date and time when administrator has approved farmer.")]
-		public DateTime DateApproved { get; set; }
+		public DateTime? DateApproved { get; set; }
 	}
 }

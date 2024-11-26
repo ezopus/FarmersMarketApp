@@ -3,6 +3,7 @@ using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Datasets.ImportDTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Globalization;
 using System.Text.Json;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
@@ -42,13 +43,11 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 					Name = product.Name,
 					Description = product.Description,
 					UnitType = Enum.Parse<UnitType>(product.UnitType),
-					Size = product.Size,
 					Quantity = product.Quantity,
 					NetWeight = product.NetWeight,
-					ShippingWeight = product.ShippingWeight,
 					Season = Enum.Parse<Season>(product.Season),
-					ProductionDate = DateTime.Parse(product.ProductionDate),
-					ExpirationDate = DateTime.Parse(product.ExpirationDate),
+					ProductionDate = DateTime.ParseExact(product.ProductionDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None),
+					ExpirationDate = DateTime.ParseExact(product.ExpirationDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None),
 					CategoryId = product.CategoryId,
 					Price = product.Price,
 					HasDiscount = product.HasDiscount,
@@ -58,6 +57,8 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 					Barcode = product.Barcode,
 					ImageUrl = product.ImageUrl,
 					Origin = product.Origin,
+					IsDeleted = false,
+					DateAdded = DateTime.ParseExact(product.DateAdded, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None)
 				};
 
 				products.Add(newFarm);
