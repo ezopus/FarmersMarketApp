@@ -28,14 +28,7 @@
                     <h5 class="card-title">@farmer.FullName</h5>
                     <p class="card-text">@farmer.CompanyName</p>
 	                <p class="card-text">@farmer.CompanyAddress</p>
-                    @if (farmer.AcceptsDeliveries)
-                    {
-						<p class="card-text text-success">Open for business</p>
-                    }
-                    else
-                    {
-	                    <p class="card-text text-warning">Currently closed for business.</p>
-                    }
+                    
                     @if (farmer.HasProducts == true)
                     {
                         <a asp-controller="Product" asp-action="All" asp-route-farmerId="@farmer.Id" asp-route-farmerFullName="@farmer.FullName" class="btn btn-success">Shop products</a>
