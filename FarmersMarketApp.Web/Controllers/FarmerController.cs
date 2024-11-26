@@ -3,7 +3,6 @@ using FarmersMarketApp.Web.Extensions;
 using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
@@ -54,6 +53,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//if user is already a farmer redirect to my farms
 			if (isFarmer)
 			{
+				TempData[ErrorMessage] = AlreadyFarmer;
 				return RedirectToAction(nameof(MyFarms), "Farmer");
 			}
 
@@ -62,7 +62,6 @@ namespace FarmersMarketApp.Web.Controllers
 
 		[HttpPost]
 		[AutoValidateAntiforgeryToken]
-		//todo: add anti-forgery token here
 		public async Task<IActionResult> Become(FarmerBecomeViewModel model)
 		{
 			//get current user id
@@ -81,14 +80,6 @@ namespace FarmersMarketApp.Web.Controllers
 				return View(model);
 			}
 
-			//check if accept deliveries is pressed and set error if not
-			//workaround to not have any button selected when initial loading of page
-			if (model.AcceptsDeliveries == null)
-			{
-				ModelState.AddModelError(nameof(model.AcceptsDeliveries), ErrorAcceptDeliveriesNotSelected);
-				return View(model);
-			}
-
 			//async create new farmer entity
 			var result = await farmerService.BecomeFarmerAsync(currentUserId, model);
 
@@ -96,6 +87,8 @@ namespace FarmersMarketApp.Web.Controllers
 			{
 				return View(model);
 			}
+
+			TempData[SuccessMessage] = SuccessfullyApplyToBeFarmer;
 
 			//redirect to my farms
 			return RedirectToAction(nameof(MyFarms));
