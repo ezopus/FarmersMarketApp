@@ -43,6 +43,7 @@ namespace FarmersMarketApp.Web.Controllers
 			model.Products = products.Products;
 			model.Categories = await categoryService.GetCategoriesAsync();
 			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
+			model.Farmers = await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync();
 			model.TotalProducts = products.TotalProducts;
 
 			return View(model);
