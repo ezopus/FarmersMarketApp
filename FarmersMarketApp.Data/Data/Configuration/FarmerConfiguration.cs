@@ -6,41 +6,42 @@ using System.Text.Json;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
-    public class FarmerConfiguration : IEntityTypeConfiguration<Farmer>
-    {
-        private const string FarmerDataSet = "../FarmersMarketApp.Data/Datasets/farmers.json";
-        public void Configure(EntityTypeBuilder<Farmer> builder)
-        {
-            var farmers = LoadJsonData(FarmerDataSet);
+	public class FarmerConfiguration : IEntityTypeConfiguration<Farmer>
+	{
+		private const string FarmerDataSet = "../FarmersMarketApp.Data/Datasets/farmers.json";
+		public void Configure(EntityTypeBuilder<Farmer> builder)
+		{
+			var farmers = LoadJsonData(FarmerDataSet);
 
-            //Add seed data
-            builder.HasData(farmers);
-        }
+			//Add seed data
+			builder.HasData(farmers);
+		}
 
-        private Farmer[] LoadJsonData(string filePath)
-        {
-            var importJson = File.ReadAllText(filePath);
-            var importFarmer = JsonSerializer.Deserialize<ImportFarmerDto[]>(importJson);
+		private Farmer[] LoadJsonData(string filePath)
+		{
+			var importJson = File.ReadAllText(filePath);
+			var importFarmer = JsonSerializer.Deserialize<ImportFarmerDto[]>(importJson);
 
-            ICollection<Farmer> farmers = new HashSet<Farmer>();
+			ICollection<Farmer> farmers = new HashSet<Farmer>();
 
-            foreach (var farmer in importFarmer)
-            {
-                var newFarmer = new Farmer()
-                {
-                    Id = farmer.Id,
-                    UserId = farmer.UserId,
-                    HasProducts = farmer.HasProducts,
-                    AcceptsDeliveries = farmer.AcceptsDeliveries,
-                    CompanyName = farmer.CompanyName,
-                    CompanyRegistrationNumber = farmer.CompanyRegistrationNumber,
-                    CompanyAddress = farmer.CompanyAddress,
-                };
+			foreach (var farmer in importFarmer)
+			{
+				var newFarmer = new Farmer()
+				{
+					Id = farmer.Id,
+					UserId = farmer.UserId,
+					HasProducts = farmer.HasProducts,
+					CompanyName = farmer.CompanyName,
+					CompanyRegistrationNumber = farmer.CompanyRegistrationNumber,
+					CompanyAddress = farmer.CompanyAddress,
+					IsApproved = farmer.IsApproved,
+					IsDeleted = farmer.IsDeleted
+				};
 
-                farmers.Add(newFarmer);
-            }
+				farmers.Add(newFarmer);
+			}
 
-            return farmers.ToArray();
-        }
-    }
+			return farmers.ToArray();
+		}
+	}
 }

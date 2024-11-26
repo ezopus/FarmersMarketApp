@@ -7,7 +7,10 @@
     "CompanyName": "Milky Way",
     "CompanyRegistrationNumber": "315252331",
     "CompanyAddress": "321 Privet Drive",
-    "ImageUrl": "/img/dwight.jpg"
+    "ImageUrl": "/img/dwight.jpg",
+    "IsApproved": true,
+    "IsDeleted": false,
+    "DateApproved": "02-11-2024 13:11:00"
   },
   {
     "Id": "cd093e1c-e486-4a7f-b92f-94c22f15f7c1",
@@ -17,7 +20,10 @@
     "CompanyName": "Los Pollos Hermanos",
     "CompanyRegistrationNumber": "123772341",
     "CompanyAddress": "44 Chicken Road",
-    "ImageUrl": "/img/kevin.png"
+    "ImageUrl": "/img/kevin.png",
+    "IsApproved": true,
+    "IsDeleted": false,
+    "DateApproved": "10-10-2024 19:27:00"
   },
   {
     "Id": "65c75a94-f3be-4a7a-913e-d6c868876265",
@@ -27,6 +33,9 @@
     "CompanyName": "FilletOFish",
     "CompanyRegistrationNumber": "335788211",
     "CompanyAddress": "1 Ocean Avenue",
-    "ImageUrl": "/img/michael.jpg"
+    "ImageUrl": "/img/michael.jpg",
+    "IsApproved": true,
+    "IsDeleted": false,
+    "DateApproved": "18-10-2024 15:44:00"
   }
 ]

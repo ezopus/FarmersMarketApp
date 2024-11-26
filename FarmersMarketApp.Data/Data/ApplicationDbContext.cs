@@ -22,7 +22,6 @@ namespace FarmersMarketApp.Infrastructure.Data
 			builder.ApplyConfiguration(new ApplicationUserConfiguration(passwordHasher));
 			builder.ApplyConfiguration(new FarmerConfiguration());
 			builder.ApplyConfiguration(new CategoryConfiguration());
-			builder.ApplyConfiguration(new CategoryFarmerConfiguration());
 			builder.ApplyConfiguration(new FarmConfiguration());
 			builder.ApplyConfiguration(new FarmerFarmConfiguration());
 			builder.ApplyConfiguration(new ProductConfiguration());
@@ -38,8 +37,6 @@ namespace FarmersMarketApp.Infrastructure.Data
 		public DbSet<Farm> Farms { get; set; }
 
 		public DbSet<Category> Categories { get; set; }
-
-		public DbSet<CategoryFarmer> CategoriesFarmers { get; set; }
 
 		public DbSet<Payment> Payments { get; set; }
 

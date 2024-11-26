@@ -19,9 +19,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Flag to show if farmer has any products for sale.")]
 		public bool HasProducts { get; set; }
 
-		[Comment("Flag to show if farmer is currently accepting deliveries.")]
-		public bool AcceptsDeliveries { get; set; }
-
 		[Comment("Company name of farmer for billing purposes.")]
 		public string? CompanyName { get; set; }
 
@@ -37,9 +34,13 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 
 		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
-		public virtual ICollection<CategoryFarmer> CategoriesFarmers { get; set; } = new List<CategoryFarmer>();
-
 		[Comment("Boolean flag if farmer decides to deactivate his account.")]
 		public bool IsDeleted { get; set; }
+
+		[Comment("Boolean flag to show if farmer has passed approval by administrator.")]
+		public bool IsApproved { get; set; }
+
+		[Comment("Date and time when administrator has approved farmer.")]
+		public DateTime DateApproved { get; set; }
 	}
 }
