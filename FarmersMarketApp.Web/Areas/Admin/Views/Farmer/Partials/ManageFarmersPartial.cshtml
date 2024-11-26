@@ -1,0 +1,63 @@
+﻿@using FarmersMarketApp.Web.ViewModels.AdminViewModels
+@model ManageFarmersViewModel
+
+<table class="table table-hover table-striped align-middle text-center">
+	<thead>
+
+		<tr>
+			<th colspan="2" class="text-center">Farmer</th>
+			<th colspan="1">Company Registration</th>
+			<th colspan="1">Company Name</th>
+			<th colspan="1">Company Address</th>
+			<th colspan="2">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Farmers.Any())
+		{
+			@foreach (var farmer in Model.Farmers)
+			{
+				<tr class="table-light" scope="row">
+					<td colspan="2">@farmer.FullName</td>
+					<td>@farmer.CompanyRegistrationNumber</td>
+					<td>@farmer.CompanyName</td>
+					<td>@farmer.CompanyAddress</td>
+					@if (farmer.IsApproved)
+					{
+
+						@if (farmer.IsDeleted)
+						{
+							<td>
+								<a asp-controller="Farmer" asp-action="Restore" asp-route-farmerId="@farmer.Id" class="btn btn-warning btn-sm w-100">Restore farmer</a>
+							</td>
+							<td>
+								<a asp-controller="Farmer" asp-action="RestoreAll" asp-route-farmerId="@farmer.Id" class="btn btn-warning btn-sm">Restore all farmer entities</a>
+							</td>
+						}
+						else
+						{
+							<td>
+								<a asp-controller="Farmer" asp-action="Delete" asp-route-farmerId="@farmer.Id" class="btn btn-danger btn-sm w-100">Deactivate farmer</a>
+							</td>
+							<td>
+								<a asp-controller="Farmer" asp-action="DeleteAll" asp-route-farmerId="@farmer.Id" class="btn btn-danger btn-sm">Deactivate all farmer entities</a>
+							</td>
+						}
+					}
+					else
+					{
+						<td colspan="1">
+							<a asp-controller="Farmer" asp-action="Approve" asp-route-farmerId="@farmer.Id" class="btn btn-success btn-sm w-100">Activate farmer</a>
+						</td>
+					}
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="7" class="table-light pt-4 pb-4">@Model.DefaultText</td>
+			</tr>
+		}
+	</tbody>
+</table>
