@@ -1,7 +1,7 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 using FarmersMarketApp.Web.Extensions;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static FarmersMarketApp.Common.NotificationConstants;

@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
 
-namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
+namespace FarmersMarketApp.ViewModels.FarmViewModels
 {
 	public class FarmInfoViewModel
 	{

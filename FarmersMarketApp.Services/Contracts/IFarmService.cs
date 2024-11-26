@@ -1,7 +1,7 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.AdminViewModels;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.AdminViewModels;
+using FarmersMarketApp.ViewModels.FarmViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {

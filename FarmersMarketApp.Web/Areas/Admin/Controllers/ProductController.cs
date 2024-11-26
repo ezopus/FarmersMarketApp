@@ -1,5 +1,5 @@
 ﻿using FarmersMarketApp.Services.Contracts;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

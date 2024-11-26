@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
+namespace FarmersMarketApp.ViewModels.FarmerViewModels
 {
 	using static Common.DataValidation.ErrorMessages;
 	using static Common.DataValidation.ValidationConstants.FarmerValidation;

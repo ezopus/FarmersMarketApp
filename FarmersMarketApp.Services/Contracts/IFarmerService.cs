@@ -1,5 +1,5 @@
-﻿using FarmersMarketApp.Web.ViewModels.AdminViewModels;
-using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
+﻿using FarmersMarketApp.ViewModels.AdminViewModels;
+using FarmersMarketApp.ViewModels.FarmerViewModels;
 
 
 namespace FarmersMarketApp.Services.Contracts

@@ -1,10 +1,10 @@
 ﻿using FarmersMarketApp.Common.Enums;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 using System.ComponentModel.DataAnnotations;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.ApplicationUserValidation;
 
-namespace FarmersMarketApp.Web.ViewModels.OrderViewModels
+namespace FarmersMarketApp.ViewModels.OrderViewModels
 {
 	public class OrderCheckoutViewModel
 	{

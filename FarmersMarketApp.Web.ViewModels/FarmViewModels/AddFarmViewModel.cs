@@ -2,7 +2,7 @@
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.FarmValidation;
 
-namespace FarmersMarketApp.Web.ViewModels.FarmViewModels
+namespace FarmersMarketApp.ViewModels.FarmViewModels
 {
 	public class AddFarmViewModel
 	{

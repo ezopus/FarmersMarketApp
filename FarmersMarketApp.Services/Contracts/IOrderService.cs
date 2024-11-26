@@ -1,5 +1,5 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.OrderViewModels;
+using FarmersMarketApp.ViewModels.OrderViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {

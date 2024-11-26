@@ -1,4 +1,4 @@
-﻿namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
+﻿namespace FarmersMarketApp.ViewModels.ProductViewModels
 {
 	public class AddProductFarmOptions
 	{

@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.ViewModels.FarmViewModels;
 using FarmersMarketApp.Web.Extensions;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;

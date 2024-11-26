@@ -1,9 +1,9 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+using FarmersMarketApp.ViewModels.FarmerViewModels;
+using FarmersMarketApp.ViewModels.FarmViewModels;
 
-namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
+namespace FarmersMarketApp.ViewModels.ProductViewModels
 {
 	public class ProductsQueryModel
 	{

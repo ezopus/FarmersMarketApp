@@ -1,4 +1,4 @@
-﻿namespace FarmersMarketApp.Web.ViewModels.AdminViewModels
+﻿namespace FarmersMarketApp.ViewModels.AdminViewModels
 {
 	public class FarmInfoAdminViewModel
 	{

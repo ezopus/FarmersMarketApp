@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmersMarketApp.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmersMarketApp.Common", "FarmersMarketApp.Common\FarmersMarketApp.Common.csproj", "{DB7A61D2-3AE8-4A6C-823B-F7EFC70F73B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmersMarketApp.Services", "FarmersMarketApp.Services\FarmersMarketApp.Services.csproj", "{F3455DD5-F27D-4A53-BE95-BEA21D6A7785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmersMarketApp.Services", "FarmersMarketApp.Services\FarmersMarketApp.Services.csproj", "{F3455DD5-F27D-4A53-BE95-BEA21D6A7785}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmersMarketApp.Web.ViewModels", "FarmersMarketApp.Web.ViewModels\FarmersMarketApp.Web.ViewModels.csproj", "{149DD164-5C28-4795-9E02-E9404C58E030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmersMarketApp.ViewModels", "FarmersMarketApp.Web.ViewModels\FarmersMarketApp.ViewModels.csproj", "{149DD164-5C28-4795-9E02-E9404C58E030}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

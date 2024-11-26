@@ -1,8 +1,8 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
+using FarmersMarketApp.ViewModels.FarmerViewModels;
+using FarmersMarketApp.ViewModels.FarmViewModels;
 
-namespace FarmersMarketApp.Web.ViewModels.AdminViewModels
+namespace FarmersMarketApp.ViewModels.AdminViewModels
 {
 	public class ProductInfoAdminViewModel
 	{

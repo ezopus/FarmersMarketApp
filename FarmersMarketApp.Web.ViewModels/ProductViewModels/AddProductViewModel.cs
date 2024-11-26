@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.ProductValidation;
 
-namespace FarmersMarketApp.Web.ViewModels.ProductViewModels
+namespace FarmersMarketApp.ViewModels.ProductViewModels
 {
 	public class AddProductViewModel
 	{

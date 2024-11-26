@@ -1,9 +1,9 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
-using FarmersMarketApp.Web.ViewModels.AdminViewModels;
-using FarmersMarketApp.Web.ViewModels.FarmViewModels;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.AdminViewModels;
+using FarmersMarketApp.ViewModels.FarmViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 

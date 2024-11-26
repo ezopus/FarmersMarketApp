@@ -1,7 +1,7 @@
 ﻿using FarmersMarketApp.Common.Enums;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 
-namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
+namespace FarmersMarketApp.ViewModels.FarmerViewModels
 {
 	public class FarmerProductOrderViewModel
 	{

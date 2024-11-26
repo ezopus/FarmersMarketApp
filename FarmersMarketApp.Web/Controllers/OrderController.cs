@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.ViewModels.OrderViewModels;
 using FarmersMarketApp.Web.Extensions;
-using FarmersMarketApp.Web.ViewModels.OrderViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers

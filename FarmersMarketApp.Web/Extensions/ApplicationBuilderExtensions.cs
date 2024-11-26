@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Extensions.DependencyInjection
+﻿namespace FarmersMarketApp.Web.Extensions
 {
 	using FarmersMarketApp.Infrastructure.Data.Models;
 	using Microsoft.AspNetCore.Identity;

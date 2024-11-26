@@ -1,7 +1,7 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.ViewModels.PaymentViewModels;
 using FarmersMarketApp.Web.Extensions;
-using FarmersMarketApp.Web.ViewModels.PaymentVIewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmersMarketApp.Web.Controllers

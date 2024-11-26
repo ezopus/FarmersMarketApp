@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Common.Enums;
 
-namespace FarmersMarketApp.Web.ViewModels.PaymentVIewModels
+namespace FarmersMarketApp.ViewModels.PaymentViewModels
 {
 	public class PaymentCheckoutViewModel
 	{

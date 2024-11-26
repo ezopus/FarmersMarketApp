@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.Web.ViewModels.ProductViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {

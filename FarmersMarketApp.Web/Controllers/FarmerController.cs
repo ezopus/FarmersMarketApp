@@ -1,6 +1,6 @@
 ﻿using FarmersMarketApp.Services.Contracts;
+using FarmersMarketApp.ViewModels.FarmerViewModels;
 using FarmersMarketApp.Web.Extensions;
-using FarmersMarketApp.Web.ViewModels.FarmerViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static FarmersMarketApp.Common.NotificationConstants;

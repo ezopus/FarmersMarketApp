@@ -1,4 +1,4 @@
-﻿namespace FarmersMarketApp.Web.ViewModels.FarmerViewModels
+﻿namespace FarmersMarketApp.ViewModels.FarmerViewModels
 {
 	public class FarmersForDropDown
 	{
