@@ -1,6 +1,6 @@
 ﻿@using FarmersMarketApp.ViewModels.OrderViewModels
 @using FarmersMarketApp.Common.Enums
-@model ManageOrdersViewModel
+@model ManageUserOrdersViewModel
 
 @{
 	var openOrder = Model.Orders.FirstOrDefault(o => o.Status == Status.Open);
@@ -28,7 +28,7 @@
 
 @* PENDING ORDERS TABLE *@
 <partial name="Partials/HandledOrdersPartial" 
-         model="@(new ManageOrdersViewModel() 
+         model="@(new ManageUserOrdersViewModel() 
                 {
 	                Orders = pendingOrders, 
 	                DefaultText = "No pending orders available.", 
@@ -36,7 +36,7 @@
 
 @* COMPLETED ORDERS TABLE *@
 <partial name="Partials/HandledOrdersPartial" 
-         model="@(new ManageOrdersViewModel() 
+         model="@(new ManageUserOrdersViewModel() 
                 {
 	                Orders = completedOrders,
 	                DefaultText = "No complete orders available.", 
@@ -46,7 +46,7 @@
 
 @* CANCELLED ORDERS TABLE *@
 <partial name="Partials/HandledOrdersPartial" 
-         model="@(new ManageOrdersViewModel() 
+         model="@(new ManageUserOrdersViewModel() 
                 {
 	                Orders = cancelledOrders, 
 	                DefaultText = "No cancelled orders available.", 

@@ -37,7 +37,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//get all open orders for user
 			var order = await orderService.GetOrdersByUserIdAsync(currentUserId);
 
-			var model = new ManageOrdersViewModel()
+			var model = new ManageUserOrdersViewModel()
 			{
 				Orders = order
 			};

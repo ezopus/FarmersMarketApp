@@ -1,33 +1,35 @@
 ﻿import { API_URL } from "/js/constants.js";
 
-function completeOrder(farmerId, orderId) {
+function completeOrder(orderId) {
     fetch(API_URL + `/farmer/complete`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
-            'farmerId': farmerId,
-            'orderId': orderId
-        }
+        body: JSON.stringify({'OrderId': orderId})
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
-                showToast("Order completed successfully!", 'success');
+                showToast(data.message, 'success');
             } else {
-                showToast("Could not complete order.", 'error');
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showToast('An unexpected error occurred.', 'error');
+            showToast(data.message, 'error');
         });
 }
 
 function cancelOrder(farmerId, orderId) {
     fetch(API_URL + `/farmer/complete/${orderId}`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }

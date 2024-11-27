@@ -1,6 +1,6 @@
 ﻿namespace FarmersMarketApp.ViewModels.OrderViewModels
 {
-	public class ManageOrdersViewModel
+	public class ManageUserOrdersViewModel
 	{
 		public IEnumerable<OrderProductsViewModel> Orders { get; set; } = new List<OrderProductsViewModel>();
 
