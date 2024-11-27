@@ -273,7 +273,7 @@ namespace FarmersMarketApp.Services
 			return model;
 		}
 
-		public async Task<bool?> UpdateEditedProductAsync(AddProductViewModel model)
+		public async Task<bool?> UpdateEditedProductAsync(AddProductViewModel model, string? newFilePath)
 		{
 			var productToEdit = await repository
 				.GetByIdAsync<Product>(Guid.Parse(model.Id));
@@ -281,6 +281,13 @@ namespace FarmersMarketApp.Services
 			if (productToEdit == null || productToEdit.IsDeleted)
 			{
 				return false;
+			}
+
+			//delete old file
+			if (!string.IsNullOrEmpty(newFilePath) && !string.IsNullOrEmpty(productToEdit.ImageUrl))
+			{
+				var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", productToEdit.ImageUrl.TrimStart('/'));
+				File.Delete(oldFilePath);
 			}
 
 			try
@@ -293,7 +300,9 @@ namespace FarmersMarketApp.Services
 				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
 				productToEdit.Quantity = model.Quantity;
 				productToEdit.Origin = model.Origin ?? "";
-				productToEdit.ImageUrl = model.ImageUrl ?? "";
+				productToEdit.ImageUrl = string.IsNullOrEmpty(newFilePath)
+					? productToEdit.ImageUrl
+					: newFilePath;
 				productToEdit.ProductionDate = DateTime.ParseExact(model.ProductionDate,
 					DateTimeRequiredFormat, CultureInfo.InvariantCulture);
 				productToEdit.ExpirationDate = DateTime.ParseExact(model.ExpirationDate,

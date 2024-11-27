@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\Partial\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
   <ItemGroup>

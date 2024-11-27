@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Common.Enums;
 using FarmersMarketApp.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.ProductValidation;
@@ -21,6 +22,8 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 		public string Description { get; set; } = string.Empty;
 
 		public string? ImageUrl { get; set; }
+
+		public IFormFile? ImageFile { get; set; }
 
 		public string UnitType { get; set; } = string.Empty;
 		public IEnumerable<UnitType> UnitTypes { get; set; } = new List<UnitType>();
