@@ -34,8 +34,8 @@
 					<input asp-for="@Model.PhoneNumber" class="form-control" aria-required="true" placeholder="optional" value="@Model.PhoneNumber"/>
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.ImageUrl" class="form-label mt-2">Image URL</label>
-					<input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" placeholder="optional" valye="@Model.ImageUrl"/>
+					<label asp-for="@Model.ImageFile" class="form-label mt-2">Image (leave blank to remain unchanged)</label>
+					<input asp-for="@Model.ImageFile" class="form-control" aria-required="true" placeholder="optional, leave blank to remain unchanged" type="File"/>
 				</div>
 				<div class="mb-2 w-100">
 					<div class="mb-2">

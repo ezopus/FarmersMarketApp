@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -102,11 +103,57 @@ namespace FarmersMarketApp.Web.Controllers
 				}
 			}
 
+			//prepare file upload folder
+			var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+			if (!Directory.Exists(uploadsPath))
+			{
+				Directory.CreateDirectory(uploadsPath);
+			}
+
+			//handle file upload
+			if (model.ImageFile != null && model.ImageFile.Length > 0)
+			{
+				var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+				var fileExtension = Path.GetExtension(model.ImageFile.FileName).ToLower();
+
+				if (!allowedExtensions.Contains(fileExtension))
+				{
+					ModelState.AddModelError(nameof(model.ImageFile), "Only JPG, JPEG, and PNG files are allowed.");
+					return View(model);
+				}
+
+				if (model.ImageFile.Length > 2 * 1024 * 1024) // 2 MB limit
+				{
+					ModelState.AddModelError(nameof(model.ImageFile), "The file size cannot exceed 2 MB.");
+					return View(model);
+				}
+
+				var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+				var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
+				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await model.ImageFile.CopyToAsync(stream);
+				}
+
+				//add the relative path to the model.ImageUrl for database storage
+				model.ImageUrl = $"/uploads/{uniqueFileName}";
+			}
+
 			//create new farm for current farmer
 			var newFarm = await farmService.AddNewFarmAsync(model, currentFarmerId);
 			var newFarmId = newFarm;
 
+			if (string.IsNullOrEmpty(newFarm))
+			{
+				TempData[ErrorMessage] = string.Format(FailedAddFarm, model.Name);
+				return View(model);
+			}
+
+
 			//return farm details view to see newly added farm
+			TempData[SuccessMessage] = string.Format(SuccessfullyAddFarm, model.Name);
 			return RedirectToAction(nameof(Details), new { farmId = newFarmId });
 		}
 
@@ -194,14 +241,49 @@ namespace FarmersMarketApp.Web.Controllers
 				}
 			}
 
+			var newFilePath = string.Empty;
+			//handle file upload
+			if (model.ImageFile != null && model.ImageFile.Length > 0)
+			{
+				var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+				var fileExtension = Path.GetExtension(model.ImageFile.FileName).ToLower();
+
+				if (!allowedExtensions.Contains(fileExtension))
+				{
+					ModelState.AddModelError(nameof(model.ImageFile), "Only JPG, JPEG, and PNG files are allowed.");
+					return View(model);
+				}
+
+				if (model.ImageFile.Length > 2 * 1024 * 1024) // 2 MB limit
+				{
+					ModelState.AddModelError(nameof(model.ImageFile), "The file size cannot exceed 2 MB.");
+					return View(model);
+				}
+
+				var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+				var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
+				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await model.ImageFile.CopyToAsync(stream);
+				}
+				//add the relative path to the model.ImageUrl for database storage
+				newFilePath = $"/uploads/{uniqueFileName}";
+			}
+
 			//try to edit farm
-			var result = await farmService.EditFarmAsync(model);
+			var result = await farmService.EditFarmAsync(model, newFilePath);
 
 			//if service fails, returns view
 			if (!result)
 			{
+				TempData[ErrorMessage] = string.Format(FailedEditFarm, model.Name);
 				return View(model);
 			}
+
+
+			TempData[SuccessMessage] = string.Format(SuccessfullyEditFarm, model.Name);
 
 			return RedirectToAction(nameof(Details), new { farmId = model.Id });
 		}

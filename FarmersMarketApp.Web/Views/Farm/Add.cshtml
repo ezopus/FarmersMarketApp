@@ -2,7 +2,7 @@
 @model AddFarmViewModel
 
 @{
-	ViewData["Title"] = "Become a farmer today!";
+	ViewData["Title"] = "Add your farm";
 }
 
 <div class="container text-center">
@@ -34,8 +34,8 @@
 					<input asp-for="@Model.PhoneNumber" class="form-control" aria-required="true" placeholder="optional" />
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.ImageUrl" class="form-label mt-2">Image URL</label>
-					<input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" placeholder="optional" />
+					<label asp-for="@Model.ImageFile" class="form-label mt-2">Image URL</label>
+					<input asp-for="@Model.ImageFile" class="form-control" aria-required="true" placeholder="optional, allowed JPG, JPEG, PNG files 2MB max size" type="File"/>
 				</div>
 				<div class="mb-2 w-100">
 					<div class="mb-2">

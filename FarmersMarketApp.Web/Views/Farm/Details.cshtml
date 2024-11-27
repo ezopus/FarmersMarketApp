@@ -3,10 +3,12 @@
 @using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
 @model FarmInfoViewModel
+@inject IFarmService FarmService
 @inject IFarmerService FarmerService
 
 @{
 	var farmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
+	var farmerFarms = await FarmService.GetOnlyFarmIdsByFarmerId(farmerId);
 	ViewData["Title"] = $"Farm details";
 } 
 
@@ -45,7 +47,7 @@
 		                     }
 			</p>
 		<div>
-			@if (!string.IsNullOrEmpty(farmerId) && Model.FarmersFarms.Any(f => f.FarmerId.ToString().ToLower() == farmerId.ToLower()))
+			@if (!string.IsNullOrEmpty(farmerId) && farmerFarms != null && farmerFarms.FirstOrDefault(f => f.ToLower() == Model.Id.ToLower()) != null)
 			{
 				<a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@Model.Id" class="btn btn-warning ">Edit Farm Info</a>
 			}

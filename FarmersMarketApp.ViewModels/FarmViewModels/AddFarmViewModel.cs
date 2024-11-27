@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants.FarmValidation;
 
@@ -29,6 +30,8 @@ namespace FarmersMarketApp.ViewModels.FarmViewModels
 		public string? PhoneNumber { get; set; }
 
 		public string? ImageUrl { get; set; }
+
+		public IFormFile? ImageFile { get; set; }
 
 		public string? OpenHours { get; set; }
 

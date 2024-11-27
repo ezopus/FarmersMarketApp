@@ -23,7 +23,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<string> AddNewFarmAsync(AddFarmViewModel model, string farmerId);
 
-		Task<bool> EditFarmAsync(AddFarmViewModel model);
+		Task<bool> EditFarmAsync(AddFarmViewModel model, string? oldFilePath);
 
 		Task<IEnumerable<AddProductFarmOptions>?> GetFarmNameAndIdForNewProductAsync(string farmerId);
 		Task<IEnumerable<AddProductFarmOptions>> GetThreeRandomFarmsForIndexCarousel();

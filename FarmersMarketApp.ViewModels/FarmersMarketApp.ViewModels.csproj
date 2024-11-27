@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FarmersMarketApp.Common\FarmersMarketApp.Common.csproj" />
     <ProjectReference Include="..\FarmersMarketApp.Data\FarmersMarketApp.Infrastructure.csproj" />
   </ItemGroup>

@@ -213,7 +213,7 @@ namespace FarmersMarketApp.Services
 			return newFarm.Id.ToString();
 		}
 
-		public async Task<bool> EditFarmAsync(AddFarmViewModel model)
+		public async Task<bool> EditFarmAsync(AddFarmViewModel model, string? newFilePath)
 		{
 			var farmToEdit = await repository
 				.AllAsync<Farm>()
@@ -225,12 +225,22 @@ namespace FarmersMarketApp.Services
 				return false;
 			}
 
+
+			//delete old file
+			if (!string.IsNullOrEmpty(newFilePath) && !string.IsNullOrEmpty(farmToEdit.ImageUrl))
+			{
+				var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", farmToEdit.ImageUrl.TrimStart('/'));
+				File.Delete(oldFilePath);
+			}
+
 			farmToEdit.Name = model.Name;
 			farmToEdit.Address = model.Address;
 			farmToEdit.City = model.City;
 			farmToEdit.Email = model.Email;
 			farmToEdit.PhoneNumber = model.PhoneNumber;
-			farmToEdit.ImageUrl = model.ImageUrl;
+			farmToEdit.ImageUrl = string.IsNullOrEmpty(newFilePath)
+				? farmToEdit.ImageUrl
+				: newFilePath;
 			farmToEdit.OpenHours = model.OpenHours != null
 				? TimeOnly.Parse(model.OpenHours)
 				: null;
