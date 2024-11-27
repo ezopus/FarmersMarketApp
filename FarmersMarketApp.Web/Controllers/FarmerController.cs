@@ -1,5 +1,7 @@
 ﻿using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.FarmerViewModels;
+using FarmersMarketApp.ViewModels.OrderViewModels;
+using FarmersMarketApp.Web.Attributes;
 using FarmersMarketApp.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -95,14 +97,14 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
-		//[MustBeFarmer]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyFarms()
 		{
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
 
-			//check if farmer exists, redirect to become one if not
+			//check if farmer exists
 			if (string.IsNullOrEmpty(currentFarmerId))
 			{
 				return RedirectToAction("Become", "Farmer");
@@ -122,7 +124,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
-		//[MustBeFarmer]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyProducts()
 		{
 			//get current user id
@@ -149,6 +151,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyOrders(string farmerId)
 		{
 			//get current user id
@@ -161,12 +164,18 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			var model = await farmerService.GetFarmerOpenOrdersAsync(farmerId);
+			var orders = await farmerService.GetFarmerOpenOrdersAsync(farmerId);
+
+			var model = new ManageFarmerOrdersViewModel()
+			{
+				Orders = orders,
+			};
 
 			return View(model);
 		}
 
 		[HttpPost]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> CompleteOrder(string orderId)
 		{
 			//get current user id
@@ -193,6 +202,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> CancelOrder(string orderId)
 		{
 			//get current user id
@@ -220,6 +230,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpGet]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> DeleteProduct(string productId)
 		{
 			var currentUserId = User.GetId();
@@ -259,6 +270,7 @@ namespace FarmersMarketApp.Web.Controllers
 			return RedirectToAction(nameof(MyProducts));
 		}
 		[HttpGet]
+		[MustBeApprovedFarmer]
 		public async Task<IActionResult> RestoreProduct(string productId)
 		{
 			var currentUserId = User.GetId();
