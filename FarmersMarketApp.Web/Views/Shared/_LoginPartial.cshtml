@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using FarmersMarketApp.Infrastructure.Data.Models
+﻿@using FarmersMarketApp.Infrastructure.Data.Models
 @using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -34,7 +33,7 @@
 		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
 		{
 			<li class="nav-item d-flex justify-content-center">
-				<a class="nav-link text-light bg-dark" asp-controller="Order" asp-action="All">
+				<a class="nav-link text-light bg-dark" asp-area="" asp-controller="Order" asp-action="All">
 					<i class="fa-solid fa-cart-shopping ps-1 pe-1"></i>
 					<span class="px-1">My Cart</span>
 				</a>

@@ -9,8 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FarmersMarketApp.Common\FarmersMarketApp.Common.csproj" />
     <ProjectReference Include="..\FarmersMarketApp.Data\FarmersMarketApp.Infrastructure.csproj" />
-    <ProjectReference Include="..\FarmersMarketApp.Web.ViewModels\FarmersMarketApp.ViewModels.csproj" />
-    <ProjectReference Include="..\FarmersMarketApp.Web.ViewModels\FarmersMarketApp.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\FarmersMarketApp.ViewModels\FarmersMarketApp.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
