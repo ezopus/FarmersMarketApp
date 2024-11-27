@@ -5,31 +5,41 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace FarmersMarketApp.Web.Attributes
 {
-	public class MustBeApprovedFarmer : ActionFilterAttribute
-	{
-		public override void OnActionExecuting(ActionExecutingContext context)
-		{
-			base.OnActionExecuting(context);
+    public class MustBeApprovedFarmer : ActionFilterAttribute
+    {
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            IFarmerService? farmerService = context.HttpContext.RequestServices.GetService<IFarmerService>();
 
-			IUserService? userService = context.HttpContext.RequestServices.GetService<IUserService>();
+            if (farmerService == null)
+            {
+                context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return;
+            }
 
-			if (userService != null)
-			{
-				context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
-			}
+            var currentUserId = context.HttpContext.User.GetId();
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                context.Result = new RedirectToActionResult("Login", "Account", null);
+                return;
+            }
 
-			IFarmerService? farmerService = context.HttpContext.RequestServices.GetService<IFarmerService>();
+            var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+            if (string.IsNullOrEmpty(currentFarmerId))
+            {
+                context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);
+                return;
+            }
 
-			var currentUserId = context.HttpContext.User.GetId();
-			var currentFarmerId = farmerService.GetFarmerIdByUserIdAsync(currentUserId).Result;
-			var currentFarmer = farmerService.GetFarmerByIdAsync(currentFarmerId).Result;
+            var currentFarmer = await farmerService.GetFarmerByIdAsync(currentFarmerId);
+            if (currentFarmer == null || !currentFarmer.IsApproved)
+            {
+                // Redirect to an appropriate page if the farmer is not approved
+                context.Result = new StatusCodeResult(StatusCodes.Status405MethodNotAllowed);
+                return;
+            }
 
-			if (userService != null
-				&& !string.IsNullOrEmpty(currentFarmerId)
-				&& currentFarmer is { IsApproved: false })
-			{
-				context.Result = new StatusCodeResult(StatusCodes.Status403Forbidden);
-			}
-		}
-	}
+            await next();
+        }
+    }
 }
