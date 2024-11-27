@@ -43,6 +43,8 @@ else
 	app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
 await app.SeedRolesAsync();
 await app.EnsureAdminRole();
 
