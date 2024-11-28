@@ -44,6 +44,7 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 		public string ProductionDate { get; set; } = string.Empty;
 		public string ExpirationDate { get; set; } = string.Empty;
 
+		[Range(1, 10, ErrorMessage = ErrorProductCategory)]
 		public int CategoryId { get; set; }
 		public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
