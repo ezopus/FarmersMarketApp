@@ -19,7 +19,7 @@
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.Description" class="form-label mt-2">Product description *</label>
-					<input asp-for="@Model.Description" class="form-control" aria-required="true" value="@Model.Description" />
+					<input asp-for="@Model.Description" class="form-control" aria-required="true" value="@Model.Description" placeholder="max. 500 symbols" />
 					<span asp-validation-for="@Model.Description" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
@@ -36,10 +36,12 @@
 				<div class="mb-2">
 					<label asp-for="@Model.Quantity" class="form-label mt-2">Quantity *</label>
 					<input asp-for="@Model.Quantity" class="form-control" aria-required="true" placeholder="amount of pieces in one unit" value="@Model.Quantity" />
+					<span asp-validation-for="@Model.Quantity" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.NetWeight" class="form-label mt-2">Net Weight *</label>
 					<input asp-for="@Model.NetWeight" class="form-control" aria-required="true" placeholder="total unit weight in kilograms" value="@Model.NetWeight" />
+					<span asp-validation-for="@Model.NetWeight" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
 					<label asp-for="@Model.Season" class="form-label mt-2">Season</label>

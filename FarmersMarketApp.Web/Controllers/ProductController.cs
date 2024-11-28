@@ -5,6 +5,9 @@ using FarmersMarketApp.Web.Attributes;
 using FarmersMarketApp.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using static FarmersMarketApp.Common.DataValidation.ErrorMessages;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
@@ -105,13 +108,32 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 			var farms = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId);
 
+
+			//validate production and expiration date 
+			var isProductionDateValid = DateTime.TryParseExact(model.ProductionDate, DateTimeRequiredFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var productionDateParsed);
+			var isExpirationDate = DateTime.TryParseExact(model.ExpirationDate, DateTimeRequiredFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var expirationDateParsed);
+
+			if (!isProductionDateValid)
+			{
+				ModelState.AddModelError(nameof(model.ProductionDate), ErrorProductDate);
+			}
+			if (!isExpirationDate)
+			{
+				ModelState.AddModelError(nameof(model.ExpirationDate), ErrorProductDate);
+			}
+
+			if (expirationDateParsed <= productionDateParsed)
+			{
+				ModelState.AddModelError(nameof(model.ExpirationDate), ErrorProductExpirationDate);
+			}
+
 			//check model state
 			if (!ModelState.IsValid)
 			{
 				model.Categories = await categoryService.GetCategoriesAsync();
 				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
 				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
-				model.Farms = (List<AddProductFarmOptions>)farms;
+				model.Farms = (List<AddProductFarmOptions>)farms!;
 				return View(model);
 			}
 
@@ -139,13 +161,13 @@ namespace FarmersMarketApp.Web.Controllers
 
 				if (!allowedExtensions.Contains(fileExtension))
 				{
-					ModelState.AddModelError(nameof(model.ImageFile), "Only JPG, JPEG, and PNG files are allowed.");
+					ModelState.AddModelError(nameof(model.ImageFile), ErrorProductImageFormat);
 					return View(model);
 				}
 
 				if (model.ImageFile.Length > 2 * 1024 * 1024) // 2 MB limit
 				{
-					ModelState.AddModelError(nameof(model.ImageFile), "The file size cannot exceed 2 MB.");
+					ModelState.AddModelError(nameof(model.ImageFile), ErrorProductImageSize);
 					return View(model);
 				}
 
@@ -252,6 +274,24 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("MyProducts", "Farmer");
 			}
 
+			//validate production and expiration date 
+			var isProductionDateValid = DateTime.TryParseExact(model.ProductionDate, DateTimeRequiredFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var productionDateParsed);
+			var isExpirationDate = DateTime.TryParseExact(model.ExpirationDate, DateTimeRequiredFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var expirationDateParsed);
+
+			if (!isProductionDateValid)
+			{
+				ModelState.AddModelError(nameof(model.ProductionDate), ErrorProductDate);
+			}
+			if (!isExpirationDate)
+			{
+				ModelState.AddModelError(nameof(model.ExpirationDate), ErrorProductDate);
+			}
+
+			if (expirationDateParsed <= productionDateParsed)
+			{
+				ModelState.AddModelError(nameof(model.ExpirationDate), ErrorProductExpirationDate);
+			}
+
 			//check model state on post
 			if (!ModelState.IsValid)
 			{
@@ -278,13 +318,13 @@ namespace FarmersMarketApp.Web.Controllers
 
 				if (!allowedExtensions.Contains(fileExtension))
 				{
-					ModelState.AddModelError(nameof(model.ImageFile), "Only JPG, JPEG, and PNG files are allowed.");
+					ModelState.AddModelError(nameof(model.ImageFile), ErrorProductImageFormat);
 					return View(model);
 				}
 
 				if (model.ImageFile.Length > 2 * 1024 * 1024) // 2 MB limit
 				{
-					ModelState.AddModelError(nameof(model.ImageFile), "The file size cannot exceed 2 MB.");
+					ModelState.AddModelError(nameof(model.ImageFile), ErrorProductImageSize);
 					return View(model);
 				}
 

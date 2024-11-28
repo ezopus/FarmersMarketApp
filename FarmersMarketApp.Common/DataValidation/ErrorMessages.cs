@@ -17,6 +17,8 @@
 		public const string ErrorProductCategory = "Please choose a product category.";
 		public const string ErrorProductDate = "Please use the following date format: dd-MM-yyyy";
 		public const string ErrorProductExpirationDate = "Expiration date cannot be before production date.";
+		public const string ErrorProductImageFormat = "Only JPG, JPEG, and PNG files are allowed.";
+		public const string ErrorProductImageSize = "The file size cannot exceed 2 MB.";
 
 
 		public const string ErrorFarmName = "Farm name must be between 5 and 150 symbols.";
