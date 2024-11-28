@@ -26,10 +26,19 @@ namespace FarmersMarketApp.ViewModels.FarmViewModels
 			{
 				if (!string.IsNullOrEmpty(OpenHours) && !string.IsNullOrEmpty(CloseHours))
 				{
+					//edge case when farm works until midnight or early hours on the next day
+					if (TimeOnly.Parse(OpenHours) > TimeOnly.Parse(CloseHours))
+					{
+						return TimeOnly.Parse(OpenHours) < TimeOnly.FromDateTime(DateTime.Now);
+					}
+
+					//regular case when farm is open and closes on the same day
 					return TimeOnly.Parse(OpenHours) < TimeOnly.FromDateTime(DateTime.Now)
 						   && TimeOnly.Parse(CloseHours) > TimeOnly.FromDateTime(DateTime.Now);
 				}
-				else return false;
+
+				//if no hours have been set
+				return false;
 			}
 		}
 
