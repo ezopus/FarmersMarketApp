@@ -1,5 +1,4 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
-using FarmersMarketApp.ViewModels.FarmerViewModels;
 using FarmersMarketApp.ViewModels.FarmViewModels;
 
 namespace FarmersMarketApp.ViewModels.ProductViewModels
@@ -27,10 +26,6 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 		public string? ImageUrl { get; set; }
 
 		public string? Origin { get; set; }
-
-		public string FarmerId { get; set; } = null!;
-
-		public FarmerInfoViewModel Farmer { get; set; } = null!;
 
 		public string FarmId { get; set; } = null!;
 		public FarmInfoViewModel Farm { get; set; } = null!;

@@ -76,7 +76,6 @@ namespace FarmersMarketApp.Web.Controllers
 				UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType))),
 				Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season))),
 				Farms = (List<AddProductFarmOptions>)farmerFarms,
-				FarmerId = farmerId!
 			};
 
 			return View(model);
@@ -104,6 +103,7 @@ namespace FarmersMarketApp.Web.Controllers
 			{
 				return RedirectToAction("Add", "Farm");
 			}
+			var farms = await farmService.GetFarmNameAndIdForNewProductAsync(currentFarmerId);
 
 			//check model state
 			if (!ModelState.IsValid)
@@ -111,12 +111,13 @@ namespace FarmersMarketApp.Web.Controllers
 				model.Categories = await categoryService.GetCategoriesAsync();
 				model.UnitTypes = new List<UnitType>((UnitType[])Enum.GetValues(typeof(UnitType)));
 				model.Seasons = new List<Season>((Season[])Enum.GetValues(typeof(Season)));
+				model.Farms = (List<AddProductFarmOptions>)farms;
 				return View(model);
 			}
 
 
 			//check if current farmer is allowed to add to this farm, if farmer is not allowed redirect him to his own farms
-			if (model.FarmerId != currentFarmerId)
+			if (model.FarmId != currentFarmerId)
 			{
 				return RedirectToAction("MyFarms", "Farmer");
 			}
@@ -173,16 +174,16 @@ namespace FarmersMarketApp.Web.Controllers
 
 			TempData[SuccessMessage] = string.Format(SuccessfullyAddProduct, model.Name);
 			//return product details page to look at newly added product
-			return RedirectToAction("Details", "Product", new { id = result });
+			return RedirectToAction("Details", "Product", new { productId = result });
 		}
 
 
 		[AllowAnonymous]
 		[HttpGet]
-		public async Task<IActionResult> Details(string id)
+		public async Task<IActionResult> Details(string productId)
 		{
 			//get product from db, if not found redirect to all products
-			var model = await productService.GetProductByIdAsync(id);
+			var model = await productService.GetProductByIdAsync(productId);
 
 			if (model == null || model.IsDeleted)
 			{
@@ -191,17 +192,13 @@ namespace FarmersMarketApp.Web.Controllers
 
 			//try to get farm and farmer of product and check if they are deleted
 			var modelFarm = await farmService.GetFarmByIdReadOnlyAsync(model.FarmId);
-			var modelFarmer = await farmerService.GetFarmerByIdAsync(model.FarmerId);
 
 			if (modelFarm == null ||
-				modelFarmer == null ||
-				modelFarm.IsDeleted ||
-				modelFarmer.IsDeleted)
+				modelFarm.IsDeleted)
 			{
 				return RedirectToAction(nameof(All));
 			}
 			model.Farm = modelFarm;
-			model.Farmer = modelFarmer;
 
 			return View(model);
 		}
@@ -314,7 +311,7 @@ namespace FarmersMarketApp.Web.Controllers
 
 			TempData[SuccessMessage] = string.Format(SuccessfullyEditProduct, model.Name);
 			//return details of edited product to verify edit is successful
-			return RedirectToAction("Details", "Product", new { id = model.Id });
+			return RedirectToAction("Details", "Product", new { productId = model.Id });
 		}
 	}
 }

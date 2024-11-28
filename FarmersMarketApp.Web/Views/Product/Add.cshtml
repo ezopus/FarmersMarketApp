@@ -96,7 +96,6 @@
 			<p class="text-info mt-3 mb-2"><em>Select farm where product comes from:</em></p>
 			<div class="row d-flex col-8  align-items-center">
 				<select id="farmDropDown" asp-for="@Model.FarmId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Farms, "Id", "Name"))"></select>
-				<input asp-for="@Model.FarmerId" id="farmerId" type="hidden" value="@Model.FarmerId" />
 				<div class="mt-3 w-50" style="height: 200px;">
 					<img id="farmImage" class="img-fluid mx-auto d-block rounded mh-100" src="@Model.Farms.First().ImageUrl" alt="@Model.Farms.First().ImageUrl" />
 				</div>

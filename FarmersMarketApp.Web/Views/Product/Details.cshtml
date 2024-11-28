@@ -1,9 +1,15 @@
 ﻿@using FarmersMarketApp.ViewModels.ProductViewModels
 @using System.Globalization
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.Web.Extensions
 @model ProductInfoViewModel
+@inject IFarmerService FarmerService
+@inject IProductService ProductService
 
 @{
 	ViewData["Title"] = $"Product details";
+	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
+	var farmerProducts = await ProductService.GetFarmerProductsByFarmerIdAsync(currentFarmerId);
 }
 
 <div class="container">
@@ -50,9 +56,17 @@
 				</form>
 			</div>
 			<div class="col d-flex gap-2">
-				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" asp-route-farmName="@Model.Farm.Name" class="btn btn-info align-self-start">Show all products by this farm</a>
-				<a asp-controller="Product" asp-action="All" class="btn btn-secondary align-self-end">Back to all products</a>
+				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" asp-route-farmName="@Model.Farm.Name" class="btn btn-info align-self-start mb-2 w-100">Show all products by this farm</a>
 			</div>
+			<div>
+				<a asp-controller="Product" asp-action="All" class="btn btn-secondary align-self-end w-100 mb-2">Back to all products</a>
+			</div> 
+			@if (!string.IsNullOrEmpty(currentFarmerId) && farmerProducts != null && farmerProducts.Any(pr => pr.Id.ToLower() == Model.Id.ToLower()))
+			{
+				<div>
+					<a asp-controller="Product" asp-action="Edit" asp-route-productId="@Model.Id" class="btn btn-warning align-self-end w-100">Edit product</a>
+				</div>
+			}
 		</div>
 
 

@@ -51,11 +51,11 @@ namespace FarmersMarketApp.Services
 					.Where(pr => pr.FarmId.ToString().ToLower() == farmId.ToLower());
 			}
 
-			//check if specific farm is picked
+			//check if specific farmer is picked
 			if (!string.IsNullOrEmpty(farmerId))
 			{
 				productsToShow = productsToShow
-					.Where(pr => pr.FarmerId.ToString().ToLower() == farmerId.ToLower());
+					.Where(pr => pr.Farm.FarmersFarms.All(f => f.FarmerId == Guid.Parse(farmerId)));
 			}
 
 			//sort results
@@ -85,7 +85,7 @@ namespace FarmersMarketApp.Services
 						Address = pr.Farm.Address,
 						City = pr.Farm.City,
 					},
-					FarmerId = pr.FarmerId.ToString(),
+
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
@@ -149,7 +149,7 @@ namespace FarmersMarketApp.Services
 			if (!string.IsNullOrEmpty(farmerId))
 			{
 				productsToShow = productsToShow
-					.Where(pr => pr.FarmerId.ToString().ToLower() == farmerId.ToLower());
+					.Where(pr => pr.Farm.FarmersFarms.All(f => f.FarmerId == Guid.Parse(farmerId)));
 			}
 
 			//sort results
@@ -179,7 +179,6 @@ namespace FarmersMarketApp.Services
 						Address = pr.Farm.Address,
 						City = pr.Farm.City,
 					},
-					FarmerId = pr.FarmerId.ToString(),
 					CategoryId = pr.CategoryId,
 					Price = pr.Price,
 					DiscountPercentage = pr.DiscountPercentage ?? 0,
@@ -219,7 +218,6 @@ namespace FarmersMarketApp.Services
 				Name = product.Name,
 				Description = product.Description,
 				FarmId = product.FarmId.ToString(),
-				FarmerId = product.FarmerId.ToString(),
 				CategoryId = product.CategoryId,
 				Price = product.Price,
 				DiscountPercentage = product.DiscountPercentage ?? 0,
@@ -267,7 +265,7 @@ namespace FarmersMarketApp.Services
 				Barcode = product.Barcode ?? "",
 				Origin = product.Origin ?? "",
 				FarmId = product.FarmId.ToString(),
-				FarmerId = product.FarmerId.ToString(),
+
 			};
 
 			return model;
@@ -321,37 +319,47 @@ namespace FarmersMarketApp.Services
 		//get all products made by specific farmer
 		public async Task<IEnumerable<ProductInfoViewModel>?> GetFarmerProductsByFarmerIdAsync(string farmerId)
 		{
-			return await repository
-				.AllAsync<Product>()
-				.Include(pr => pr.Farm)
-				.Where(pr => pr.Farmer.Id == Guid.Parse(farmerId))
-				.Select(pr => new ProductInfoViewModel()
-				{
-					Id = pr.Id.ToString(),
-					Name = pr.Name,
-					Description = pr.Description,
-					FarmId = pr.FarmId.ToString(),
-					Farm = new FarmInfoViewModel()
-					{
-						Id = pr.Farm.Id.ToString(),
-						Name = pr.Farm.Name,
-						Address = pr.Farm.Address,
-						City = pr.Farm.City,
-					},
-					FarmerId = pr.FarmerId.ToString(),
-					CategoryId = pr.CategoryId,
-					Price = pr.Price,
-					DiscountPercentage = pr.DiscountPercentage ?? 0,
-					UnitType = pr.UnitType.ToString(),
-					Quantity = pr.Quantity,
-					Origin = pr.Origin ?? "",
-					ImageUrl = pr.ImageUrl ?? "",
-					ProductionDate = pr.ProductionDate.ToString(DateTimeRequiredFormat),
-					ExpirationDate = pr.ExpirationDate.ToString(DateTimeRequiredFormat),
-					IsDeleted = pr.IsDeleted,
-					DateAdded = pr.DateAdded.ToString(DateTimeRequiredFormat),
-				})
-				.ToListAsync();
+			if (string.IsNullOrEmpty(farmerId))
+			{
+				return null;
+			}
+
+			var products = await repository
+			   .AllAsync<Product>()
+			   .Include(pr => pr.Farm)
+			   .Include(pr => pr.Farm.FarmersFarms)
+			   .Where(pr => pr.Farm.FarmersFarms.All(fr => fr.FarmerId == Guid.Parse(farmerId)))
+			   .ToListAsync();
+
+			var returnProducts = products
+		   .Select(pr => new ProductInfoViewModel()
+		   {
+			   Id = pr.Id.ToString(),
+			   Name = pr.Name,
+			   Description = pr.Description,
+			   FarmId = pr.FarmId.ToString(),
+			   Farm = new FarmInfoViewModel()
+			   {
+				   Id = pr.Farm.Id.ToString(),
+				   Name = pr.Farm.Name,
+				   Address = pr.Farm.Address,
+				   City = pr.Farm.City,
+			   },
+			   CategoryId = pr.CategoryId,
+			   Price = pr.Price,
+			   DiscountPercentage = pr.DiscountPercentage ?? 0,
+			   UnitType = pr.UnitType.ToString(),
+			   Quantity = pr.Quantity,
+			   Origin = pr.Origin ?? "",
+			   ImageUrl = pr.ImageUrl ?? "",
+			   ProductionDate = pr.ProductionDate.ToString(DateTimeRequiredFormat),
+			   ExpirationDate = pr.ExpirationDate.ToString(DateTimeRequiredFormat),
+			   IsDeleted = pr.IsDeleted,
+			   DateAdded = pr.DateAdded.ToString(DateTimeRequiredFormat),
+		   })
+		   .ToList();
+
+			return returnProducts;
 		}
 
 		//create new product
@@ -376,7 +384,6 @@ namespace FarmersMarketApp.Services
 				Price = model.Price,
 				HasDiscount = model.DiscountPercentage > 0,
 				DiscountPercentage = model.DiscountPercentage,
-				FarmerId = Guid.Parse(model.FarmerId),
 				FarmId = Guid.Parse(model.FarmId),
 				Barcode = model.Barcode,
 				ImageUrl = model.ImageUrl,
@@ -408,7 +415,8 @@ namespace FarmersMarketApp.Services
 		public async Task<IEnumerable<Product>> GetProductsForDeletionByFarmerIdAsync(string farmerId)
 		{
 			return await repository.AllAsync<Product>()
-				.Where(p => p.FarmerId == Guid.Parse(farmerId))
+				.Where(p => p.Farm.FarmersFarms
+					.Any(ff => ff.FarmerId == Guid.Parse(farmerId)))
 				.ToListAsync();
 		}
 

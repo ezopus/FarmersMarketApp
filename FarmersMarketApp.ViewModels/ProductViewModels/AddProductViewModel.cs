@@ -66,7 +66,5 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 
 		public IEnumerable<AddProductFarmOptions> Farms { get; set; } = new List<AddProductFarmOptions>();
 
-		public string FarmerId { get; set; } = string.Empty;
-
 	}
 }

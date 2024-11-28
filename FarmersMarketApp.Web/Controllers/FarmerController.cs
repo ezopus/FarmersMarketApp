@@ -250,13 +250,13 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction(nameof(MyProducts));
 			}
 
-			//try to get farm and farmer of product and check if they are deleted
-			var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
+			////try to get farm and farmer of product and check if they are deleted
+			//var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
 
-			if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
-			{
-				return RedirectToAction(nameof(MyProducts));
-			}
+			//if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
+			//{
+			//	return RedirectToAction(nameof(MyProducts));
+			//}
 
 			var result = await productService.SetProductIsDeletedByIdAsync(productId);
 			if (result)
@@ -290,13 +290,13 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction(nameof(MyProducts));
 			}
 
-			//try to get farm and farmer of product and check if they are deleted
-			var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
+			////try to get farm and farmer of product and check if they are deleted
+			//var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
 
-			if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
-			{
-				return RedirectToAction(nameof(MyProducts));
-			}
+			//if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
+			//{
+			//	return RedirectToAction(nameof(MyProducts));
+			//}
 
 			var result = await productService.RestoreProductByIdAsync(productId);
 			if (result)
