@@ -3,6 +3,7 @@ using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.PaymentViewModels;
 using FarmersMarketApp.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -68,18 +69,21 @@ namespace FarmersMarketApp.Web.Controllers
 			if (paymentTypeParsed == PaymentType.CardPayment
 				&& !ModelState.IsValid)
 			{
+				TempData[ErrorMessage] = PaymentCardFailed;
 				return View(model);
 			}
 
 			//try and create a new payment
-			var paymentResult = await paymentService.CreateNewPayment(customerId, orderId, paymentTypeParsed, orderAmount, currentOrder);
+			var paymentResult = await paymentService.CreateNewPayment(customerId, orderId, paymentTypeParsed, orderAmount);
 
 			if (string.IsNullOrEmpty(paymentResult))
 			{
+				TempData[ErrorMessage] = PaymentFailed;
 				return RedirectToAction("Checkout", "Order");
 			}
 
-			await orderService.ChangeOrderToPendingAsync(orderId);
+			await orderService.ChangeOrderToPendingAsync(orderId, paymentResult);
+			TempData[SuccessMessage] = PaymentSuccessful;
 
 			return RedirectToAction("All", "Order");
 		}

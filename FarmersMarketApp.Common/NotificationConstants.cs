@@ -40,5 +40,10 @@
 
 		public const string SuccessfullyRestoreProduct = "You have successfully restored your product - {0}";
 		public const string FailedRestoreProduct = "Failed to restore product - {0}.";
+
+
+		public const string PaymentSuccessful = "Your payment method was successful. Please check order for details.";
+		public const string PaymentFailed = "Your payment failed. Please try again.";
+		public const string PaymentCardFailed = "Your card payment failed. Please check details and try again.";
 	}
 }

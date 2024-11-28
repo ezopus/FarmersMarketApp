@@ -17,18 +17,20 @@ namespace FarmersMarketApp.Services
 			this.repository = repository;
 			this.userService = userService;
 		}
-		public async Task<string?> CreateNewPayment(string customerId, string orderId, PaymentType paymentType, decimal paymentAmount, Order order)
+		public async Task<string?> CreateNewPayment(string customerId, string orderId, PaymentType paymentType, decimal paymentAmount)
 		{
 			var newPayment = new Payment()
 			{
 				Id = Guid.NewGuid(),
 				CustomerId = Guid.Parse(customerId),
+				OrderId = Guid.Parse(orderId),
 				PaymentAmount = paymentAmount,
 				PaymentDate = DateTime.Now,
 				PaymentType = paymentType,
-				Order = order,
+				IsSuccessful = true,
 			};
 
+			await repository.AddAsync(newPayment);
 			await repository.SaveChangesAsync();
 
 			return newPayment.Id.ToString();
