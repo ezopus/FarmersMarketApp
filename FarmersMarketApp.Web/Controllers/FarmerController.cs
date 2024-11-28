@@ -15,17 +15,20 @@ namespace FarmersMarketApp.Web.Controllers
 		private readonly IFarmerService farmerService;
 		private readonly IUserService userService;
 		private readonly IProductService productService;
+		private readonly IOrderService orderService;
 
 		public FarmerController(
 			IUserService userService,
 			IFarmerService farmerService,
 			IFarmService farmService,
-			IProductService productService)
+			IProductService productService,
+			IOrderService orderService)
 		{
 			this.farmerService = farmerService;
 			this.userService = userService;
 			this.farmService = farmService;
 			this.productService = productService;
+			this.orderService = orderService;
 		}
 
 		//get all farmers in the market
@@ -188,7 +191,7 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			var result = await farmerService.CompleteOrderByOrderIdAsync(currentFarmerId, orderId);
+			var result = await orderService.CompleteOrderByOrderIdAsync(currentFarmerId, orderId);
 			if (result)
 			{
 				TempData[SuccessMessage] = "Successfully completed order!";
@@ -215,7 +218,7 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			var result = await farmerService.CancelOrderByOrderIdAsync(currentFarmerId, orderId);
+			var result = await orderService.CancelOrderByOrderIdAsync(currentFarmerId, orderId);
 
 			if (result)
 			{
@@ -250,14 +253,6 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction(nameof(MyProducts));
 			}
 
-			////try to get farm and farmer of product and check if they are deleted
-			//var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
-
-			//if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
-			//{
-			//	return RedirectToAction(nameof(MyProducts));
-			//}
-
 			var result = await productService.SetProductIsDeletedByIdAsync(productId);
 			if (result)
 			{
@@ -289,14 +284,6 @@ namespace FarmersMarketApp.Web.Controllers
 			{
 				return RedirectToAction(nameof(MyProducts));
 			}
-
-			////try to get farm and farmer of product and check if they are deleted
-			//var productFarmer = await farmerService.GetFarmerByIdAsync(product.FarmerId);
-
-			//if (productFarmer != null && productFarmer.Id.ToLower() != currentFarmerId.ToLower())
-			//{
-			//	return RedirectToAction(nameof(MyProducts));
-			//}
 
 			var result = await productService.RestoreProductByIdAsync(productId);
 			if (result)

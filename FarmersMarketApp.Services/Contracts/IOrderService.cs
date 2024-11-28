@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.ViewModels.OrderViewModels;
+using FarmersMarketApp.ViewModels.ProductViewModels;
 
 namespace FarmersMarketApp.Services.Contracts
 {
@@ -21,6 +22,9 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<bool> AddDeliveryDetailsToOrderByIdAsync(string orderId, OrderCheckoutViewModel model);
 
-		Task<OrderDetailsViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId);
+		Task<ProductOrderViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId);
+
+		Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId);
+		Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId);
 	}
 }

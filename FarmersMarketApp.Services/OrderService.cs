@@ -190,10 +190,19 @@ namespace FarmersMarketApp.Services
 						Discount = pr.Product.DiscountPercentage.HasValue
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
-						IsDeleted = pr.Product.IsDeleted
+						IsDeleted = pr.Product.IsDeleted,
+						Status = pr.Status
 					}).ToList(),
 				})
 				.ToListAsync();
+
+			foreach (var order in currentOrders)
+			{
+				if (order.Products.All(pr => pr.Status == Status.Completed))
+				{
+					order.Status = Status.Completed;
+				}
+			}
 
 			return currentOrders;
 		}
@@ -223,6 +232,7 @@ namespace FarmersMarketApp.Services
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
 							IsDeleted = pr.Product.IsDeleted,
+							Status = pr.Status
 						}).ToList(),
 				})
 				.FirstOrDefaultAsync();
@@ -291,20 +301,20 @@ namespace FarmersMarketApp.Services
 			return false;
 		}
 
-		public async Task<OrderDetailsViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId)
+		public async Task<ProductOrderViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId)
 		{
 			var orderProducts = await repository
 				.AllReadOnly<ProductOrder>()
 				.Include(p => p.Product)
 				.Where(o => o.OrderId == Guid.Parse(orderId))
-				.Select(pr => new OrderDetailsViewModel()
+				.Select(pr => new ProductOrderViewModel()
 				{
 					Id = pr.ProductId.ToString(),
 					Name = pr.Product.Name,
-					Quantity = pr.ProductQuantity,
-					Price = pr.ProductPriceAtTimeOfOrder,
+					Amount = pr.ProductQuantity,
+					PriceAtPurchase = pr.ProductPriceAtTimeOfOrder,
 					Discount = pr.ProductDiscountAtTimeOfOrder,
-					Status = pr.Status.ToString()
+					Status = pr.Status
 				})
 				.ToListAsync();
 
@@ -314,6 +324,49 @@ namespace FarmersMarketApp.Services
 			}
 
 			return orderProducts.ToArray();
+		}
+
+		public async Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId)
+		{
+			var farmerOrder = await repository.AllAsync<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId)
+							&& o.FarmerId == Guid.Parse(farmerId))
+				.ToListAsync();
+
+			if (!farmerOrder.Any()
+				|| farmerOrder.All(o => o.Status != Status.InProgress))
+			{
+				return false;
+			}
+
+			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
+			{
+				order.Status = Status.Completed;
+			}
+
+			await repository.SaveChangesAsync();
+			return true;
+		}
+		public async Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId)
+		{
+			var farmerOrder = await repository.AllAsync<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId)
+							&& o.FarmerId == Guid.Parse(farmerId))
+				.ToListAsync();
+
+			if (!farmerOrder.Any()
+				|| farmerOrder.All(o => o.Status != Status.InProgress))
+			{
+				return false;
+			}
+
+			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
+			{
+				order.Status = Status.Cancelled;
+			}
+
+			await repository.SaveChangesAsync();
+			return true;
 		}
 	}
 }

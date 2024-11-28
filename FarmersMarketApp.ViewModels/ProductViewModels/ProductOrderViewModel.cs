@@ -1,4 +1,6 @@
-﻿namespace FarmersMarketApp.ViewModels.ProductViewModels
+﻿using FarmersMarketApp.Common.Enums;
+
+namespace FarmersMarketApp.ViewModels.ProductViewModels
 {
 	public class ProductOrderViewModel
 	{
@@ -10,8 +12,8 @@
 		public int Amount { get; set; }
 		public string? ImageUrl { get; set; }
 		public decimal Discount { get; set; }
-
 		public bool IsDeleted { get; set; }
+		public Status Status { get; set; }
 
 	}
 }

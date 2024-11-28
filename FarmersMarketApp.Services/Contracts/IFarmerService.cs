@@ -26,7 +26,6 @@ namespace FarmersMarketApp.Services.Contracts
 
 
 		Task<IEnumerable<FarmerProductOrderViewModel>?> GetFarmerOpenOrdersAsync(string farmerId);
-		Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId);
-		Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId);
+
 	}
 }

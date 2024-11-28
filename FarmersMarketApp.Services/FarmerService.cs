@@ -1,5 +1,4 @@
-﻿using FarmersMarketApp.Common.Enums;
-using FarmersMarketApp.Infrastructure.Data.Models;
+﻿using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.AdminViewModels;
@@ -275,48 +274,6 @@ namespace FarmersMarketApp.Services
 			return farmerOrders;
 		}
 
-		public async Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId)
-		{
-			var farmerOrder = await repository.AllAsync<ProductOrder>()
-				.Where(o => o.OrderId == Guid.Parse(orderId)
-				&& o.FarmerId == Guid.Parse(farmerId))
-				.ToListAsync();
-
-			if (!farmerOrder.Any()
-				|| farmerOrder.All(o => o.Status != Status.InProgress))
-			{
-				return false;
-			}
-
-			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
-			{
-				order.Status = Status.Completed;
-			}
-
-			await repository.SaveChangesAsync();
-			return true;
-		}
-		public async Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId)
-		{
-			var farmerOrder = await repository.AllAsync<ProductOrder>()
-				.Where(o => o.OrderId == Guid.Parse(orderId)
-				&& o.FarmerId == Guid.Parse(farmerId))
-				.ToListAsync();
-
-			if (!farmerOrder.Any()
-				|| farmerOrder.All(o => o.Status != Status.InProgress))
-			{
-				return false;
-			}
-
-			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
-			{
-				order.Status = Status.Cancelled;
-			}
-
-			await repository.SaveChangesAsync();
-			return true;
-		}
 
 		//restore farmer 
 		public async Task<bool> RestoreFarmerByIdAsync(string farmerId)
