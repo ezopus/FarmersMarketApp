@@ -14,6 +14,10 @@
 		public const string ErrorProductQuantity = "Product quantity must be positive integer in range 0.001 to 1000.";
 		public const string ErrorProductWeight = "Product weight must be positive integer in range 0.001 to 1000";
 		public const string ErrorProductPrice = "Product price must be in range from 0.001 to 10000.";
+		public const string ErrorProductCategory = "Please choose a product category.";
+		public const string ErrorProductDate = "Please use the following date format: dd-MM-yyyy";
+		public const string ErrorProductExpirationDate = "Expiration date cannot be before production date.";
+
 
 		public const string ErrorFarmName = "Farm name must be between 5 and 150 symbols.";
 		public const string ErrorFarmAddress = "Farm address must be between 6 and 200 symbols.";
