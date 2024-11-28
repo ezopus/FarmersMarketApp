@@ -5,7 +5,7 @@ namespace FarmersMarketApp.ViewModels.FarmerViewModels
 {
 	public class FarmerProductOrderViewModel
 	{
-		public DateTime OrderDate { get; set; }
+		public DateTime? OrderDate { get; set; }
 		public string OrderId { get; set; } = null!;
 		public IEnumerable<ProductFarmerOrderViewModel> OrderProducts { get; set; } = new List<ProductFarmerOrderViewModel>();
 

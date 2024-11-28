@@ -249,26 +249,37 @@ namespace FarmersMarketApp.Services
 
 		public async Task<IEnumerable<FarmerProductOrderViewModel>?> GetFarmerOpenOrdersAsync(string farmerId)
 		{
-			//todo: add check for deleted items
-			var farmerOrders = await repository.AllReadOnly<ProductOrder>()
-				.Where(o => o.FarmerId == Guid.Parse(farmerId))
-				.Select(po => new FarmerProductOrderViewModel
-				{
-					OrderId = po.OrderId.ToString(),
-					DeliveryName = po.Order.DeliveryFirstName + " " + po.Order.DeliveryLastName,
-					DeliveryAddress = po.Order.DeliveryAddress,
-					DeliveryCity = po.Order.DeliveryCity,
-					DeliveryPhoneNumber = po.Order.DeliveryPhoneNumber,
-					OrderDate = po.Order.CreateDate,
-					Status = po.Status
-				})
-				.ToListAsync();
+			//get all farmer farms
+			var farmerFarms = await farmService.GetOnlyFarmIdsByFarmerId(farmerId);
+
+			var farmerOrders = new List<FarmerProductOrderViewModel>();
+
+			//for each farm get all orders
+			foreach (var farm in farmerFarms)
+			{
+				var farmOrders = await repository
+					.AllReadOnly<ProductOrder>()
+					.Where(o => o.FarmId == Guid.Parse(farm))
+					.Select(po => new FarmerProductOrderViewModel
+					{
+						OrderId = po.OrderId.ToString(),
+						DeliveryName = po.Order.DeliveryFirstName + " " + po.Order.DeliveryLastName,
+						DeliveryAddress = po.Order.DeliveryAddress,
+						DeliveryCity = po.Order.DeliveryCity,
+						DeliveryPhoneNumber = po.Order.DeliveryPhoneNumber,
+						OrderDate = po.Order.CreateDate ?? null,
+						Status = po.Status
+					})
+					.ToListAsync();
+
+				farmerOrders.AddRange(farmOrders);
+			}
 
 			farmerOrders = farmerOrders.DistinctBy(o => o.OrderId).ToList();
 
 			foreach (var farmerOrder in farmerOrders)
 			{
-				farmerOrder.OrderProducts = await productService.GetFarmerProductOrdersByOrderIdAsync(farmerId, farmerOrder.OrderId);
+				farmerOrder.OrderProducts = await productService.GetFarmerProductOrdersByOrderIdAsync(farmerId, farmerOrder.OrderId, farmerFarms);
 			}
 
 			return farmerOrders;
