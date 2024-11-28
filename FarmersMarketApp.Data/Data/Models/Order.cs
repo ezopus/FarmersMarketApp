@@ -19,7 +19,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		public virtual ApplicationUser Customer { get; set; } = null!;
 
 		[Comment("Date and time on which order is placed.")]
-		public required DateTime CreateDate { get; set; }
+		public DateTime? CreateDate { get; set; }
 
 		[Comment("Expected date and time on which order is going to be delivered.")]
 		public DateTime? DeliveryDate { get; set; }

@@ -30,6 +30,10 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Comment("Flag if payment is successful.")]
 		public bool IsSuccessful { get; set; }
 
+		[Comment("Unique order identifier for the payment record.")]
+		public Guid OrderId { get; set; }
+
+		//[ForeignKey(nameof(OrderId))]
 		public virtual Order? Order { get; set; }
 	}
 }
