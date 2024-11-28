@@ -6,6 +6,7 @@
 @inject IFarmerService FarmerService
 
 @{
+	ViewData["Title"] = "My Orders";
 	var openOrders = Model.Orders.Where(o => o.Status == Status.InProgress);
 	var completeOrders = Model.Orders.Where(o => o.Status == Status.Completed);
 	var cancelledOrders = Model.Orders.Where(o => o.Status == Status.Cancelled);
