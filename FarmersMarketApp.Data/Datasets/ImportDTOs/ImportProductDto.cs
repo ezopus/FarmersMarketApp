@@ -15,7 +15,6 @@
 		public required decimal Price { get; set; }
 		public bool HasDiscount { get; set; } = false;
 		public decimal? DiscountPercentage { get; set; }
-		public required string FarmerId { get; set; }
 		public required string FarmId { get; set; }
 		public string? Barcode { get; set; }
 		public string? ImageUrl { get; set; }
