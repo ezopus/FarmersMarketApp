@@ -36,10 +36,6 @@
 								<button class="btn btn-sm btn-success me-2" asp-action="CompleteOrder" asp-controller="Farmer" asp-route-orderId="@order.OrderId">Complete</button>
 								<button class="btn btn-sm btn-danger" asp-action="CancelOrder" asp-controller="Farmer" asp-route-orderId="@order.OrderId">Cancel</button>
 							</form>
-							<form method="post">
-								<button class="btn btn-sm btn-success me-2 orderBtn" onclick="completeOrder('@order.OrderId')">Complete api</button>
-								<button class="btn btn-sm btn-danger orderBtn" onclick="cancelOrder('@order.OrderId')">Cancel api</button>
-							</form>
 						}
 						else
 						{
