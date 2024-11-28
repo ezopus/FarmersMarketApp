@@ -10,17 +10,17 @@
 		<div class="col-6">
 			<form asp-action="Add" method="post" enctype="multipart/form-data">
 				<div class="mb-2">
-					<label asp-for="@Model.Name" class="form-label mt-2">Farm Name*</label>
+					<label asp-for="@Model.Name" class="form-label mt-2">Farm Name *</label>
 					<input asp-for="@Model.Name" class="form-control" aria-required="true" type="text" placeholder="name of your farm"/>
 					<span asp-validation-for="@Model.Name" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.Address" class="form-label mt-2">Farm Address*</label>
+					<label asp-for="@Model.Address" class="form-label mt-2">Farm Address *</label>
 					<input asp-for="@Model.Address" class="form-control" aria-required="true" placeholder="address for order pickups"/>
 					<span asp-validation-for="@Model.Address" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.City" class="form-label mt-2">City*</label>
+					<label asp-for="@Model.City" class="form-label mt-2">City *</label>
 					<input asp-for="@Model.City" class="form-control" aria-required="true" placeholder="closest city to farm"/>
 					<span asp-validation-for="@Model.City" class="text-danger"></span>
 				</div>
@@ -30,22 +30,22 @@
 					<span asp-validation-for="@Model.Email" class="text-danger"></span>
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.PhoneNumber" class="form-label mt-2">Phone Number</label>
+					<label asp-for="@Model.PhoneNumber" class="form-label mt-2">Phone number</label>
 					<input asp-for="@Model.PhoneNumber" class="form-control" aria-required="true" placeholder="optional" />
 				</div>
 				<div class="mb-2">
-					<label asp-for="@Model.ImageFile" class="form-label mt-2">Image URL</label>
+					<label asp-for="@Model.ImageFile" class="form-label mt-2">Farm image</label>
 					<input asp-for="@Model.ImageFile" class="form-control" aria-required="true" placeholder="optional, allowed JPG, JPEG, PNG files 2MB max size" type="File"/>
 				</div>
 				<div class="mb-2 w-100">
 					<div class="mb-2">
 						<label asp-for="@Model.OpenHours" class="form-label mt-2 ">Open hours</label>
-						<input asp-for="@Model.OpenHours" class="form-control" aria-required="true" placeholder="HH:mm" />
+						<input asp-for="@Model.OpenHours" class="form-control" aria-required="true" placeholder="format: HH:mm" />
 						<span asp-validation-for="@Model.OpenHours" class="text-danger"></span>
 					</div>
 					<div class="mb-2">
 						<label asp-for="@Model.CloseHours" class="form-label mt-2 ">Closed hours</label>
-						<input asp-for="@Model.CloseHours" class="form-control" aria-required="true" placeholder="HH:mm" />
+						<input asp-for="@Model.CloseHours" class="form-control" aria-required="true" placeholder="format: HH:mm" />
 						<span asp-validation-for="@Model.CloseHours" class="text-danger"></span>
 					</div>
 				</div>
