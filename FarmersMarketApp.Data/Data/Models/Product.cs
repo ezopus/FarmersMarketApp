@@ -56,12 +56,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal? DiscountPercentage { get; set; }
 
-		[Comment("Unique identifier of farmer who produces current product.")]
-		public required Guid FarmerId { get; set; }
-
-		[ForeignKey(nameof(FarmerId))]
-		public virtual Farmer Farmer { get; set; } = null!;
-
 		[Comment("Unique identifier of farm where product is made.")]
 		public required Guid FarmId { get; set; }
 

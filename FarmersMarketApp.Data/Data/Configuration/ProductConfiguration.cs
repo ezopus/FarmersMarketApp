@@ -19,12 +19,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				.HasForeignKey(p => p.FarmId)
 				.OnDelete(DeleteBehavior.NoAction);
 
-			builder
-				.HasOne(f => f.Farmer)
-				.WithMany(p => p.Products)
-				.HasForeignKey(f => f.FarmerId)
-				.OnDelete(DeleteBehavior.NoAction);
-
 			builder.HasData(SeedProducts(ProductDataSet));
 
 		}
@@ -52,7 +46,6 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 					Price = product.Price,
 					HasDiscount = product.HasDiscount,
 					DiscountPercentage = product.DiscountPercentage ?? 0.0m,
-					FarmerId = Guid.Parse(product.FarmerId),
 					FarmId = Guid.Parse(product.FarmId),
 					Barcode = product.Barcode,
 					ImageUrl = product.ImageUrl,
