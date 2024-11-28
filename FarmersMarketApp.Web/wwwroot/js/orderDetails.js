@@ -17,13 +17,26 @@ orderDetailsBtns.forEach(btn => {
 
 		let productsHtml = '';
 		for (let i = 0; i < products.length; i++) {
+			let statusCode = products[i]["status"];
+			let status = '';
+			switch (statusCode) {
+				case 1: status = 'Open'
+					break;
+				case 2: status = 'In progress'
+					break;
+				case 3: status = 'Completed'
+					break;
+				case 4: status = 'Cancelled'
+					break;
+				default: status = 'Unknown'
+			}
 			productsHtml +=
 			`
 			<tr>
 			<td colspan="2">${products[i]["name"]}</td>
-			<td>${products[i]["quantity"]}</td>
-			<td>$${products[i]["price"]}</td>
-			<td>${products[i]["status"]}</td>
+			<td>${products[i]["amount"]}</td>
+			<td>$${products[i]["priceAtPurchase"]}</td>
+			<td>${status}</td >
 			</tr>
 			`
 		}
