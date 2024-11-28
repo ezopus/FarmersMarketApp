@@ -191,7 +191,10 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			var result = await orderService.CompleteOrderByOrderIdAsync(currentFarmerId, orderId);
+			var farmerFarms = await farmService.GetOnlyFarmIdsByFarmerId(currentFarmerId);
+
+			var result = await orderService.CompleteProductOrderByOrderIdAsync(orderId, farmerFarms);
+
 			if (result)
 			{
 				TempData[SuccessMessage] = "Successfully completed order!";
@@ -218,7 +221,9 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("Become", "Farmer");
 			}
 
-			var result = await orderService.CancelOrderByOrderIdAsync(currentFarmerId, orderId);
+			var farmerFarms = await farmService.GetOnlyFarmIdsByFarmerId(currentFarmerId);
+
+			var result = await orderService.CancelProductOrderByOrderIdAsync(orderId, farmerFarms);
 
 			if (result)
 			{

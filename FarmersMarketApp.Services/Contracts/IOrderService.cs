@@ -16,7 +16,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<OrderCheckoutViewModel?> GetOrderForCheckoutAsync(string userId, string orderId);
 
-		Task<bool> ChangeOrderToPendingAsync(string orderId);
+		Task<bool> ChangeOrderToPendingAsync(string orderId, string paymentId);
 
 		Task<Order?> GetOrderByIdAsync(string orderId);
 
@@ -24,7 +24,7 @@ namespace FarmersMarketApp.Services.Contracts
 
 		Task<ProductOrderViewModel[]?> GetProductsForOrderByOrderIdAsync(string orderId);
 
-		Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId);
-		Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId);
+		Task<bool> CompleteProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms);
+		Task<bool> CancelProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms);
 	}
 }

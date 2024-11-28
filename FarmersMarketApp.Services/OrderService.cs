@@ -5,7 +5,6 @@ using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.OrderViewModels;
 using FarmersMarketApp.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
-using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Services
 {
@@ -45,7 +44,6 @@ namespace FarmersMarketApp.Services
 				{
 					Id = Guid.NewGuid(),
 					CustomerId = Guid.Parse(userId),
-					CreateDate = DateTime.Now,
 					Status = Status.Open,
 				};
 
@@ -178,7 +176,6 @@ namespace FarmersMarketApp.Services
 				{
 					Id = o.Id.ToString(),
 					CustomerId = o.CustomerId.ToString(),
-					CreateDate = o.CreateDate.ToString("dd-MM-yyyy HH:mm"),
 					Status = o.Status,
 					Products = o.ProductsOrders.Select(pr => new ProductOrderViewModel()
 					{
@@ -217,7 +214,6 @@ namespace FarmersMarketApp.Services
 				{
 					Id = o.Id.ToString(),
 					CustomerId = o.CustomerId.ToString(),
-					CreateDate = o.CreateDate.ToString(DateTimeRequiredFormat),
 					Status = o.Status,
 					Products = o.ProductsOrders
 						.Where(p => p.Product.IsDeleted == false)
@@ -251,7 +247,7 @@ namespace FarmersMarketApp.Services
 			return currentOrder;
 		}
 
-		public async Task<bool> ChangeOrderToPendingAsync(string orderId)
+		public async Task<bool> ChangeOrderToPendingAsync(string orderId, string paymentId)
 		{
 			var currentOrder = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
 
@@ -260,11 +256,14 @@ namespace FarmersMarketApp.Services
 				return false;
 			}
 			currentOrder.Status = Status.InProgress;
+			currentOrder.PaymentId = Guid.Parse(paymentId);
+			currentOrder.CreateDate = DateTime.Now;
 
 			var currentOrderProducts = await repository
 				.AllAsync<ProductOrder>()
 				.Where(o => o.OrderId == currentOrder.Id)
 				.ToListAsync();
+
 			if (currentOrderProducts.Any())
 			{
 				foreach (var product in currentOrderProducts)
@@ -326,32 +325,41 @@ namespace FarmersMarketApp.Services
 			return orderProducts.ToArray();
 		}
 
-		public async Task<bool> CompleteOrderByOrderIdAsync(string farmerId, string orderId)
+		public async Task<bool> CompleteProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms)
 		{
-			var farmerOrder = await repository.AllAsync<ProductOrder>()
-				.Where(o => o.OrderId == Guid.Parse(orderId)
-							&& o.FarmerId == Guid.Parse(farmerId))
-				.ToListAsync();
+			var farmerProductOrders = new List<ProductOrder>();
 
-			if (!farmerOrder.Any()
-				|| farmerOrder.All(o => o.Status != Status.InProgress))
+			foreach (var farm in farmerFarms)
+			{
+				var farmProductOrders = await repository
+					.AllAsync<ProductOrder>()
+					.Where(o => o.OrderId == Guid.Parse(orderId)
+					&& o.FarmId == Guid.Parse(farm))
+					.ToListAsync();
+
+				farmerProductOrders.AddRange(farmProductOrders);
+			}
+
+
+			if (!farmerProductOrders.Any()
+				|| farmerProductOrders.All(o => o.Status != Status.InProgress))
 			{
 				return false;
 			}
 
-			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
+			foreach (var productOrder in farmerProductOrders.Where(o => o.Status == Status.InProgress))
 			{
-				order.Status = Status.Completed;
+				productOrder.Status = Status.Completed;
 			}
 
 			await repository.SaveChangesAsync();
 			return true;
 		}
-		public async Task<bool> CancelOrderByOrderIdAsync(string farmerId, string orderId)
+		public async Task<bool> CancelProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms)
 		{
-			var farmerOrder = await repository.AllAsync<ProductOrder>()
-				.Where(o => o.OrderId == Guid.Parse(orderId)
-							&& o.FarmerId == Guid.Parse(farmerId))
+			var farmerOrder = await repository
+				.AllAsync<ProductOrder>()
+				.Where(o => o.OrderId == Guid.Parse(orderId))
 				.ToListAsync();
 
 			if (!farmerOrder.Any()
