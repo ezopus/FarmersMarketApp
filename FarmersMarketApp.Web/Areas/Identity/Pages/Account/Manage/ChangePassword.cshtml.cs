@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -112,6 +113,8 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 				{
 					ModelState.AddModelError(string.Empty, error.Description);
 				}
+
+				TempData[ErrorMessage] = "Failed to change password!";
 				return Page();
 			}
 
@@ -119,6 +122,7 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 			_logger.LogInformation("User changed their password successfully.");
 			StatusMessage = "Your password has been changed.";
 
+			TempData[SuccessMessage] = StatusMessage;
 			return RedirectToPage();
 		}
 	}
