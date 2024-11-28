@@ -117,7 +117,8 @@ namespace FarmersMarketApp.Web.Controllers
 
 
 			//check if current farmer is allowed to add to this farm, if farmer is not allowed redirect him to his own farms
-			if (model.FarmId != currentFarmerId)
+
+			if (farmerFarms.All(f => f != model.FarmId))
 			{
 				return RedirectToAction("MyFarms", "Farmer");
 			}

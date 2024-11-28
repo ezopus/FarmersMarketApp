@@ -1,8 +1,12 @@
 ﻿@using FarmersMarketApp.ViewModels.ProductViewModels
+@using FarmersMarketApp.Web.Extensions
+@using FarmersMarketApp.Services.Contracts
 @model AddProductViewModel
+@inject IFarmerService FarmerService
 
 @{
-	ViewData["Title"] = "Become a farmer today!";
+	ViewData["Title"] = "Add product";
+	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
 }
 
 <form asp-action="Add" method="post" enctype="multipart/form-data">
@@ -107,7 +111,8 @@
 			</div>
 
 			<div class="mb-2 mt-4 col-8 text-center">
-				<input class="btn btn-success btn-white-text w-100 py-2 fw-bold rounded" type="submit" value="Add my new product" />
+				<input type="hidden" name="farmerId" id="farmerId" value="@currentFarmerId"/>
+				<input class="btn btn-success btn-white-text w-100 py-2 fw-bold rounded" type="submit" value="Add my new product"/>
 			</div>
 		</div>
 	</div>
