@@ -35,8 +35,11 @@ First off, make sure you have the following NuGet packages:
 ```
 Microsoft.AspNetCore.Identity.UI -v 8.0.11
 Microsoft.AspNetCore.Identity.EntityFrameworkCore -v 8.0.11
+Microsoft.AspNetCore.Http.Features
 Microsoft.AspNetCore.OpenApi -v 8.0.10
+Microsoft.EntityFrameworkCore -v 8.0.10
 Microsoft.EntityFrameworkCore.SqlServer -v 8.0.11
+Microsoft.Extensions.Configuration.UserSecrets -v 6.0.1
 System.Text.Json -v 8.0.5
 ```
 
