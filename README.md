@@ -3,7 +3,7 @@ This project is done to be presented at the final exam after the [ASP.NET Advanc
 <br>
 
 ### basics
-The project is titled **"Farmers Market App"** and is intended to be a local online farmers market place where people can have access to and buy local products from farms across the land, giving each registered user to act as a farmer and in turn offer his own produce to the market. The app should work as a platform and present an easy way for users to take advantage of a streamlined farm-to-table approach for more individual and authentic gastronomic experiences. Who doesn't love a real cheese or a great english breakfast with free-range eggs and grilled sausages, right?
+The project is titled **"Farmers Market App"** and is intended to be a local online farmers market place where people can have access to and buy local products from farms across the land, letting each registered user to also register as a farmer and in turn offer his own produce to the market. The app should work as a platform and present an easy way for users to take advantage of a streamlined farm-to-table approach for more individual and authentic gastronomic experiences. Who doesn't love a real cheese or a great english breakfast with free-range eggs and grilled sausages, right?
 <br>
 
 ### setup
