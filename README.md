@@ -1,9 +1,10 @@
 ### foreword
 This project is done to be presented at the final exam after the [ASP.NET Advanced course, October 2024](https://softuni.bg/trainings/4708/asp-net-advanced-october-2024) done at [SoftUni](https://softuni.bg/). 
 <br>
+
 ### basics
 The project is titled **"Farmers Market App"** and is intended to be a local online farmers market place where people can have access to and buy local products from farms across the land, giving each registered user to act as a farmer and in turn offer his own produce to the market. The app should work as a platform and present an easy way for users to take advantage of a streamlined farm-to-table approach for more individual and authentic gastronomic experiences. Who doesn't love a real cheese or a great english breakfast with free-range eggs and grilled sausages, right?
-
+<br>
 
 ### setup
 
@@ -65,7 +66,10 @@ export const API_URL = "https://localhost:7088/api";
 
 Of course, you should have a working internet connection and either Chrome or Firefox browsers installed, where the app has been tested and working.
 
+<br>
+
 ### user types and functionality
+
 There are four types of users which the app currently supports:
 
 1. Anonymous users can:
@@ -95,6 +99,7 @@ There are four types of users which the app currently supports:
     2. manage farms - delete or restore individual farms and their products
     3. manage farmers - approve pending farmers and delete/restore already approved farmers
     4. Change their email, password and phone number
+<br>
 
 ### epilogue
 This is by no means the most thorough markdown with how the app works and how it should be used but it is intended to give the general idea without diving explicitly into the smallest details. It will be updated at some point in the future with more images and examples but by then - feel free to test and share any feedback, ideas, bugs, pull requests and so on. Salute!
