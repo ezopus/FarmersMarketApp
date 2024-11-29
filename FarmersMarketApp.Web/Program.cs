@@ -20,7 +20,7 @@ builder.Services.AddControllersWithViews(options =>
 // Add email sender service
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// Configure EmailSettings from appsettings.json
+// Configure EmailSettings from secrets.json
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection
 ("EmailSettings"));
 
