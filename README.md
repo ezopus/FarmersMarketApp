@@ -39,6 +39,7 @@ Microsoft.AspNetCore.Http.Features
 Microsoft.AspNetCore.OpenApi -v 8.0.10
 Microsoft.EntityFrameworkCore -v 8.0.10
 Microsoft.EntityFrameworkCore.SqlServer -v 8.0.11
+Microsoft.EntityFrameworkCore.Tools -v 8.0.11
 Microsoft.Extensions.Configuration.UserSecrets -v 6.0.1
 System.Text.Json -v 8.0.5
 ```
@@ -46,7 +47,6 @@ System.Text.Json -v 8.0.5
 These NuGets have been used additionally for development purposes, so they are optional: 
 ```
 Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -v 8.0.10
-Microsoft.EntityFrameworkCore.Tools -v 8.0.11
 Microsoft.VisualStudio.Web.CodeGeneration.Design -v 8.0.7
 Swashbuckle.AspNetCore -v 6.7.0
 ```
@@ -66,8 +66,10 @@ Next up, for some of the JavaScript modules to work correctly, be sure to add yo
 ```
 export const API_URL = "https://localhost:7088/api";
 ```
+Once all this is configured, you should be able to build your app. After building it is essential that you create and update the database so that all migrations are applied correctly.
+For that to happen, using Visual Studio we can run the `update-database` command in the package manager console with our .Infrastructure layer selected as the default project.
 
-Of course, you should have a working internet connection and either Chrome or Firefox browsers installed, where the app has been tested and working.
+If all is well, you should be able to start the app. Of course, you having a working internet connection is essential and using either the Chrome or Firefox browser, where the app has been tested and working.
 
 <br>
 
