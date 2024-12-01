@@ -8,7 +8,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
 	public class FarmerConfiguration : IEntityTypeConfiguration<Farmer>
 	{
-		private const string FarmerDataSet = "../FarmersMarketApp.Data/Datasets/farmers.json";
+		private const string FarmerDataSet = @"..\..\..\..\FarmersMarketApp.Data\Datasets\farmers.json";
 		public void Configure(EntityTypeBuilder<Farmer> builder)
 		{
 			var farmers = LoadJsonData(FarmerDataSet);

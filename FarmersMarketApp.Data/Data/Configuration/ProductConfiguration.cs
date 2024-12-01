@@ -10,7 +10,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
 	public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	{
-		private const string ProductDataSet = "../FarmersMarketApp.Data/Datasets/products.json";
+		private const string ProductDataSet = @"..\..\..\..\FarmersMarketApp.Data/Datasets/products.json";
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
 			builder
