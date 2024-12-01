@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FarmersMarketApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmersMarketApp.Tests.Mocks
 {
 	public static class DatabaseMock
 	{
-		public static TestApplicationDbContext ContextInstance
+		public static ApplicationDbContext ContextInstance
 		{
 			get
 			{
-				var dbContextOptions = new DbContextOptionsBuilder<TestApplicationDbContext>()
-					.UseInMemoryDatabase("FarmersMarketInMemoryDb" + DateTime.Now.Ticks.ToString())
+				var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+					.UseInMemoryDatabase("FarmersMarketInMemoryDb" + DateTime.Now)
 					.Options;
 
-				return new TestApplicationDbContext(dbContextOptions);
+				return new ApplicationDbContext(dbContextOptions);
 			}
 
 		}

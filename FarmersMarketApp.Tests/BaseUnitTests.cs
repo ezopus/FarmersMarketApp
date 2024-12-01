@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
+﻿using FarmersMarketApp.Infrastructure.Data;
+using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Tests.Mocks;
 using System.Globalization;
 using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
@@ -7,9 +8,9 @@ namespace FarmersMarketApp.Tests
 {
 	public class BaseUnitTests
 	{
-		protected TestApplicationDbContext contextMock;
+		protected ApplicationDbContext contextMock;
 
-		[OneTimeSetUp]
+		[SetUp]
 		public void SetUpBase()
 		{
 			contextMock = DatabaseMock.ContextInstance;
@@ -188,8 +189,7 @@ namespace FarmersMarketApp.Tests
 			contextMock.SaveChanges();
 		}
 
-		[OneTimeTearDown]
-
+		[TearDown]
 		public void TearDownBase() => contextMock.Dispose();
 	}
 }
