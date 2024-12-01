@@ -8,11 +8,15 @@ namespace FarmersMarketApp.Infrastructure.Data
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 	{
+		public ApplicationDbContext(DbContextOptions options)
+			: base(options)
+		{
+		}
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
 		{
-
 		}
+
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -30,18 +34,18 @@ namespace FarmersMarketApp.Infrastructure.Data
 			builder.ApplyConfiguration(new PaymentConfiguration());
 		}
 
-		public DbSet<Product> Products { get; set; }
+		public virtual DbSet<Product> Products { get; set; }
 
-		public DbSet<Farmer> Farmers { get; set; }
+		public virtual DbSet<Farmer> Farmers { get; set; }
 
-		public DbSet<Farm> Farms { get; set; }
+		public virtual DbSet<Farm> Farms { get; set; }
 
-		public DbSet<Category> Categories { get; set; }
+		public virtual DbSet<Category> Categories { get; set; }
 
-		public DbSet<Payment> Payments { get; set; }
+		public virtual DbSet<Payment> Payments { get; set; }
 
-		public DbSet<Order> Orders { get; set; }
+		public virtual DbSet<Order> Orders { get; set; }
 
-		public DbSet<ProductOrder> ProductsOrders { get; set; }
+		public virtual DbSet<ProductOrder> ProductsOrders { get; set; }
 	}
 }
