@@ -18,7 +18,7 @@ namespace FarmersMarketApp.Infrastructure.Repositories
 			return context.Set<T>();
 		}
 
-		public IQueryable<T> AllAsync<T>() where T : class
+		public IQueryable<T> All<T>() where T : class
 		{
 			return DbSet<T>();
 		}

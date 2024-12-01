@@ -238,7 +238,7 @@ namespace FarmersMarketApp.Services
 		public async Task<AddProductViewModel?> GetProductToEditByIdAsync(string id)
 		{
 			var product = await repository
-				.AllAsync<Product>()
+				.All<Product>()
 				.Where(p => !p.IsDeleted)
 				.FirstOrDefaultAsync(pr => pr.Id == Guid.Parse(id));
 
@@ -325,7 +325,7 @@ namespace FarmersMarketApp.Services
 			}
 
 			var products = await repository
-			   .AllAsync<Product>()
+			   .All<Product>()
 			   .Include(pr => pr.Farm)
 			   .Include(pr => pr.Farm.FarmersFarms)
 			   .Where(pr => pr.Farm.FarmersFarms.All(fr => fr.FarmerId == Guid.Parse(farmerId)))
@@ -408,13 +408,13 @@ namespace FarmersMarketApp.Services
 
 		public async Task<IEnumerable<Product>> GetProductsForDeletionByFarmIdAsync(string farmId)
 		{
-			return await repository.AllAsync<Product>()
+			return await repository.All<Product>()
 				.Where(p => p.FarmId == Guid.Parse(farmId))
 				.ToListAsync();
 		}
 		public async Task<IEnumerable<Product>> GetProductsForDeletionByFarmerIdAsync(string farmerId)
 		{
-			return await repository.AllAsync<Product>()
+			return await repository.All<Product>()
 				.Where(p => p.Farm.FarmersFarms
 					.Any(ff => ff.FarmerId == Guid.Parse(farmerId)))
 				.ToListAsync();

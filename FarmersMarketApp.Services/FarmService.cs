@@ -25,7 +25,7 @@ namespace FarmersMarketApp.Services
 		public async Task<IEnumerable<FarmInfoAdminViewModel>> GetAllFarmsAsync()
 		{
 			return await repository
-				.AllAsync<Farm>()
+				.All<Farm>()
 				.Select(f => new FarmInfoAdminViewModel()
 				{
 					Id = f.Id.ToString(),
@@ -42,7 +42,7 @@ namespace FarmersMarketApp.Services
 		public async Task<IEnumerable<FarmInfoViewModel>> GetActiveFarmsAsync()
 		{
 			return await repository
-				.AllAsync<Farm>()
+				.All<Farm>()
 				.Where(f => !f.IsDeleted)
 				.Select(f => new FarmInfoViewModel()
 				{
@@ -134,7 +134,7 @@ namespace FarmersMarketApp.Services
 		public async Task<AddFarmViewModel?> GetFarmToEditByIdAsync(string id)
 		{
 			var farm = await repository
-				.AllAsync<Farm>()
+				.All<Farm>()
 				.Where(f => !f.IsDeleted)
 				.FirstOrDefaultAsync(f => f.Id == Guid.Parse(id));
 
@@ -216,7 +216,7 @@ namespace FarmersMarketApp.Services
 		public async Task<bool> EditFarmAsync(AddFarmViewModel model, string? newFilePath)
 		{
 			var farmToEdit = await repository
-				.AllAsync<Farm>()
+				.All<Farm>()
 				.Where(f => !f.IsDeleted)
 				.FirstOrDefaultAsync(f => f.Id == Guid.Parse(model.Id));
 
@@ -303,7 +303,7 @@ namespace FarmersMarketApp.Services
 
 		public async Task<IEnumerable<Farm>> GetAllFarmsByFarmerIdForDeletion(string farmerId)
 		{
-			return await repository.AllAsync<Farm>()
+			return await repository.All<Farm>()
 				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId)))
 				.ToListAsync();
 		}

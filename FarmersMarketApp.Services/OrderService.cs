@@ -33,7 +33,7 @@ namespace FarmersMarketApp.Services
 
 			//check to see if user has open order
 			var currentOrder = await repository
-				.AllAsync<Order>()
+				.All<Order>()
 				.Where(o => o.CustomerId == Guid.Parse(userId) && o.Status == Status.Open)
 				.FirstOrDefaultAsync();
 
@@ -52,7 +52,7 @@ namespace FarmersMarketApp.Services
 			}
 			//get products in open order
 			var productsInOpenOrder =
-				await repository.AllAsync<ProductOrder>()
+				await repository.All<ProductOrder>()
 					.Where(o => o.OrderId == currentOrder.Id
 								&& o.Order.Status == Status.Open)
 					.ToListAsync();
@@ -114,7 +114,7 @@ namespace FarmersMarketApp.Services
 			}
 
 			currentOrder.ProductsOrders =
-				await repository.AllAsync<ProductOrder>().Where(o => o.OrderId == currentOrder.Id).ToListAsync();
+				await repository.All<ProductOrder>().Where(o => o.OrderId == currentOrder.Id).ToListAsync();
 
 			var productInOrder =
 				currentOrder.ProductsOrders.FirstOrDefault(pr =>
@@ -151,7 +151,7 @@ namespace FarmersMarketApp.Services
 
 			//get all products in order
 			currentOrder.ProductsOrders =
-				await repository.AllAsync<ProductOrder>()
+				await repository.All<ProductOrder>()
 					.Where(o => o.OrderId == currentOrder.Id)
 					.ToListAsync();
 
@@ -260,7 +260,7 @@ namespace FarmersMarketApp.Services
 			currentOrder.CreateDate = DateTime.Now;
 
 			var currentOrderProducts = await repository
-				.AllAsync<ProductOrder>()
+				.All<ProductOrder>()
 				.Where(o => o.OrderId == currentOrder.Id)
 				.ToListAsync();
 
@@ -332,7 +332,7 @@ namespace FarmersMarketApp.Services
 			foreach (var farm in farmerFarms)
 			{
 				var farmProductOrders = await repository
-					.AllAsync<ProductOrder>()
+					.All<ProductOrder>()
 					.Where(o => o.OrderId == Guid.Parse(orderId)
 					&& o.FarmId == Guid.Parse(farm))
 					.ToListAsync();
@@ -358,7 +358,7 @@ namespace FarmersMarketApp.Services
 		public async Task<bool> CancelProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms)
 		{
 			var farmerOrder = await repository
-				.AllAsync<ProductOrder>()
+				.All<ProductOrder>()
 				.Where(o => o.OrderId == Guid.Parse(orderId))
 				.ToListAsync();
 
