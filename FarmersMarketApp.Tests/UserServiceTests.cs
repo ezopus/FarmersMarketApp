@@ -60,7 +60,7 @@ namespace FarmersMarketApp.Tests
 			var result = await userService.GetCurrentUserByIdAsync(farmerUser.Id.ToString());
 
 			// Assert
-			Assert.IsNotNull(result);
+			Assert.That(result, Is.Not.Null);
 			Assert.That(result, Is.EqualTo(farmerUser));
 			Assert.That(result.FirstName, Is.EqualTo(farmerUser.FirstName));
 			repositoryMock.Verify(r => r.GetByIdAsync<ApplicationUser>(farmerUser.Id), Times.Once);
@@ -74,7 +74,7 @@ namespace FarmersMarketApp.Tests
 
 			repositoryMock
 				.Setup(r => r.GetByIdAsync<ApplicationUser>(userId))
-				.ReturnsAsync((ApplicationUser)null);
+				.ReturnsAsync((ApplicationUser)null!);
 
 			// Act
 			var result = await userService.GetCurrentUserByIdAsync(userId.ToString());
@@ -105,7 +105,7 @@ namespace FarmersMarketApp.Tests
 			var result = await userService.IsUserFarmerAsync(userId);
 
 			// Assert
-			Assert.IsTrue(result);
+			Assert.That(result, Is.True);
 			repositoryMock.Verify(r => r.GetByIdAsync<ApplicationUser>(It.Is<Guid>(id => id == Guid.Parse(userId))), Times.Once);
 		}
 
@@ -130,7 +130,7 @@ namespace FarmersMarketApp.Tests
 			var result = await userService.IsUserFarmerAsync(userId);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.That(result, Is.False);
 			repositoryMock.Verify(r => r.GetByIdAsync<ApplicationUser>(It.Is<Guid>(id => id == Guid.Parse(userId))), Times.Once);
 		}
 
@@ -142,13 +142,13 @@ namespace FarmersMarketApp.Tests
 
 			repositoryMock
 				.Setup(r => r.GetByIdAsync<ApplicationUser>(It.IsAny<Guid>()))
-				.ReturnsAsync((ApplicationUser)null);
+				.ReturnsAsync((ApplicationUser)null!);
 
 			// Act
 			var result = await userService.IsUserFarmerAsync(userId);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.That(result, Is.False);
 			repositoryMock.Verify(r => r.GetByIdAsync<ApplicationUser>(It.Is<Guid>(id => id == Guid.Parse(userId))), Times.Once);
 		}
 	}
