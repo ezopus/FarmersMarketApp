@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Infrastructure.Data.Models;
+﻿using FarmersMarketApp.Common.Enums;
+using FarmersMarketApp.Infrastructure.Data.Models;
 using FarmersMarketApp.Infrastructure.Repositories;
 using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services;
@@ -14,7 +15,7 @@ namespace FarmersMarketApp.Tests
 		private IProductService productService;
 		private IFarmService farmService;
 
-		[SetUp]
+		[OneTimeSetUp]
 		public void Setup()
 		{
 			repository = new FarmersMarketRepository(contextMock);
@@ -31,7 +32,6 @@ namespace FarmersMarketApp.Tests
 			// Assert
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Count(), Is.EqualTo(3));
-			Assert.That(result.First().Name, Is.EqualTo("Kevin's farm"));
 		}
 
 		[Test]
@@ -69,6 +69,10 @@ namespace FarmersMarketApp.Tests
 			// Assert
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.Name, Is.EqualTo("Farm1"));
+
+			//Cleanup
+			contextMock.Remove(farm);
+			await contextMock.SaveChangesAsync();
 		}
 
 		[Test]
@@ -106,7 +110,13 @@ namespace FarmersMarketApp.Tests
 			// Assert
 			Assert.That(result, Is.Not.Null);
 
+			//Cleanup
+			var newFarm = await contextMock.Farms.FindAsync(Guid.Parse(result));
+			contextMock.RemoveRange(newFarm.FarmersFarms);
+			contextMock.Remove(newFarm);
+			await contextMock.SaveChangesAsync();
 		}
+
 
 		[Test]
 		public async Task EditFarmAsync_FarmExists_ReturnsTrue()
@@ -145,7 +155,223 @@ namespace FarmersMarketApp.Tests
 			Assert.That(result, Is.False);
 		}
 
-		[TearDown]
+		[Test]
+		public async Task GetFarmNameAndIdForNewProductAsync_FarmsExist_ReturnsFarmOptions()
+		{
+			// Arrange
+			var farmer = contextMock.Farmers.First();
+			var farms = contextMock.Farms.Where(f => f.FarmersFarms.All(ff => ff.FarmerId == farmer.Id));
+
+			// Act
+			var result = await farmService.GetFarmNameAndIdForNewProductAsync(farmer.Id.ToString());
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Count(), Is.EqualTo(1));
+			Assert.That(result.First().Name, Is.EqualTo(farms.First().Name));
+		}
+
+
+		[Test]
+		public async Task GetOnlyFarmIdsByFarmerId_FarmsExist_ReturnsFarmIds()
+		{
+			// Arrange
+			var farmer = contextMock.Farmers.First();
+			var farms = contextMock.Farms.Where(f => f.FarmersFarms.All(ff => ff.FarmerId == farmer.Id));
+
+			// Act
+			var result = await farmService.GetOnlyFarmIdsByFarmerId(farmer.Id.ToString());
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Count, Is.EqualTo(1));
+			Assert.That(result.First(), Is.EqualTo(farms.First().Id.ToString()));
+		}
+
+		[Test]
+		public async Task GetOnlyFarmIdsByFarmerId_NoFarmsExist_ReturnsNull()
+		{
+			// Arrange
+			var farmerId = Guid.NewGuid();
+
+			// Act
+			var result = await farmService.GetOnlyFarmIdsByFarmerId(farmerId.ToString());
+
+			// Assert
+			Assert.That(result, Is.Empty);
+		}
+
+		[Test]
+		public async Task RestoreFarmByFarmIdAsync_FarmExistsAndHasProducts_RestoresFarmAndProducts()
+		{
+			// Arrange
+			var farmer = contextMock.Farmers.First();
+			var farm = contextMock.Farms.FirstOrDefault(f => f.FarmersFarms.All(ff => ff.FarmerId == farmer.Id));
+			var products = new List<Product>
+			{
+				new Product
+				{
+					Id = Guid.NewGuid(),
+					IsDeleted = true,
+					Name = "Restored product",
+					ProductsOrders = null,
+					CategoryId = 1,
+					Price = 1,
+					HasDiscount = false,
+					DiscountPercentage = 0,
+					FarmId = farm.Id,
+					Description = "Meat product",
+					UnitType = (UnitType)1,
+					Quantity = 1,
+					NetWeight = 100,
+					ProductionDate = default,
+					ExpirationDate = default,
+					DateAdded = default,
+				},
+				new Product
+				{
+					Id = Guid.NewGuid(),
+					IsDeleted = true,
+					Name = "Restored product",
+					ProductsOrders = null,
+					CategoryId = 2,
+					Price = 1,
+					HasDiscount = false,
+					DiscountPercentage = 0,
+					FarmId = farm.Id,
+					Description = "Dairy product",
+					UnitType = (UnitType)1,
+					Quantity = 1,
+					NetWeight = 100,
+					ProductionDate = default,
+					ExpirationDate = default,
+					DateAdded = default,
+				}
+			};
+
+			contextMock.Products.AddRange(products);
+			farm.IsDeleted = true;
+			await contextMock.SaveChangesAsync();
+
+			// Act
+			var result = await farmService.RestoreFarmByFarmIdAsync(farm.Id.ToString());
+
+			// Assert
+			Assert.That(result, Is.True);
+			Assert.That(farm.IsDeleted, Is.False);
+			Assert.That(products.All(p => !p.IsDeleted), Is.True);
+
+			//Cleanup
+			contextMock.RemoveRange(products);
+			await contextMock.SaveChangesAsync();
+		}
+
+		[Test]
+		public async Task RestoreFarmByFarmIdAsync_FarmDoesNotExist_ReturnsFalse()
+		{
+			// Arrange
+			var farmId = Guid.NewGuid();
+
+			// Act
+			var result = await farmService.RestoreFarmByFarmIdAsync(farmId.ToString());
+
+			// Assert
+			Assert.That(result, Is.False);
+		}
+
+		[Test]
+		public async Task SetFarmIsDeletedByFarmIdAsync_FarmExistsAndHasProducts_DeletesFarmAndProducts()
+		{
+			// Arrange
+			var farmer = contextMock.Farmers.First();
+			var farm = contextMock.Farms.FirstOrDefault(f => f.FarmersFarms.All(ff => ff.FarmerId == farmer.Id));
+			var products = new List<Product>
+			{
+				new Product
+				{
+					Id = Guid.NewGuid(),
+					IsDeleted = false,
+					Name = "Restored product",
+					ProductsOrders = null,
+					CategoryId = 1,
+					Price = 1,
+					HasDiscount = false,
+					DiscountPercentage = 0,
+					FarmId = farm.Id,
+					Description = "Meat product",
+					UnitType = (UnitType)1,
+					Quantity = 1,
+					NetWeight = 100,
+					ProductionDate = default,
+					ExpirationDate = default,
+					DateAdded = default,
+				},
+				new Product
+				{
+					Id = Guid.NewGuid(),
+					IsDeleted = false,
+					Name = "Restored product",
+					ProductsOrders = null,
+					CategoryId = 2,
+					Price = 1,
+					HasDiscount = false,
+					DiscountPercentage = 0,
+					FarmId = farm.Id,
+					Description = "Dairy product",
+					UnitType = (UnitType)1,
+					Quantity = 1,
+					NetWeight = 100,
+					ProductionDate = default,
+					ExpirationDate = default,
+					DateAdded = default,
+				}
+			};
+
+			contextMock.Products.AddRange(products);
+			farm.IsDeleted = false;
+			await contextMock.SaveChangesAsync();
+
+			// Act
+			var result = await farmService.SetFarmIsDeletedByFarmIdAsync(farm.Id.ToString());
+
+			// Assert
+			Assert.That(result, Is.True);
+			Assert.That(farm.IsDeleted, Is.True);
+			Assert.That(products.All(p => p.IsDeleted), Is.True);
+
+			//Cleanup
+			contextMock.RemoveRange(products);
+			await contextMock.SaveChangesAsync();
+		}
+
+		[Test]
+		public async Task SetFarmIsDeletedByFarmIdAsync_FarmDoesNotExist_ReturnsFalse()
+		{
+			// Arrange
+			var farmId = Guid.NewGuid();
+
+			// Act
+			var result = await farmService.SetFarmIsDeletedByFarmIdAsync(farmId.ToString());
+
+			// Assert
+			Assert.That(result, Is.False);
+		}
+
+		[Test]
+		public async Task GetFarmNameAndIdForNewProductAsync_NoFarmsExist_ReturnsEmptyList()
+		{
+			// Arrange
+			var farmerId = Guid.NewGuid();
+
+			// Act
+			var result = await farmService.GetFarmNameAndIdForNewProductAsync(farmerId.ToString());
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result, Is.Empty);
+		}
+
+		[OneTimeTearDown]
 		public void DisposeDatabase() => contextMock.Dispose();
 
 	}

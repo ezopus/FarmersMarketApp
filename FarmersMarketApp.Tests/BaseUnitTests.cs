@@ -10,7 +10,7 @@ namespace FarmersMarketApp.Tests
 	{
 		protected ApplicationDbContext contextMock;
 
-		[SetUp]
+		[OneTimeSetUp]
 		public void SetUpBase()
 		{
 			contextMock = DatabaseMock.ContextInstance;
@@ -189,7 +189,7 @@ namespace FarmersMarketApp.Tests
 			contextMock.SaveChanges();
 		}
 
-		[TearDown]
+		[OneTimeTearDown]
 		public void TearDownBase() => contextMock.Dispose();
 	}
 }
