@@ -131,7 +131,7 @@ namespace FarmersMarketApp.Services
 			return await repository
 				.AllReadOnly<Farmer>()
 				.Include(f => f.FarmersFarms)
-				.Where(f => f.IsDeleted == false && f.IsApproved)
+				.Where(f => f.IsDeleted == false && f.IsApproved == true)
 				.Select(f => new FarmerInfoViewModel()
 				{
 					Id = f.Id.ToString(),
@@ -140,6 +140,8 @@ namespace FarmersMarketApp.Services
 					CompanyAddress = f.CompanyAddress ?? string.Empty,
 					ImageUrl = f.ImageUrl,
 					HasProducts = f.FarmersFarms.Any(f => f.Farm.Products.Any(p => p.IsDeleted == false)),
+					IsApproved = f.IsApproved,
+					IsDeleted = f.IsDeleted
 				})
 				.ToListAsync();
 
@@ -178,7 +180,8 @@ namespace FarmersMarketApp.Services
 
 			return true;
 		}
-		//set farmer is deleted 
+
+		//set farmer and his products is deleted to true
 		public async Task<bool> SetFarmerFarmsProductsIsDeletedByIdAsync(string farmerId)
 		{
 			var farmerToDelete = await repository.GetByIdAsync<Farmer>(Guid.Parse(farmerId));
@@ -213,7 +216,7 @@ namespace FarmersMarketApp.Services
 			return true;
 		}
 
-		//restore farmer 
+		//restore farmer and products
 		public async Task<bool> RestoreFarmerFarmsProductsByIdAsync(string farmerId)
 		{
 			var farmerToDelete = await repository.GetByIdAsync<Farmer>(Guid.Parse(farmerId));
@@ -284,7 +287,6 @@ namespace FarmersMarketApp.Services
 
 			return farmerOrders;
 		}
-
 
 		//restore farmer 
 		public async Task<bool> RestoreFarmerByIdAsync(string farmerId)
