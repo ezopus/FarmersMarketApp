@@ -39,6 +39,8 @@ namespace FarmersMarketApp.Tests
 			//	.ReturnsAsync(farmerUser);
 		}
 
+		//TODO: use only mocks where possible, remove IServices 
+
 		[Test]
 		public async Task GetCurrentUserByIdAsync_UserExists_ReturnsUser()
 		{

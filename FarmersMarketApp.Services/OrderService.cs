@@ -71,18 +71,20 @@ namespace FarmersMarketApp.Services
 			else
 			{
 				//add product to list of products in current order
-				currentOrder.ProductsOrders.Add(new ProductOrder()
-				{
-					OrderId = currentOrder.Id,
-					ProductId = currentProduct.Id,
-					ProductQuantity = productAmount,
-					ProductPriceAtTimeOfOrder = currentProduct.DiscountPercentage.HasValue
+				currentOrder
+					.ProductsOrders
+					.Add(new ProductOrder()
+					{
+						OrderId = currentOrder.Id,
+						ProductId = currentProduct.Id,
+						ProductQuantity = productAmount,
+						ProductPriceAtTimeOfOrder = currentProduct.DiscountPercentage.HasValue
 						? currentProduct.Price - (currentProduct.Price * currentProduct.DiscountPercentage.Value / 100)
 						: currentProduct.Price,
-					ProductDiscountAtTimeOfOrder = currentProduct.DiscountPercentage ?? 0,
-					FarmId = currentProduct.FarmId,
-					Status = Status.Open
-				});
+						ProductDiscountAtTimeOfOrder = currentProduct.DiscountPercentage ?? 0,
+						FarmId = currentProduct.FarmId,
+						Status = Status.Open
+					});
 			}
 
 			await repository.SaveChangesAsync();

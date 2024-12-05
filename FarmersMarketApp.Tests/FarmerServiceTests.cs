@@ -25,6 +25,7 @@ namespace FarmersMarketApp.Tests
 			farmerService = new FarmerService(repository, userService, farmService, productService);
 		}
 
+		//TODO: use only mocks where possible, remove IServices
 
 		[Test]
 		public async Task GetAllFarmersAsync_ReturnsAllFarmers()
