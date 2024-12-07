@@ -55,7 +55,7 @@ namespace FarmersMarketApp.Services
 			if (!string.IsNullOrEmpty(farmerId))
 			{
 				productsToShow = productsToShow
-					.Where(pr => pr.Farm.FarmersFarms.All(f => f.FarmerId == Guid.Parse(farmerId)));
+					.Where(pr => pr.Farm.FarmersFarms.Any(f => f.FarmerId == Guid.Parse(farmerId)));
 			}
 
 			//sort results
@@ -292,11 +292,15 @@ namespace FarmersMarketApp.Services
 			{
 				productToEdit.Name = model.Name;
 				productToEdit.Description = model.Description;
+				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
+				productToEdit.Quantity = model.Quantity;
+				productToEdit.NetWeight = model.NetWeight;
+				productToEdit.Season = !string.IsNullOrEmpty(model.Season)
+						? Enum.Parse<Season>(model.Season)
+						: null;
 				productToEdit.CategoryId = model.CategoryId;
 				productToEdit.Price = model.Price;
 				productToEdit.DiscountPercentage = model.DiscountPercentage;
-				productToEdit.UnitType = Enum.Parse<UnitType>(model.UnitType);
-				productToEdit.Quantity = model.Quantity;
 				productToEdit.Origin = model.Origin ?? "";
 				productToEdit.ImageUrl = string.IsNullOrEmpty(newFilePath)
 					? productToEdit.ImageUrl
@@ -365,36 +369,43 @@ namespace FarmersMarketApp.Services
 		//create new product
 		public async Task<string?> CreateProductAsync(AddProductViewModel model)
 		{
-			var newProduct = new Product
+			try
 			{
-				Id = Guid.NewGuid(),
-				Name = model.Name,
-				Description = model.Description,
-				UnitType = Enum.Parse<UnitType>(model.UnitType),
-				Quantity = model.Quantity,
-				NetWeight = model.NetWeight,
-				Season = Enum.TryParse(model.Season, true, out Season result)
+				var newProduct = new Product
+				{
+					Id = Guid.NewGuid(),
+					Name = model.Name,
+					Description = model.Description,
+					UnitType = Enum.Parse<UnitType>(model.UnitType),
+					Quantity = model.Quantity,
+					NetWeight = model.NetWeight,
+					Season = Enum.TryParse(model.Season, true, out Season result)
 				  ? result
 				  : null,
-				ProductionDate = DateTime.ParseExact(model.ProductionDate, DateTimeRequiredFormat,
+					ProductionDate = DateTime.ParseExact(model.ProductionDate, DateTimeRequiredFormat,
 				  CultureInfo.CurrentCulture),
-				ExpirationDate = DateTime.ParseExact(model.ExpirationDate, DateTimeRequiredFormat,
+					ExpirationDate = DateTime.ParseExact(model.ExpirationDate, DateTimeRequiredFormat,
 				  CultureInfo.CurrentCulture),
-				CategoryId = model.CategoryId,
-				Price = model.Price,
-				HasDiscount = model.DiscountPercentage > 0,
-				DiscountPercentage = model.DiscountPercentage,
-				FarmId = Guid.Parse(model.FarmId),
-				Barcode = model.Barcode,
-				ImageUrl = model.ImageUrl,
-				Origin = model.Origin,
-				DateAdded = DateTime.Now,
-			};
+					CategoryId = model.CategoryId,
+					Price = model.Price,
+					HasDiscount = model.DiscountPercentage > 0,
+					DiscountPercentage = model.DiscountPercentage,
+					FarmId = Guid.Parse(model.FarmId),
+					Barcode = model.Barcode,
+					ImageUrl = model.ImageUrl,
+					Origin = model.Origin,
+					DateAdded = DateTime.Now,
+				};
 
-			await repository.AddAsync(newProduct);
-			await repository.SaveChangesAsync();
+				await repository.AddAsync(newProduct);
+				await repository.SaveChangesAsync();
 
-			return newProduct.Id.ToString();
+				return newProduct.Id.ToString();
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
 		}
 
 		//get product for populating order details
@@ -425,14 +436,15 @@ namespace FarmersMarketApp.Services
 		{
 			var productToDelete = await repository.GetByIdAsync<Product>(Guid.Parse(productId));
 
-			if (productToDelete != null)
+			if (productToDelete == null)
 			{
-				productToDelete.IsDeleted = true;
-				await repository.SaveChangesAsync();
-				return true;
+				return false;
 			}
 
-			return false;
+			productToDelete.IsDeleted = true;
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 
 		//restore product by id
@@ -440,16 +452,18 @@ namespace FarmersMarketApp.Services
 		{
 			var productToDelete = await repository.GetByIdAsync<Product>(Guid.Parse(productId));
 
-			if (productToDelete != null)
+			if (productToDelete == null)
 			{
-				productToDelete.IsDeleted = false;
-				await repository.SaveChangesAsync();
-				return true;
+				return false;
 			}
 
-			return false;
+			productToDelete.IsDeleted = false;
+			await repository.SaveChangesAsync();
+
+			return true;
 		}
 
+		//get farmer pra ooducts when gathering products to visualize for each farmer in his own individual orders
 		public async Task<IEnumerable<ProductFarmerOrderViewModel>> GetFarmerProductOrdersByOrderIdAsync(string farmerId, string orderId, ICollection<string> farmerFarms)
 		{
 			var products = new List<ProductFarmerOrderViewModel>();
