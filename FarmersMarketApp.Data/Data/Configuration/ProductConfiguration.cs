@@ -4,13 +4,16 @@ using FarmersMarketApp.Infrastructure.Datasets.ImportDTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Globalization;
+using System.Reflection;
 using System.Text.Json;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
 	public class ProductConfiguration : IEntityTypeConfiguration<Product>
 	{
-		private const string ProductDataSet = @"..\..\..\..\FarmersMarketApp.Data/Datasets/products.json";
+		private string AssemblyName = Path.GetFullPath(Assembly.GetCallingAssembly().FullName);
+		private const string ProductDataSet = @"..\FarmersMarketApp.Data/Datasets/products.json";
+		private const string ProductDataSetTests = @"..\..\..\..\FarmersMarketApp.Data/Datasets/products.json";
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
 			builder
@@ -19,11 +22,16 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				.HasForeignKey(p => p.FarmId)
 				.OnDelete(DeleteBehavior.NoAction);
 
-			builder.HasData(SeedProducts(ProductDataSet));
+			var filePath = AssemblyName.Contains("FarmersMarketApp.Tests")
+				? ProductDataSetTests
+				: ProductDataSet;
+			var products = LoadJsonData(filePath);
+
+			builder.HasData(products);
 
 		}
 
-		private Product[] SeedProducts(string filePath)
+		private Product[] LoadJsonData(string filePath)
 		{
 			var jsonString = File.ReadAllText(filePath);
 			var importProduct = JsonSerializer.Deserialize<ImportProductDto[]>(jsonString);

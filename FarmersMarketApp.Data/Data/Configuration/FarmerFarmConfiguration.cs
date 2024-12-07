@@ -2,13 +2,16 @@
 using FarmersMarketApp.Infrastructure.Datasets.ImportDTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection;
 using System.Text.Json;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
 	public class FarmerFarmConfiguration : IEntityTypeConfiguration<FarmerFarm>
 	{
-		private const string FarmerFarmDataSet = @"..\..\..\..\FarmersMarketApp.Data/Datasets/farmersfarms.json";
+		private string AssemblyName = Path.GetFullPath(Assembly.GetCallingAssembly().FullName);
+		private const string FarmerFarmDataSet = @"..\FarmersMarketApp.Data/Datasets/farmersfarms.json";
+		private const string FarmerFarmDataSetTests = @"..\..\..\..\FarmersMarketApp.Data/Datasets/farmersfarms.json";
 		public void Configure(EntityTypeBuilder<FarmerFarm> builder)
 		{
 			builder.HasKey(pk => new { pk.FarmId, pk.FarmerId });
@@ -26,10 +29,15 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				.OnDelete(DeleteBehavior.NoAction);
 
 			//Add seed data
-			builder.HasData(SeedFarmerFarms(FarmerFarmDataSet));
+			var filePath = AssemblyName.Contains("FarmersMarketApp.Tests")
+					? FarmerFarmDataSetTests
+					: FarmerFarmDataSet;
+			var farmerFarms = LoadJsonData(filePath);
+
+			builder.HasData(farmerFarms);
 		}
 
-		private FarmerFarm[] SeedFarmerFarms(string filePath)
+		private FarmerFarm[] LoadJsonData(string filePath)
 		{
 			var importJson = File.ReadAllText(filePath);
 			var importData = JsonSerializer.Deserialize<ImportFarmerFarmDto[]>(importJson);

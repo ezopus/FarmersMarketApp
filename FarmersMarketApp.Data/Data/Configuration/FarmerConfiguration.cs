@@ -2,16 +2,23 @@
 using FarmersMarketApp.Infrastructure.Datasets.ImportDTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection;
 using System.Text.Json;
 
 namespace FarmersMarketApp.Infrastructure.Data.Configuration
 {
 	public class FarmerConfiguration : IEntityTypeConfiguration<Farmer>
 	{
-		private const string FarmerDataSet = @"..\..\..\..\FarmersMarketApp.Data\Datasets\farmers.json";
+		private string AssemblyName = Path.GetFullPath(Assembly.GetCallingAssembly().FullName);
+		private const string FarmerDataSet = @"..\FarmersMarketApp.Data\Datasets\farmers.json";
+		private const string FarmerDataSetTests = @"..\..\..\..\FarmersMarketApp.Data\Datasets\farmers.json";
 		public void Configure(EntityTypeBuilder<Farmer> builder)
 		{
-			var farmers = LoadJsonData(FarmerDataSet);
+			var filePath = AssemblyName.Contains("FarmersMarketApp.Tests")
+					? FarmerDataSetTests
+					: FarmerDataSet;
+
+			var farmers = LoadJsonData(filePath);
 
 			//Add seed data
 			builder.HasData(farmers);
