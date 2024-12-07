@@ -28,7 +28,7 @@ namespace FarmersMarketApp.Tests
 			userServiceMock = new Mock<IUserService>();
 			productService = new ProductService(repository);
 			productServiceMock = new Mock<IProductService>();
-			orderService = new OrderService(repository, userService, productService);
+			orderService = new OrderService(repository, userService, productServiceMock.Object);
 		}
 
 
@@ -38,29 +38,29 @@ namespace FarmersMarketApp.Tests
 		{
 			// Arrange
 			string userId = Guid.NewGuid().ToString();
-			string productId = Guid.NewGuid().ToString();
 			int productAmount = 1;
+			var product = new Product
+			{
+				Id = Guid.NewGuid(),
+				Name = "Product",
+				Description = "Description",
+				CategoryId = 1,
+				Price = 1m,
+				UnitType = (UnitType)0,
+				Quantity = 0,
+				NetWeight = 0,
+				ProductionDate = default,
+				ExpirationDate = default,
+				HasDiscount = false,
+				FarmId = default,
+			};
 
 			productServiceMock
-				.Setup(p => p.GetProductForOrderByProductIdAsync(productId))
-				.ReturnsAsync(new Product
-				{
-					Id = Guid.NewGuid(),
-					Name = "Product",
-					Description = "Description",
-					CategoryId = 1,
-					Price = 1m,
-					UnitType = (UnitType)0,
-					Quantity = 0,
-					NetWeight = 0,
-					ProductionDate = default,
-					ExpirationDate = default,
-					HasDiscount = false,
-					FarmId = default,
-				});
+				.Setup(p => p.GetProductForOrderByProductIdAsync(product.Id.ToString()))
+				.ReturnsAsync(product);
 
 			// Act
-			var result = await orderService.AddToOrderAsync(userId, productId, productAmount);
+			var result = await orderService.AddToOrderAsync(userId, product.Id.ToString(), productAmount);
 
 			// Assert
 			Assert.That(result, Is.True);
@@ -159,6 +159,10 @@ namespace FarmersMarketApp.Tests
 
 			// Assert
 			Assert.That(result, Is.True);
+
+			// Cleanup
+			contextMock.Products.Remove(product);
+			await contextMock.SaveChangesAsync();
 		}
 
 		[Test]
