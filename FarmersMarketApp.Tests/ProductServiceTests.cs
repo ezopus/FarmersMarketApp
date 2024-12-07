@@ -480,7 +480,6 @@ namespace FarmersMarketApp.Tests
 
 			// Cleanup
 			product.Name = "First product";
-			product.IsDeleted = false;
 			await repository.SaveChangesAsync();
 		}
 
@@ -621,7 +620,26 @@ namespace FarmersMarketApp.Tests
 		public async Task RestoreProductByIdAsync_ValidProductId_ReturnsTrue()
 		{
 			// Arrange
-			var product = contextMock.Products.FirstOrDefault(p => p.IsDeleted == true);
+			var product = new Product()
+			{
+				Id = Guid.NewGuid(),
+				Name = "Deleted product",
+				Description = "Deleted product description",
+				UnitType = (UnitType)1,
+				Quantity = 1,
+				NetWeight = 1,
+				ProductionDate = DateTime.ParseExact("01-12-2024", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+				ExpirationDate = DateTime.ParseExact("31-12-2024", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+				CategoryId = 2,
+				Price = 3,
+				HasDiscount = false,
+				FarmId = Guid.NewGuid(),
+				IsDeleted = true,
+				DateAdded = DateTime.ParseExact("31-12-2024", "dd-MM-yyyy", CultureInfo.InvariantCulture)
+			};
+
+			await repository.AddAsync(product);
+			await repository.SaveChangesAsync();
 
 			// Act
 			var result = await productService.RestoreProductByIdAsync(product.Id.ToString());
@@ -631,7 +649,7 @@ namespace FarmersMarketApp.Tests
 			Assert.That(product.IsDeleted, Is.False);
 
 			// Cleanup
-			product.IsDeleted = true;
+			await repository.DeleteAsync<Product>(product.Id);
 			await repository.SaveChangesAsync();
 		}
 
