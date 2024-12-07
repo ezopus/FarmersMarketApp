@@ -72,7 +72,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Models
 		public string? Origin { get; set; }
 
 		[Comment("Boolean flag for product soft deletion")]
-		public bool IsDeleted { get; set; } = false;
+		public bool IsDeleted { get; set; }
 
 		public virtual ICollection<ProductOrder> ProductsOrders { get; set; } = new List<ProductOrder>();
 	}
