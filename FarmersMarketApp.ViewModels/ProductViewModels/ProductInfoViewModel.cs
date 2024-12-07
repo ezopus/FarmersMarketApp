@@ -28,7 +28,7 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 		public string? Origin { get; set; }
 
 		public string FarmId { get; set; } = null!;
-		public FarmInfoViewModel Farm { get; set; } = null!;
+		public virtual FarmInfoViewModel? Farm { get; set; }
 
 		public string ProductionDate { get; set; } = null!;
 		public string ExpirationDate { get; set; } = null!;
