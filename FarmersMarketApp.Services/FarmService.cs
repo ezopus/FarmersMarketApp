@@ -290,6 +290,14 @@ namespace FarmersMarketApp.Services
 			var random = new Random();
 			var counter = 0;
 
+			//if there are not enough added farms it will always show all added ones
+			if (farms.Count <= 3)
+			{
+				randomFarms.AddRange(farms);
+				return randomFarms;
+			}
+
+			//get three random farms from all active farms
 			while (farms.Count > 1 && counter < 3)
 			{
 				var index = random.Next(0, farms.Count - 1);
