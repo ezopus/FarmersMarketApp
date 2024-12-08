@@ -5,6 +5,8 @@ using FarmersMarketApp.Infrastructure.Repositories.Contracts;
 using FarmersMarketApp.Services;
 using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.FarmViewModels;
+using MockQueryable;
+using Moq;
 
 namespace FarmersMarketApp.Tests
 {
@@ -14,13 +16,17 @@ namespace FarmersMarketApp.Tests
 		private IRepository repository;
 		private IProductService productService;
 		private IFarmService farmService;
+		private IFarmService farmService2;
+		private Mock<IRepository> repositoryMock;
 
 		[OneTimeSetUp]
 		public void Setup()
 		{
 			repository = new FarmersMarketRepository(contextMock);
+			repositoryMock = new Mock<IRepository>();
 			productService = new ProductService(repository);
 			farmService = new FarmService(repository, productService);
+			farmService2 = new FarmService(repositoryMock.Object, productService);
 		}
 
 		//TODO: use only mocks where possible, remove IServices
@@ -173,6 +179,19 @@ namespace FarmersMarketApp.Tests
 			Assert.That(result.First().Name, Is.EqualTo(farms.First().Name));
 		}
 
+		[Test]
+		public async Task GetFarmNameAndIdForNewProductAsync_NoFarmsExist_ReturnsEmptyList()
+		{
+			// Arrange
+			var farmerId = Guid.NewGuid();
+
+			// Act
+			var result = await farmService.GetFarmNameAndIdForNewProductAsync(farmerId.ToString());
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result, Is.Empty);
+		}
 
 		[Test]
 		public async Task GetOnlyFarmIdsByFarmerId_FarmsExist_ReturnsFarmIds()
@@ -360,18 +379,58 @@ namespace FarmersMarketApp.Tests
 		}
 
 		[Test]
-		public async Task GetFarmNameAndIdForNewProductAsync_NoFarmsExist_ReturnsEmptyList()
+		public async Task GetThreeRandomFarmsForIndexCarousel_ReturnsCorrectNumberOfResults()
 		{
 			// Arrange
-			var farmerId = Guid.NewGuid();
+			var farms = new List<Farm>
+			{
+				new Farm
+				{
+					Id = Guid.NewGuid(),
+					Name = "Farm",
+					Address = "Address",
+					City = "City",
+					IsOpen = true,
+				},
+				new Farm
+				{
+					Id = Guid.NewGuid(),
+					Name = "Farm",
+					Address = "Address",
+					City = "City",
+					IsOpen = true,
+				},
+				new Farm
+				{
+					Id = Guid.NewGuid(),
+					Name = "Farm",
+					Address = "Address",
+					City = "City",
+					IsOpen = true,
+				},
+				new Farm
+				{
+					Id = Guid.NewGuid(),
+					Name = "Farm",
+					Address = "Address",
+					City = "City",
+					IsOpen = true,
+				},
+			};
+
+			repositoryMock
+				.Setup(r => r.AllReadOnly<Farm>())
+				.Returns(farms.AsQueryable().BuildMock());
 
 			// Act
-			var result = await farmService.GetFarmNameAndIdForNewProductAsync(farmerId.ToString());
+			var result = await farmService2.GetThreeRandomFarmsForIndexCarousel();
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			Assert.That(result, Is.Empty);
+			Assert.That(result, Is.Not.Empty);
+			Assert.That(result.Count(), Is.EqualTo(3));
 		}
+
 
 		[OneTimeTearDown]
 		public void DisposeDatabase() => contextMock.Dispose();
