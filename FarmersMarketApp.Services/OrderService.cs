@@ -171,6 +171,12 @@ namespace FarmersMarketApp.Services
 
 		public async Task<IEnumerable<OrderProductsViewModel>?> GetOrdersByUserIdAsync(string userId)
 		{
+			var user = await userService.GetCurrentUserByIdAsync(userId);
+			if (user == null)
+			{
+				return Array.Empty<OrderProductsViewModel>();
+			}
+
 			var currentOrders = await repository
 				.AllReadOnly<Order>()
 				.Where(o => o.CustomerId == Guid.Parse(userId))
@@ -257,8 +263,16 @@ namespace FarmersMarketApp.Services
 			{
 				return false;
 			}
+
+			var currentPayment = await repository.GetByIdAsync<Payment>(Guid.Parse(paymentId));
+
+			if (currentPayment == null)
+			{
+				return false;
+			}
+
 			currentOrder.Status = Status.InProgress;
-			currentOrder.PaymentId = Guid.Parse(paymentId);
+			currentOrder.PaymentId = currentPayment.Id;
 			currentOrder.CreateDate = DateTime.Now;
 
 			var currentOrderProducts = await repository
@@ -329,6 +343,12 @@ namespace FarmersMarketApp.Services
 
 		public async Task<bool> CompleteProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms)
 		{
+			var order = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
+			if (order == null)
+			{
+				return false;
+			}
+
 			var farmerProductOrders = new List<ProductOrder>();
 
 			foreach (var farm in farmerFarms)
@@ -359,6 +379,12 @@ namespace FarmersMarketApp.Services
 		}
 		public async Task<bool> CancelProductOrderByOrderIdAsync(string orderId, IEnumerable<string> farmerFarms)
 		{
+			var order = await repository.GetByIdAsync<Order>(Guid.Parse(orderId));
+			if (order == null)
+			{
+				return false;
+			}
+
 			var farmerOrder = await repository
 				.All<ProductOrder>()
 				.Where(o => o.OrderId == Guid.Parse(orderId))
@@ -370,9 +396,9 @@ namespace FarmersMarketApp.Services
 				return false;
 			}
 
-			foreach (var order in farmerOrder.Where(o => o.Status == Status.InProgress))
+			foreach (var productOrder in farmerOrder.Where(o => o.Status == Status.InProgress))
 			{
-				order.Status = Status.Cancelled;
+				productOrder.Status = Status.Cancelled;
 			}
 
 			await repository.SaveChangesAsync();
