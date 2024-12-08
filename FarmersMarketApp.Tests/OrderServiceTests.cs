@@ -10,14 +10,12 @@ using System.Globalization;
 
 namespace FarmersMarketApp.Tests
 {
-	public class OrderServiceTests : BaseUnitTests
+	public class OrderServiceTests
 	{
-		private IRepository repository;
 		private IOrderService orderService;
 		private Mock<IRepository> repositoryMock;
 		private Mock<IUserService> userServiceMock;
 		private Mock<IProductService> productServiceMock;
-		private Mock<IOrderService> orderServiceMock;
 
 		[SetUp]
 		public void Setup()
@@ -28,8 +26,6 @@ namespace FarmersMarketApp.Tests
 			orderService = new OrderService(repositoryMock.Object, userServiceMock.Object, productServiceMock.Object);
 		}
 
-
-		//TODO: use only mocks, remove IServices
 		[Test]
 		public async Task AddToOrderAsync_ProductExists_ReturnsTrue()
 		{
