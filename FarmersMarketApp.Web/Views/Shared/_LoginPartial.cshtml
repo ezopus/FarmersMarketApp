@@ -2,9 +2,11 @@
 @using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FarmersMarketApp.Common.Enums
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IFarmerService FarmerService
+@inject IOrderService OrderService
 
 @{
 	var currentUserId = User.GetId();
@@ -14,11 +16,30 @@
 		firstName = UserManager.Users.FirstOrDefault(u => u.Id == Guid.Parse(currentUserId)).FirstName;
 	}
 	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
+	var userOrders = await OrderService.GetOrdersByUserIdAsync(User.GetId());
+	var userProductsInOpenOrder = userOrders.FirstOrDefault(o => o.Status == Status.Open) != null ? userOrders.FirstOrDefault(o => o.Status == Status.Open).Products.Count() : 0;
 }
 
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
+		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
+		{
+			<li class="nav-item d-flex justify-content-center">
+				<a class="nav-link text-light bg-dark" asp-area="" asp-controller="Order" asp-action="All">
+					<i class="fa-solid fa-cart-shopping ps-1 pe-1"></i>
+					<span class="px-1">My Cart</span>
+					@if (userProductsInOpenOrder == 0)
+					{
+						<span class="badge text-primary bg-light rounded-pill">@userProductsInOpenOrder</span>
+					}
+					else
+					{
+						<span class="badge bg-danger rounded-pill">@userProductsInOpenOrder</span>
+					}
+				</a>
+			</li>
+		}
 		<li class="nav-item dropdown">
 			@if (User.Identity.IsAuthenticated && !string.IsNullOrEmpty(firstName))
 			{
@@ -30,15 +51,6 @@
 				</div>
 			}
 		</li>
-		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
-		{
-			<li class="nav-item d-flex justify-content-center">
-				<a class="nav-link text-light bg-dark" asp-area="" asp-controller="Order" asp-action="All">
-					<i class="fa-solid fa-cart-shopping ps-1 pe-1"></i>
-					<span class="px-1">My Cart</span>
-				</a>
-			</li>
-		}
 		<li class="nav-item">
 			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = ""})">
 				<button type="submit" class="nav-link btn btn-link text-light">Logout</button>
