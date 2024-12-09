@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "3C879B4E-A194-4F8F-AB9C-8A09820D949B",
+    "CustomerId": "1A03A969-75C2-43FE-9CFD-4BF3C7F71AC2",
+    "CreateDate": "10-12-2024 00:35:01",
+    "DeliveryDate": null,
+    "Status": 2,
+    "PaymentId": "A8BBF635-EB78-41C8-8F28-FA6123E4D0A9",
+    "DeliveryAddress": "Ocean Way 1",
+    "DeliveryCity": "Scranton",
+    "DeliveryFirstName": "Jim",
+    "DeliveryLastName": "Halpert",
+    "DeliveryPhoneNumber": "+359888123456"
+  },
+  {
+    "Id": "4656A62C-231A-4539-A8C4-413AD4F9E7CD",
+    "CustomerId": "1A03A969-75C2-43FE-9CFD-4BF3C7F71AC2",
+    "CreateDate": null,
+    "DeliveryDate": null,
+    "Status": 1,
+    "PaymentId": null,
+    "DeliveryAddress": null,
+    "DeliveryCity": null,
+    "DeliveryFirstName": null,
+    "DeliveryLastName": null,
+    "DeliveryPhoneNumber": null
+  }
+]
