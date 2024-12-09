@@ -6,6 +6,7 @@
 @inject IFarmerService FarmerService
 @inject IProductService ProductService
 
+
 @{
 	ViewData["Title"] = $"Product details";
 	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
@@ -46,21 +47,25 @@
 					<h4 class="text-info mb-3 fw-bold">Price: $@Model.Price</h4>
 				}
 			</div>
-			<div class="row">
-				<form class="d-flex mb-2" asp-controller="Order" asp-action="AddToCart" method="post">
-					<input type="hidden" name="productId" value="@Model.Id" />
-					<input id="productAmount" name="productAmount" type="number" class="form-control w-50 me-2 text-end" style="-webkit-appearance: none; -moz-appearance: textfield;" value="1" />
-					<button class="btn btn-success w-75">
-						Add to cart <i class="fa-solid fa-cart-plus"></i>
-					</button>
-				</form>
-			</div>
+			@if (string.IsNullOrEmpty(currentFarmerId) || !User.IsInRole("Admin"))
+			{
+
+				<div class="row">
+					<form class="d-flex mb-2" asp-controller="Order" asp-action="AddToCart" method="post">
+						<input type="hidden" name="productId" value="@Model.Id" />
+						<input id="productAmount" name="productAmount" type="number" class="form-control w-50 me-2 text-end" style="-webkit-appearance: none; -moz-appearance: textfield;" value="1" />
+						<button class="btn btn-success w-75">
+							Add to cart <i class="fa-solid fa-cart-plus"></i>
+						</button>
+					</form>
+				</div>
+			}
 			<div class="col d-flex gap-2">
 				<a asp-controller="Product" asp-action="All" asp-route-farmId="@Model.FarmId" asp-route-farmName="@Model.Farm.Name" class="btn btn-info align-self-start mb-2 w-100">Show all products by this farm</a>
 			</div>
 			<div>
 				<a asp-controller="Product" asp-action="All" class="btn btn-secondary align-self-end w-100 mb-2">Back to all products</a>
-			</div> 
+			</div>
 			@if (!string.IsNullOrEmpty(currentFarmerId) && farmerProducts != null && farmerProducts.Any(pr => pr.Id.ToLower() == Model.Id.ToLower()))
 			{
 				<div>
