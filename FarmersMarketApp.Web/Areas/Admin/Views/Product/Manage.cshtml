@@ -20,6 +20,9 @@
 		<select id="farmDropDown" asp-for="@Model.FarmId" class="nav-link bg-dark text-light form-control-sm me-3" aria-required="true" asp-items="@(new SelectList(Model.Farms, "Id", "Name"))">
 			<option value="">All farms</option>
 		</select>
+		<select id="farmerDropDown" asp-for="@Model.FarmerId" class="nav-link bg-dark text-light form-control-sm me-3" aria-required="true" asp-items="@(new SelectList(Model.Farmers, "Id", "Name"))">
+			<option value="">All farmers</option>
+		</select>
 		<select id="sortingDropdown" asp-for="@Model.Sorting" class="nav-link bg-dark text-light form-control-sm me-3" aria-required="true">
 			<option value="@ProductSorting.Newest">Newest</option>
 			<option value="@ProductSorting.PriceAscending">Price ascending</option>
@@ -75,7 +78,7 @@
 							Current status:
 							<span class="text-success fw-bold">Active</span>
 						</p>
-						<a asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger">Delete</a>
+						<a asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger">Deactivate</a>
 					}
 				</div>
 			</div>
