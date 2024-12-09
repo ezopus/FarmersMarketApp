@@ -1,5 +1,12 @@
 ﻿@using FarmersMarketApp.ViewModels.AdminViewModels
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.ViewModels.ProductViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ManageFarmersViewModel
+@inject IProductService ProductService
+
+@{
+}
 
 <table class="table table-hover table-striped align-middle text-center">
 	<thead>
@@ -30,17 +37,26 @@
 							<td>
 								<a asp-controller="Farmer" asp-action="Restore" asp-route-farmerId="@farmer.Id" class="btn btn-warning btn-sm w-100">Restore farmer</a>
 							</td>
-							<td>
-								<a asp-controller="Farmer" asp-action="RestoreAll" asp-route-farmerId="@farmer.Id" class="btn btn-warning btn-sm">Restore all farmer entities</a>
-							</td>
 						}
 						else
 						{
 							<td>
 								<a asp-controller="Farmer" asp-action="Delete" asp-route-farmerId="@farmer.Id" class="btn btn-danger btn-sm w-100">Deactivate farmer</a>
 							</td>
+						}
+
+						var deletedFarmerHasActiveProducts = await ProductService.GetFarmerProductsByFarmerIdAsync(farmer.Id);
+
+						if (deletedFarmerHasActiveProducts != null && deletedFarmerHasActiveProducts.Any(pr => pr.IsDeleted))
+						{
 							<td>
-								<a asp-controller="Farmer" asp-action="DeleteAll" asp-route-farmerId="@farmer.Id" class="btn btn-danger btn-sm">Deactivate all farmer entities</a>
+								<a asp-controller="Farmer" asp-action="RestoreAll" asp-route-farmerId="@farmer.Id" class="btn btn-warning btn-sm">Restore farmer, farms and products</a>
+							</td>
+						}
+						else
+						{
+							<td>
+								<a asp-controller="Farmer" asp-action="DeleteAll" asp-route-farmerId="@farmer.Id" class="btn btn-danger btn-sm">Deactivate farmer, farms and products</a>
 							</td>
 						}
 					}
