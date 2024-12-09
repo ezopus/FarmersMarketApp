@@ -11,13 +11,17 @@
 @{
 	var currentUserId = User.GetId();
 	var firstName = string.Empty;
+	int userProductsInOpenOrder = 0;
 	if (!string.IsNullOrEmpty(currentUserId))
 	{
 		firstName = UserManager.Users.FirstOrDefault(u => u.Id == Guid.Parse(currentUserId)).FirstName;
+		var userOrders = await OrderService.GetOrdersByUserIdAsync(currentUserId);
+		if (userOrders != null && userOrders.Any())
+		{
+			userProductsInOpenOrder = userOrders.FirstOrDefault(o => o.Status == Status.Open) != null ? userOrders.FirstOrDefault(o => o.Status == Status.Open).Products.Count() : 0;
+		}
 	}
 	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
-	var userOrders = await OrderService.GetOrdersByUserIdAsync(User.GetId());
-	var userProductsInOpenOrder = userOrders.FirstOrDefault(o => o.Status == Status.Open) != null ? userOrders.FirstOrDefault(o => o.Status == Status.Open).Products.Count() : 0;
 }
 
 <ul class="navbar-nav">
@@ -31,7 +35,7 @@
 					<span class="px-1">My Cart</span>
 					@if (userProductsInOpenOrder == 0)
 					{
-						<span class="badge text-primary bg-light rounded-pill">@userProductsInOpenOrder</span>
+						<span class="badge bg-light text-primary rounded-pill">@userProductsInOpenOrder</span>
 					}
 					else
 					{
