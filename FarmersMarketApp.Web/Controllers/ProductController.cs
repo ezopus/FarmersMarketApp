@@ -18,7 +18,6 @@ namespace FarmersMarketApp.Web.Controllers
 		private readonly ICategoryService categoryService;
 		private readonly IFarmService farmService;
 		private readonly IFarmerService farmerService;
-		//private readonly IOrderService orderService;
 
 		public ProductController(
 			IProductService productService,

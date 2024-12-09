@@ -44,6 +44,11 @@ namespace FarmersMarketApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Become()
 		{
+			if (User.IsInRole("Admin"))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
 			//get current user id
 			var currentUserId = User.GetId();
 
