@@ -12,14 +12,17 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 		private readonly IProductService productService;
 		private readonly ICategoryService categoryService;
 		private readonly IFarmService farmService;
+		private readonly IFarmerService farmerService;
 		public ProductController(
 			IProductService productService,
 			ICategoryService categoryService,
-			IFarmService farmService)
+			IFarmService farmService,
+			IFarmerService farmerService)
 		{
 			this.productService = productService;
 			this.categoryService = categoryService;
 			this.farmService = farmService;
+			this.farmerService = farmerService;
 		}
 
 		[HttpGet]
@@ -36,6 +39,7 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 
 			model.Products = products.Products;
 			model.Categories = await categoryService.GetCategoriesAsync();
+			model.Farmers = await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync();
 			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
 			model.TotalProducts = products.TotalProducts;
 
