@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeededOrdersAndPayments : Migration
+    public partial class SeededOrdersPayments : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,35 +18,35 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "acc7b5b4-737d-41ac-ae88-4c1b266e356b", "AQAAAAIAAYagAAAAEJP4f9TJdh1WUCjgGng+p/4G2PXDQIFcR7sFoHtxQZZai4TwsIwo7Q5WjTo9pWHhtw==" });
+                values: new object[] { "8c925d57-4ca4-46bf-81f6-a2a500b95174", "AQAAAAIAAYagAAAAEPJEhm/1AMKVR0sSMMyNTweO63ht/f2rRG+yLIlCOQNQ4d3TJMkIVKUyDgOWNybGOA==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "02911b07-6e82-4512-b642-e16e0519ea70", "AQAAAAIAAYagAAAAEA3dNCX2osW89sfzeMBFGX5zZV4rZPbNSvveOMWpQjlqRAfyV6eMHakDu0d8LMY+Pw==" });
+                values: new object[] { "3e48d037-475e-4b83-baf7-6a71f3e20a7c", "AQAAAAIAAYagAAAAEAkuS1PS58mhYu0HOBRHwi8a2Iwvx48woTubvTDyMRvf45oaioqyMaqe0CP53rmXuA==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "58a584ff-e858-4852-bafa-faca98bf87aa", "AQAAAAIAAYagAAAAELQXOP+3v7PRUt3iH/a0geUc45ko/5EkTJxNWvXRm0EE51R4aFV8bRtXleis9al5sA==" });
+                values: new object[] { "f81fa799-ae0b-43a4-b28d-b7f0f21283ca", "AQAAAAIAAYagAAAAELHdvjys+2CRXxcxKkxX6PFaajF/m9hJw0Xc8t9QRQXZbp4YqBJr86k/dvpejNE1aA==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "6f0b86a1-bf9a-4804-88e6-3a927fdbcd5b", "AQAAAAIAAYagAAAAEBVE5hI3//jDX5VRcSXLSEw73BnAZkm+PR2IHRn+9XCq/GUFrA9a9O4895N3T405gg==" });
+                values: new object[] { "fa9f1d35-425f-426c-b512-032c727ae17d", "AQAAAAIAAYagAAAAEN3FQHOSEzvk35GY/Gq8J/ntFoZtBX093PP6SY1CfX9JAzEBkfedmnrTmZYaMhD6DA==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "e696e59f-4794-4abe-b6da-16b98f076abc", "AQAAAAIAAYagAAAAEBG9U9xU1HOp+dXg9KsngM5ALf4LnJOQUubICDogCsXgdoYn9GQWJLDQxhFJ1+OVQA==" });
+                values: new object[] { "a2e98a74-abe1-4122-9fe1-34fbf9bf91e3", "AQAAAAIAAYagAAAAEImeXRl1Qq+0Ao2zfBVXGTGdveJoB5Gn+qFYI0hVKC6ICqhCZKxxSFzIZaavxQmD8Q==" });
 
             migrationBuilder.InsertData(
                 table: "Orders",
@@ -67,9 +67,9 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 columns: new[] { "OrderId", "ProductId", "FarmId", "IsDeleted", "ProductDiscountAtTimeOfOrder", "ProductPriceAtTimeOfOrder", "ProductQuantity", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("8169cb41-3198-4cf4-b734-16849661983e"), new Guid("d8fd1d22-ad66-4850-8a23-54d33e488964"), null, 0.0m, 6.66m, 1, 3 },
                     { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("ccf1c98e-5cf4-4bfe-82c7-2a1dfb748e12"), new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"), null, 0.0m, 4.99m, 1, 2 },
                     { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("e2ca22b4-f728-4c4f-888b-17463d93d542"), new Guid("d8fd1d22-ad66-4850-8a23-54d33e488964"), null, 15.0m, 2.12m, 2, 3 },
+                    { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("fa8ec7af-4cf4-4a28-8c37-5f2d3a1ab5e1"), new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"), null, 0.0m, 15.99m, 1, 3 },
                     { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("fffb5e9d-4c1e-4e0d-8997-1a7e537a5b89"), new Guid("63ad63d2-5884-4c3d-93f1-1aaf75c0a563"), null, 10.0m, 3.14m, 1, 2 },
                     { new Guid("4656a62c-231a-4539-a8c4-413ad4f9e7cd"), new Guid("c62b13b9-6bc2-403f-9e0d-2de6d8f84f88"), new Guid("06a9fdbb-dfd9-47d5-9a4a-7117ed1f2332"), null, 0.0m, 2.49m, 1, 1 },
                     { new Guid("4656a62c-231a-4539-a8c4-413ad4f9e7cd"), new Guid("ccf1c98e-5cf4-4bfe-82c7-2a1dfb748e12"), new Guid("45c92bba-7ac0-42ae-995e-d6fc10e05067"), null, 0.0m, 4.99m, 1, 1 },
@@ -88,17 +88,17 @@ namespace FarmersMarketApp.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "ProductsOrders",
                 keyColumns: new[] { "OrderId", "ProductId" },
-                keyValues: new object[] { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("8169cb41-3198-4cf4-b734-16849661983e") });
-
-            migrationBuilder.DeleteData(
-                table: "ProductsOrders",
-                keyColumns: new[] { "OrderId", "ProductId" },
                 keyValues: new object[] { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("ccf1c98e-5cf4-4bfe-82c7-2a1dfb748e12") });
 
             migrationBuilder.DeleteData(
                 table: "ProductsOrders",
                 keyColumns: new[] { "OrderId", "ProductId" },
                 keyValues: new object[] { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("e2ca22b4-f728-4c4f-888b-17463d93d542") });
+
+            migrationBuilder.DeleteData(
+                table: "ProductsOrders",
+                keyColumns: new[] { "OrderId", "ProductId" },
+                keyValues: new object[] { new Guid("3c879b4e-a194-4f8f-ab9c-8a09820d949b"), new Guid("fa8ec7af-4cf4-4a28-8c37-5f2d3a1ab5e1") });
 
             migrationBuilder.DeleteData(
                 table: "ProductsOrders",
