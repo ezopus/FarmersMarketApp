@@ -2,6 +2,7 @@
 using FarmersMarketApp.Infrastructure.Datasets.ImportDTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 
@@ -44,7 +45,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 					ImageUrl = string.IsNullOrEmpty(farmer.ImageUrl) ? "/img/no-image.png" : farmer.ImageUrl,
 					IsApproved = farmer.IsApproved,
 					IsDeleted = farmer.IsDeleted,
-					DateApproved = string.IsNullOrEmpty(farmer.DateApproved) ? null : DateTime.Parse(farmer.DateApproved),
+					DateApproved = string.IsNullOrEmpty(farmer.DateApproved) ? null : DateTime.ParseExact(farmer.DateApproved, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
 				};
 
 				farmers.Add(newFarmer);
