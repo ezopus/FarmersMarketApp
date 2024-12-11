@@ -56,6 +56,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//check if user is logged in
 			if (string.IsNullOrEmpty(currentUserId))
 			{
+				TempData[InfoMessage] = RegisterFirstToBecomeFarmer;
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
 			}
 
@@ -64,7 +65,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//if user is already a farmer redirect to my farms
 			if (isFarmer)
 			{
-				TempData[ErrorMessage] = AlreadyFarmer;
+				TempData[InfoMessage] = AlreadyFarmer;
 				return RedirectToAction(nameof(MyFarms), "Farmer");
 			}
 
@@ -82,6 +83,7 @@ namespace FarmersMarketApp.Web.Controllers
 			//check if user is farmer, if he already is, redirect him to his farms
 			if (!string.IsNullOrEmpty(currentFarmerId))
 			{
+				TempData[InfoMessage] = AlreadyFarmer;
 				return RedirectToAction("MyFarms", "Farmer");
 			}
 
@@ -92,7 +94,6 @@ namespace FarmersMarketApp.Web.Controllers
 				TempData[ErrorMessage] = FailedToApplyToBeFarmerUserHasOpenOrders;
 				return RedirectToAction("All", "Order");
 			}
-
 
 			//check model state
 			if (!ModelState.IsValid)
@@ -119,9 +120,6 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyFarms()
 		{
-			TempData[SuccessMessage] = "";
-			TempData[ErrorMessage] = "";
-
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
@@ -149,9 +147,6 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyProducts()
 		{
-			TempData[SuccessMessage] = "";
-			TempData[ErrorMessage] = "";
-
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
@@ -179,9 +174,6 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyOrders(string farmerId)
 		{
-			TempData[SuccessMessage] = "";
-			TempData[ErrorMessage] = "";
-
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);

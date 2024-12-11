@@ -2,12 +2,13 @@
 {
 	public static class NotificationConstants
 	{
+		// TOASTER TYPES
 		public const string SuccessMessage = "Success";
 		public const string ErrorMessage = "Error";
 		public const string InfoMessage = "Info";
 		public const string WarningMessage = "Warning";
 
-
+		// FARMER
 		public const string SuccessfullyApproveFarmer = "Successfully approved farmer!";
 		public const string FailedApproveFarmer = "Failed to approve farmer!";
 
@@ -27,13 +28,22 @@
 		public const string FailedToApplyToBeFarmerUserHasOpenOrders =
 			"Sorry, you cannot apply to be a farmer while you have open orders.";
 
+		public const string RegisterFirstToBecomeFarmer = "Please register first to apply for becoming a farmer";
 
+
+		// FARM
 		public const string SuccessfullyAddFarm = "Successfully added farm {0}!";
 		public const string FailedAddFarm = "Failed to add farm {0}!";
 
 		public const string SuccessfullyEditFarm = "Successfully edited farm {0}!";
 		public const string FailedEditFarm = "Failed to edit farm {0}!";
 
+		public const string SuccessfullyDeleteFarm = "Farm and all it's products successfully deactivated.";
+		public const string FailedDeleteFarm = "Could not find farm to deactivate.";
+		public const string SuccessfullyRestoreFarm = "Farm and all it's products successfully restored.";
+		public const string FailedRestoreFarm = "Could not find farm to restore.";
+
+		// PRODUCT
 		public const string SuccessfullyAddProduct = "You have successfully added your product - {0}";
 		public const string FailedAddProduct = "Failed to add product - {0}. Please check input fields and try again.";
 
@@ -48,8 +58,9 @@
 
 		public const string SuccessfullyAddProductToCart = "Product successfully added to your cart!";
 		public const string ErrorProductAmountNegativeNumber = "Product cannot be negative number.";
+		public const string ErrorProductAmountTooMuch = "Products are limited to 30 pieces for each order. Consider going wholesale.";
 
-
+		// PAYMENT
 		public const string PaymentSuccessful = "Your payment method was successful. Please check order for details.";
 		public const string PaymentFailed = "Your payment failed. Please try again.";
 		public const string PaymentCardFailed = "Your card payment failed. Please check details and try again.";
