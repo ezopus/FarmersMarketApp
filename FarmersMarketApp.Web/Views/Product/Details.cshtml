@@ -47,9 +47,9 @@
 					<h4 class="text-info mb-3 fw-bold">Price: $@Model.Price</h4>
 				}
 			</div>
-			@if (string.IsNullOrEmpty(currentFarmerId) || !User.IsInRole("Admin"))
+			@if (string.IsNullOrEmpty(currentFarmerId) && !User.IsInRole("Admin"))
 			{
-
+				//add to cart button and product amount
 				<div class="row">
 					<form class="d-flex mb-2" asp-controller="Order" asp-action="AddToCart" method="post">
 						<input type="hidden" name="productId" value="@Model.Id" />
