@@ -52,7 +52,7 @@
 				<a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 					@if (currentUser != null && !string.IsNullOrEmpty(currentUser.ImageUrl))
 					{
-						<img src="@currentUser.ImageUrl" class="img-fluid me-2 object-fit-cover" style="max-width:25px; max-height:25px; border-radius:100%;"/>
+						<img src="@currentUser.ImageUrl" class="img-fluid me-2 object-fit-cover" style="width:25px; height:25px; border-radius:100%;" />
 					}
 					else
 					{
