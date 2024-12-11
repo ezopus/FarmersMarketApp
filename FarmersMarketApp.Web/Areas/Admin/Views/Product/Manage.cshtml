@@ -28,7 +28,10 @@
 			<option value="@ProductSorting.PriceAscending">Price ascending</option>
 			<option value="@ProductSorting.PriceDescending">Price descending</option>
 			<option value="@ProductSorting.Oldest">Oldest</option>
+			<option value="@ProductSorting.DiscountedFirst">Discounted</option>
 		</select>
+		<input class="form-check-input me-3" type="checkbox" id="deletedOnly" name="DeletedOnly" value="true" @(Model.DeletedOnly ? "checked" : "") />
+		<label class="form-check-label me-3" for="deletedOnly">Show only deactivated</label>
 		<input class="form-control-sm me-3 w-100" asp-for="SearchTerm" type="text" name="SearchTerm" placeholder="Search for product..." />
 		<button class="btn btn-info" asp-controller="Product" asp-action="Manage">Filter</button>
 	</div>
@@ -107,7 +110,8 @@
 			   asp-route-categoryId="@Model.Category"
 			   asp-route-farmId="@Model.FarmId"
 			   asp-route-farmerId="@Model.FarmerId"
-			   asp-route-sorting="@((int)Model.Sorting)">&laquo;</a>
+			   asp-route-sorting="@((int)Model.Sorting)"
+			   asp-route-DeletedOnly="@Model.DeletedOnly">&laquo;</a>
 		</li>
 
 		<li class="page-item">
@@ -119,7 +123,8 @@
 			   asp-route-farmId="@Model.FarmId"
 			   asp-route-farmerId="@Model.FarmerId"
 			   asp-route-currentPage="@Model.CurrentPage"
-			   asp-route-sorting="@((int)Model.Sorting)">@Model.CurrentPage</a>
+			   asp-route-sorting="@((int)Model.Sorting)"
+			   asp-route-DeletedOnly="@Model.DeletedOnly">@Model.CurrentPage</a>
 		</li>
 
 		<li class="page-item">
@@ -131,7 +136,8 @@
 			   asp-route-farmId="@Model.FarmId"
 			   asp-route-farmerId="@Model.FarmerId"
 			   asp-route-currentPage="@(Model.CurrentPage + 1)"
-			   asp-route-sorting="@((int)Model.Sorting)">&raquo;</a>
+			   asp-route-sorting="@((int)Model.Sorting)"
+			   asp-route-DeletedOnly="@Model.DeletedOnly">&raquo;</a>
 		</li>
 	</ul>
 </div>
