@@ -70,8 +70,6 @@ namespace FarmersMarketApp.Services
 
 			//take products to visualize
 			var products = await productsToShow
-				.Skip((currentPage - 1) * productsPerPage)
-				.Take(productsPerPage)
 				.Select(pr => new ProductInfoViewModel()
 				{
 					Id = pr.Id.ToString(),
@@ -159,6 +157,7 @@ namespace FarmersMarketApp.Services
 				ProductSorting.PriceDescending => productsToShow.OrderByDescending(pr => pr.Price),
 				ProductSorting.Newest => productsToShow.OrderByDescending(pr => pr.DateAdded),
 				ProductSorting.Oldest => productsToShow.OrderBy(pr => pr.DateAdded),
+				ProductSorting.DiscountedFirst => productsToShow.OrderByDescending(pr => pr.HasDiscount).ThenByDescending(pr => pr.DiscountPercentage),
 				_ => productsToShow
 			};
 

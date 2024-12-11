@@ -37,11 +37,27 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 				model.CurrentPage,
 				model.ProductsPerPage);
 
-			model.Products = products.Products;
+			if (model.DeletedOnly)
+			{
+				model.Products = products.Products.Where(pr => pr.IsDeleted).ToList();
+				model.TotalProducts = products.Products.Count(pr => pr.IsDeleted);
+			}
+			else
+			{
+				model.Products = products.Products;
+				model.TotalProducts = products.TotalProducts;
+			}
+
+			var paginatedProducts = model.Products
+				.Skip((model.CurrentPage - 1) * model.ProductsPerPage)
+				.Take(model.ProductsPerPage)
+				.OrderByDescending(pr => pr.IsDeleted)
+				.ToList();
+
+			model.Products = paginatedProducts.OrderByDescending(pr => pr.IsDeleted);
 			model.Categories = await categoryService.GetCategoriesAsync();
-			model.Farmers = await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync();
-			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
-			model.TotalProducts = products.TotalProducts;
+			model.Farmers = (await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync()).OrderBy(f => f.Name);
+			model.Farms = (await farmService.GetAllFarmNamesAndIdsAsync()).OrderBy(f => f.Name);
 
 			return View(model);
 		}
@@ -50,13 +66,13 @@ namespace FarmersMarketApp.Web.Areas.Admin.Controllers
 		{
 			var result = await productService.RestoreProductByIdAsync(productId);
 
-			return RedirectToAction(nameof(Manage));
+			return RedirectToAction(nameof(Manage), new { });
 		}
 		public async Task<IActionResult> Delete(string productId)
 		{
 			var result = await productService.SetProductIsDeletedByIdAsync(productId);
 
-			return RedirectToAction(nameof(Manage));
+			return RedirectToAction(nameof(Manage), new { });
 		}
 
 	}

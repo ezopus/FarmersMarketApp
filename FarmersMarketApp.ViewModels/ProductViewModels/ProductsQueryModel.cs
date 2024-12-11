@@ -31,5 +31,7 @@ namespace FarmersMarketApp.ViewModels.ProductViewModels
 
 		public int TotalProducts { get; set; }
 
+		public bool DeletedOnly { get; set; } = false;
+
 	}
 }
