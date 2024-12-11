@@ -32,7 +32,10 @@
                 {
 	                Orders = pendingOrders, 
 	                DefaultText = "No pending orders available.", 
-	                TableId = "pendingOrdersTable"})" />
+	                TableId = "pendingOrdersTable",
+					TableName = "Pending orders"
+                })" />
+
 
 @* COMPLETED ORDERS TABLE *@
 <partial name="Partials/HandledOrdersPartial" 
@@ -41,7 +44,8 @@
 	                Orders = completedOrders,
 	                DefaultText = "No complete orders available.", 
 	                TableId = "completedOrdersTable",
-					Classes = "visually-hidden"
+					Classes = "visually-hidden",
+	                TableName = "Completed orders"
                 })" />
 
 @* CANCELLED ORDERS TABLE *@
@@ -51,7 +55,8 @@
 	                Orders = cancelledOrders, 
 	                DefaultText = "No cancelled orders available.", 
 	                TableId = "cancelledOrdersTable",
-	                Classes = "visually-hidden"
+	                Classes = "visually-hidden",
+	                TableName = "Cancelled orders"
                 })" />
 
 @* modal for view *@

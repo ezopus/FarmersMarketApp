@@ -26,11 +26,11 @@
 </div>
 
 
-<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = openOrders, DefaultText = "No current pending orders.", TableId="pendingOrdersTable"})" />
+<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = openOrders, DefaultText = "No current pending orders.", TableId="pendingOrdersTable", Classes="text-info", TableName = "Pending orders"})" />
 
-<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = completeOrders, DefaultText = "No complete orders.", TableId="completedOrdersTable", Classes="visually-hidden"})" />
+<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = completeOrders, DefaultText = "No complete orders.", TableId="completedOrdersTable", Classes="visually-hidden text-success", TableName = "Completed orders"})" />
 
-<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = cancelledOrders, DefaultText = "No cancelled orders.", TableId="cancelledOrdersTable", Classes="visually-hidden"})" />
+<partial name="Partials/OrderPartial" model="@(new ManageFarmerOrdersViewModel(){ Orders = cancelledOrders, DefaultText = "No cancelled orders.", TableId="cancelledOrdersTable", Classes="visually-hidden text-danger", TableName = "Cancelled orders"})" />
 
 
 @* modal for view *@
