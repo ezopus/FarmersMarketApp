@@ -34,6 +34,11 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 			_repository = repository;
 		}
 
+		protected IndexModel()
+		{
+
+		}
+
 		/// <summary>
 		///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
 		///     directly from your code. This API may change or be removed in future releases.
@@ -70,9 +75,9 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 			[Display(Name = "Phone number")]
 			public string PhoneNumber { get; set; }
 
-			public IFormFile ImageFile { get; set; }
-			public string ImageUrl { get; set; }
 		}
+
+		public IFormFile ImageFile { get; set; }
 
 		private async Task LoadAsync(ApplicationUser user)
 		{
@@ -83,7 +88,7 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 
 			Input = new InputModel
 			{
-				PhoneNumber = phoneNumber
+				PhoneNumber = phoneNumber,
 			};
 		}
 
@@ -96,10 +101,11 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 			}
 
 			await LoadAsync(user);
+
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync([FromForm] IFormFile formFile)
 		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null)
@@ -129,40 +135,39 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 			var currentUserId = User.GetId();
 			var currentFarmerId = await _farmerService.GetFarmerIdByUserIdAsync(currentUserId);
 
-			if (!string.IsNullOrEmpty(currentFarmerId)
-				&& Input.ImageFile != null
-				&& Input.ImageFile.Length > 0)
+			var newFilePath = string.Empty;
+			//handle file upload
+			if (formFile != null && formFile.Length > 0)
 			{
 				var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
-				var fileExtension = Path.GetExtension(Input.ImageFile.FileName).ToLower();
+				var fileExtension = Path.GetExtension(formFile.FileName).ToLower();
 
 				if (!allowedExtensions.Contains(fileExtension))
 				{
-					ModelState.AddModelError(nameof(Input.ImageFile), "Only JPG, JPEG, and PNG files are allowed.");
+					ModelState.AddModelError(nameof(formFile), "Only JPG, JPEG, and PNG files are allowed.");
 					return Page();
 				}
 
-				if (Input.ImageFile.Length > 2 * 1024 * 1024) // 2 MB limit
+				if (formFile.Length > 2 * 1024 * 1024) // 2 MB limit
 				{
-					ModelState.AddModelError(nameof(Input.ImageFile), "The file size cannot exceed 2 MB.");
+					ModelState.AddModelError(nameof(formFile), "The file size cannot exceed 2 MB.");
 					return Page();
 				}
 
 				var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-				var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(Input.ImageFile.FileName)}";
+				var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(formFile.FileName)}";
 				var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
 				using (var stream = new FileStream(filePath, FileMode.Create))
 				{
-					await Input.ImageFile.CopyToAsync(stream);
+					await formFile.CopyToAsync(stream);
 				}
-
 				//add the relative path to the model.ImageUrl for database storage
-				Input.ImageUrl = $"/uploads/{uniqueFileName}";
-				var currentFarmer = await _farmerService.GetFarmerByIdAsync(currentFarmerId);
+				newFilePath = $"/uploads/{uniqueFileName}";
+				var currentFarmer = await _repository.GetByIdAsync<Farmer>(Guid.Parse(currentFarmerId));
 				if (currentFarmer != null)
 				{
-					currentFarmer.ImageUrl = Input.ImageUrl;
+					currentFarmer.ImageUrl = newFilePath;
 					await _repository.SaveChangesAsync();
 				}
 			}
