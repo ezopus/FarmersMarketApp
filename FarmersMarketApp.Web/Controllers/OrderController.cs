@@ -27,6 +27,10 @@ namespace FarmersMarketApp.Web.Controllers
 		public async Task<IActionResult> All()
 		{
 			var currentUserId = User.GetId();
+			if (!User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+			}
 
 			//check if user is logged in and is a farmer - redirect him if so
 			var isUserFarmer = await userService.IsUserFarmerAsync(currentUserId);
@@ -59,6 +63,11 @@ namespace FarmersMarketApp.Web.Controllers
 			if (productAmount < 0)
 			{
 				TempData[ErrorMessage] = ErrorProductAmountNegativeNumber;
+				return RedirectToAction("All", "Product");
+			}
+			if (productAmount > 30)
+			{
+				TempData[ErrorMessage] = ErrorProductAmountTooMuch;
 				return RedirectToAction("All", "Product");
 			}
 
