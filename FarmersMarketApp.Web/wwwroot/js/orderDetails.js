@@ -26,7 +26,11 @@ orderDetailsBtns.forEach(btn => {
 					break;
 				case 3: status = 'Completed'
 					break;
-				case 4: status = 'Cancelled'
+				case 4: status = 'Failed'
+					break;
+				case 5: status = 'Cancelled'
+					break;
+				case 6: status = 'Lost'
 					break;
 				default: status = 'Unknown'
 			}

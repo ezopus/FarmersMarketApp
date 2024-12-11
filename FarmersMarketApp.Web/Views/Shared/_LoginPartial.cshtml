@@ -21,25 +21,25 @@
 			userProductsInOpenOrder = userOrders.FirstOrDefault(o => o.Status == Status.Open) != null ? userOrders.FirstOrDefault(o => o.Status == Status.Open).Products.Count() : 0;
 		}
 	}
-	var isUserFarmer = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
+	var isUserFarmer = !string.IsNullOrEmpty(await FarmerService.GetFarmerIdByUserIdAsync(User.GetId()));
 }
 
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
-		@if (string.IsNullOrEmpty(isUserFarmer) && !User.IsInRole("Admin"))
+		@if (!isUserFarmer && !User.IsInRole("Admin"))
 		{
 			<li class="nav-item d-flex justify-content-center">
 				<a class="nav-link text-light bg-dark" asp-area="" asp-controller="Order" asp-action="All">
 					<i class="fa-solid fa-cart-shopping ps-1 pe-1"></i>
-					<span class="px-1">My Cart</span>
-					@if (userProductsInOpenOrder == 0)
+					<span class="px-1">My Orders</span>
+					@if (userProductsInOpenOrder > 0)
 					{
-						<span class="badge bg-light text-primary rounded-pill">@userProductsInOpenOrder</span>
+						<span class="badge bg-info rounded-pill fw-bold">@userProductsInOpenOrder</span>
 					}
 					else
 					{
-						<span class="badge bg-danger rounded-pill">@userProductsInOpenOrder</span>
+						<span class="badge bg-light text-primary rounded-pill">@userProductsInOpenOrder</span>
 					}
 				</a>
 			</li>
