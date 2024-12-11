@@ -25,13 +25,13 @@
 				<label asp-for="Input.PhoneNumber" class="form-label"></label>
 				<span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
 			</div>
-			@if (isUserFarmer)
-			{
+			
 				<div>
 					<label class="form-label mt-2" for="formFile">Upload profile picture:</label>
 					<input id="formFile" name="formFile" class="form-control mb-2" aria-required="true" placeholder="optional, allowed JPG, JPEG, PNG files 2MB max size" type="File" />
+					<span asp-validation-for="@Model.ImageFile" class="text-danger"></span>
 				</div>
-			}
+			
 			<button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
 		</form>
 	</div>

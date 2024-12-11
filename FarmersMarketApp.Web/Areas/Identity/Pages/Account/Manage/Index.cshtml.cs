@@ -131,12 +131,9 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 				}
 			}
 
-			//handle file upload
-			var currentUserId = User.GetId();
-			var currentFarmerId = await _farmerService.GetFarmerIdByUserIdAsync(currentUserId);
 
-			var newFilePath = string.Empty;
 			//handle file upload
+			var newFilePath = string.Empty;
 			if (formFile != null && formFile.Length > 0)
 			{
 				var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
@@ -164,10 +161,22 @@ namespace FarmersMarketApp.Web.Areas.Identity.Pages.Account.Manage
 				}
 				//add the relative path to the model.ImageUrl for database storage
 				newFilePath = $"/uploads/{uniqueFileName}";
-				var currentFarmer = await _repository.GetByIdAsync<Farmer>(Guid.Parse(currentFarmerId));
-				if (currentFarmer != null)
+				var currentUserId = User.GetId();
+				var currentUser = await _userManager.GetUserAsync(User);
+				var currentFarmerId = await _farmerService.GetFarmerIdByUserIdAsync(currentUserId);
+				if (!string.IsNullOrEmpty(currentFarmerId))
 				{
-					currentFarmer.ImageUrl = newFilePath;
+					var currentFarmer = await _repository.GetByIdAsync<Farmer>(Guid.Parse(currentFarmerId));
+					if (currentFarmer != null && currentUser != null)
+					{
+						currentUser.ImageUrl = newFilePath;
+						currentFarmer.ImageUrl = newFilePath;
+						await _repository.SaveChangesAsync();
+					}
+				}
+				if (currentUser != null)
+				{
+					currentUser.ImageUrl = newFilePath;
 					await _repository.SaveChangesAsync();
 				}
 			}

@@ -10,11 +10,13 @@
 
 @{
 	var currentUserId = User.GetId();
+	var isUserLogged = Guid.TryParse(currentUserId, out var parsedUserId);
+	var currentUser = isUserLogged ? UserManager.Users.FirstOrDefault(u => u.Id == parsedUserId) : null;
 	var firstName = string.Empty;
 	int userProductsInOpenOrder = 0;
-	if (!string.IsNullOrEmpty(currentUserId))
+	if (!string.IsNullOrEmpty(currentUserId) && currentUser != null)
 	{
-		firstName = UserManager.Users.FirstOrDefault(u => u.Id == Guid.Parse(currentUserId)).FirstName;
+		firstName = currentUser.FirstName;
 		var userOrders = await OrderService.GetOrdersByUserIdAsync(currentUserId);
 		if (userOrders != null && userOrders.Any())
 		{
@@ -47,7 +49,17 @@
 		<li class="nav-item dropdown">
 			@if (User.Identity.IsAuthenticated && !string.IsNullOrEmpty(firstName))
 			{
-				<a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Hi, @firstName!</a>
+				<a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					@if (currentUser != null && !string.IsNullOrEmpty(currentUser.ImageUrl))
+					{
+						<img src="@currentUser.ImageUrl" class="img-fluid me-2 object-fit-cover" style="max-width:25px; max-height:25px; border-radius:100%;"/>
+					}
+					else
+					{
+						<img src="~/img/no-user-picture.jpg" class="img-fluid me-2 object-fit-cover" style="max-width:25px; max-height:25px; border-radius:100%;" />
+					}
+					Hi, @firstName!
+				</a>
 				<div class="dropdown-menu" data-bs-popper="static">
 					<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Change profile details</a>
 					<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Email">Change email</a>
