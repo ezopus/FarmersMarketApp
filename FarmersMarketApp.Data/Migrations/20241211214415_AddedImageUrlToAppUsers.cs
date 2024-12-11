@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FarmersMarketApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedImageUrlToUser : Migration
+    public partial class AddedImageUrlToAppUsers : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,35 +22,35 @@ namespace FarmersMarketApp.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("1a03a969-75c2-43fe-9cfd-4bf3c7f71ac2"),
                 columns: new[] { "ConcurrencyStamp", "ImageUrl", "PasswordHash" },
-                values: new object[] { "95be9122-ddd4-49ed-afb4-cbe6904102ef", "", "AQAAAAIAAYagAAAAEJJ2j6Xr1YvDsWmYwVi/++YQTuqVZxDN2hagluqOAZVDzkY6dtSOxwfTmHs3Ow6gqw==" });
+                values: new object[] { "94bfa456-beaa-4094-accd-fb2df0f58b25", "", "AQAAAAIAAYagAAAAEOinBwjNzJwHgzDp23n4HqgJ3WXdwICoDDJ6fboQHsHPU0fSZA9tDy/3EpXvBFmJqw==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("5510c3c2-99fd-4522-48cd-08dcf84e43e5"),
                 columns: new[] { "ConcurrencyStamp", "ImageUrl", "PasswordHash" },
-                values: new object[] { "ad9a7399-20fa-4866-9053-ea2a0cde0c36", "", "AQAAAAIAAYagAAAAEAgqhbcSVglRWx70sLYzVLmtOv0/7ln/kTh2EsA7n2+XqM7sgOHuaiddlTa7H72jvw==" });
+                values: new object[] { "53ac32cc-6b43-4991-916f-6980d08a5a0b", "/img/dwight.jpg", "AQAAAAIAAYagAAAAEAA9u+HJkOPUeO2OiGiYLZQJmntD8Rni0DFBV6GdeZ5UP0rqSgiAf8hEtokMREaOIA==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("80800dfa-3962-4c0a-b0aa-d46c75ee83f6"),
                 columns: new[] { "ConcurrencyStamp", "ImageUrl", "PasswordHash" },
-                values: new object[] { "d0b5a57e-1181-4c5d-a386-5d5801a1edcb", "", "AQAAAAIAAYagAAAAEKP0tKIkMHGNy3uRsk5j0u1w/s+uCuYKseDaTPzGayb/s5c2x9+fdlTFQytCJESEeA==" });
+                values: new object[] { "cde1a723-b4de-4082-bd7c-78e49d0c36f6", "", "AQAAAAIAAYagAAAAEFFJySPmwNLHeUm9uErKZ3M4Hil+oMI4D2MctsSsSRNo0m7WwRmN+vz74GqIwvlpQQ==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("df1516df-4501-475e-c02a-08dcf857a1b7"),
                 columns: new[] { "ConcurrencyStamp", "ImageUrl", "PasswordHash" },
-                values: new object[] { "2a8d9b6c-065d-432a-869e-d19978da5af6", "", "AQAAAAIAAYagAAAAEJd0xEPVo0kxlRhBllEaVeQf0o22LQRJcgpVc1v3R90bu0ERtxKbxVWPy34+l3gArw==" });
+                values: new object[] { "85ea263e-c52e-441f-af52-40a89d88a620", "/img/michael.jpg", "AQAAAAIAAYagAAAAEP+pfuoNXU4uPLDPSR55s3IJ+FPcpV77GgKvY4QYk4FsdYWl1GD6AkKH6KXNs2UCdg==" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("e2eca858-9a52-4496-c029-08dcf857a1b7"),
                 columns: new[] { "ConcurrencyStamp", "ImageUrl", "PasswordHash" },
-                values: new object[] { "0a2908c0-7c1c-4cf8-a2d7-a7b1606ae442", "", "AQAAAAIAAYagAAAAEBpns5+mFlEVqZph4vwOaj2pTdrEQrlsC4LdTALjCcC3FRSfowl6s/jGUmvSxLoa3Q==" });
+                values: new object[] { "dda293c4-b71e-4a8c-a326-19850e144ca2", "/img/kevin.jpg", "AQAAAAIAAYagAAAAEMhNR5QpY+k5z9oCM9VLICR1EjjHen60z4QIzfIX/+rw8AuKQOidSpGew1LoLGMeAQ==" });
         }
 
         /// <inheritdoc />
