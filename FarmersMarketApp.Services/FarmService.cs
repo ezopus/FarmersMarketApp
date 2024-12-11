@@ -66,8 +66,7 @@ namespace FarmersMarketApp.Services
 		{
 			var farms = await repository
 				.AllReadOnly<Farm>()
-				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId))
-							&& !f.IsDeleted)
+				.Where(f => f.FarmersFarms.All(fm => fm.FarmerId == Guid.Parse(farmerId)))
 				.Select(f => new FarmInfoViewModel()
 				{
 					Id = f.Id.ToString(),
@@ -81,6 +80,7 @@ namespace FarmersMarketApp.Services
 					ImageUrl = f.ImageUrl,
 					FarmersFarms = f.FarmersFarms,
 					Products = f.Products,
+					IsDeleted = f.IsDeleted
 				})
 				.ToListAsync();
 
