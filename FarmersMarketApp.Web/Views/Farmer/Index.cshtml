@@ -1,40 +1,51 @@
 ﻿@using FarmersMarketApp.ViewModels.FarmerViewModels
+@using FarmersMarketApp.Services.Contracts
+@using FarmersMarketApp.Web.Extensions
 @model IEnumerable<FarmerInfoViewModel>
+@inject IFarmerService FarmerService
 
 @{
-    ViewData["Title"] = "All Farmers";
+	ViewData["Title"] = "All Farmers";
+	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(User.GetId());
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
+	<h2>@ViewData["Title"]</h2>
 </div>
 <hr />
 
 <div class="row text-center justify-content-center">
-    @foreach (var farmer in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100" style="width: 100%;">
-                @if (!string.IsNullOrEmpty(farmer.ImageUrl))
-                {
-                    <img src="@farmer.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover; object-position: top;" alt="@farmer.ImageUrl">
-                }
-                else
-                {
-                    <img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
-                }
+	@foreach (var farmer in Model)
+	{
+		<div class="col-md-3 mb-4">
+			<div class="card h-100" style="width: 100%;">
+				@if (!string.IsNullOrEmpty(farmer.ImageUrl))
+				{
+					<img src="@farmer.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover; object-position: top;" alt="@farmer.ImageUrl">
+				}
+				else
+				{
+					<img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
+				}
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@farmer.FullName</h5>
-                    <p class="card-text">@farmer.CompanyName</p>
-	                <p class="card-text">@farmer.CompanyAddress</p>
-                    
-                    @if (farmer.HasProducts == true)
-                    {
-                        <a asp-controller="Product" asp-action="All" asp-route-farmerId="@farmer.Id" asp-route-farmerFullName="@farmer.FullName" class="btn btn-success">Shop products</a>
-                    }
-                </div>
-            </div>
-        </div>
-    }
+				<div class="card-body d-flex flex-column">
+					<h5 class="card-title">@farmer.FullName</h5>
+					<p class="card-text">@farmer.CompanyName</p>
+					<p class="card-text">@farmer.CompanyAddress</p>
+
+					@if (farmer.HasProducts == true)
+					{
+						if (string.IsNullOrEmpty(currentFarmerId))
+						{
+							<a asp-controller="Product" asp-action="All" asp-route-farmerId="@farmer.Id" asp-route-farmerFullName="@farmer.FullName" class="btn btn-success">Shop products</a>
+						}
+						else
+						{
+							<a asp-controller="Product" asp-action="All" asp-route-farmerId="@farmer.Id" asp-route-farmerFullName="@farmer.FullName" class="btn btn-info">View products</a>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	}
 </div>
