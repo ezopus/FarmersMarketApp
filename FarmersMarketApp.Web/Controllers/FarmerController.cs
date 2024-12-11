@@ -1,4 +1,5 @@
-﻿using FarmersMarketApp.Services.Contracts;
+﻿using FarmersMarketApp.Common.Enums;
+using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.FarmerViewModels;
 using FarmersMarketApp.ViewModels.OrderViewModels;
 using FarmersMarketApp.Web.Attributes;
@@ -84,6 +85,15 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToAction("MyFarms", "Farmer");
 			}
 
+			//check if user has open orders
+			var userOrders = await orderService.GetOrdersByUserIdAsync(currentUserId);
+			if (userOrders != null && userOrders.Any(o => o.Status == Status.Open))
+			{
+				TempData[ErrorMessage] = FailedToApplyToBeFarmerUserHasOpenOrders;
+				return RedirectToAction("All", "Order");
+			}
+
+
 			//check model state
 			if (!ModelState.IsValid)
 			{
@@ -95,6 +105,7 @@ namespace FarmersMarketApp.Web.Controllers
 
 			if (string.IsNullOrEmpty(result))
 			{
+				TempData[ErrorMessage] = FailedToApplyToBeFarmer;
 				return View(model);
 			}
 
@@ -108,6 +119,9 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyFarms()
 		{
+			TempData[SuccessMessage] = "";
+			TempData[ErrorMessage] = "";
+
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
@@ -135,6 +149,9 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyProducts()
 		{
+			TempData[SuccessMessage] = "";
+			TempData[ErrorMessage] = "";
+
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);
@@ -162,6 +179,9 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		public async Task<IActionResult> MyOrders(string farmerId)
 		{
+			TempData[SuccessMessage] = "";
+			TempData[ErrorMessage] = "";
+
 			//get current user id
 			var currentUserId = User.GetId();
 			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(currentUserId);

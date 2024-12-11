@@ -20,7 +20,12 @@
 		public const string FailedDeleteFarmer = "Failed to delete farmer!";
 
 		public const string AlreadyFarmer = "You are already a farmer.";
+
 		public const string SuccessfullyApplyToBeFarmer = "You have successfully applied to become a farmer!";
+		public const string FailedToApplyToBeFarmer = "Sorry, you can't become a farmer now.";
+
+		public const string FailedToApplyToBeFarmerUserHasOpenOrders =
+			"Sorry, you cannot apply to be a farmer while you have open orders.";
 
 
 		public const string SuccessfullyAddFarm = "Successfully added farm {0}!";
@@ -40,6 +45,9 @@
 
 		public const string SuccessfullyRestoreProduct = "You have successfully restored your product - {0}";
 		public const string FailedRestoreProduct = "Failed to restore product - {0}.";
+
+		public const string SuccessfullyAddProductToCart = "Product successfully added to your cart!";
+		public const string ErrorProductAmountNegativeNumber = "Product cannot be negative number.";
 
 
 		public const string PaymentSuccessful = "Your payment method was successful. Please check order for details.";

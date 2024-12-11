@@ -21,6 +21,7 @@
 		public const string ErrorProductImageSize = "The file size cannot exceed 2 MB.";
 
 
+
 		public const string ErrorFarmName = "Farm name must be between 5 and 150 symbols.";
 		public const string ErrorFarmAddress = "Farm address must be between 6 and 200 symbols.";
 		public const string ErrorFarmCity = "Farm city must be between 3 and 30 symbols.";
