@@ -2,6 +2,7 @@
 using FarmersMarketApp.ViewModels.OrderViewModels;
 using FarmersMarketApp.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using static FarmersMarketApp.Common.NotificationConstants;
 
 namespace FarmersMarketApp.Web.Controllers
 {
@@ -55,9 +56,19 @@ namespace FarmersMarketApp.Web.Controllers
 				return RedirectToPage("/Account/Login", new { area = "Identity" });
 			}
 
+			if (productAmount < 0)
+			{
+				TempData[ErrorMessage] = ErrorProductAmountNegativeNumber;
+				return RedirectToAction("All", "Product");
+			}
+
 			var result = await orderService.AddToOrderAsync(currentUserId, productId, productAmount);
 
-			//todo: figure out where to send user after he adds product
+			if (result == true)
+			{
+				TempData[SuccessMessage] = SuccessfullyAddProductToCart;
+			}
+
 			return RedirectToAction("All", "Product");
 		}
 
