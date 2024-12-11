@@ -46,8 +46,8 @@ namespace FarmersMarketApp.Web.Controllers
 
 			model.Products = products.Products;
 			model.Categories = await categoryService.GetCategoriesAsync();
-			model.Farms = await farmService.GetAllFarmNamesAndIdsAsync();
-			model.Farmers = await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync();
+			model.Farms = (await farmService.GetAllFarmNamesAndIdsAsync()).OrderBy(f => f.Name);
+			model.Farmers = (await farmerService.GetAllApprovedAndActiveFarmerNamesAndIdsAsync()).OrderBy(f => f.Name);
 			model.TotalProducts = products.TotalProducts;
 
 			return View(model);
