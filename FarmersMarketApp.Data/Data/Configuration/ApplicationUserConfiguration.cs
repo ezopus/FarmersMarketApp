@@ -35,6 +35,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				LastName = "Schrute",
 				SecurityStamp = "618a1cc6-6284-4702-871c-1e58fe74f3f8",
 				IsFarmer = true,
+				ImageUrl = "~/img/dwight.jpg",
 			};
 
 			userOne.PasswordHash = passwordHasher.HashPassword(userOne, "farmer");
@@ -52,6 +53,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				LastName = "Bacon",
 				SecurityStamp = "fd625ce4-2475-4d80-a609-df9d3ddf4598",
 				IsFarmer = true,
+				ImageUrl = "~/img/kevin.jpg",
 			};
 
 			userTwo.PasswordHash = passwordHasher.HashPassword(userTwo, "farmer");
@@ -69,6 +71,7 @@ namespace FarmersMarketApp.Infrastructure.Data.Configuration
 				LastName = "Scott",
 				SecurityStamp = "288b8da7-b517-4f95-af28-3916b878adc1",
 				IsFarmer = true,
+				ImageUrl = "~/img/michael.jpg",
 			};
 
 			userThree.PasswordHash = passwordHasher.HashPassword(userThree, "farmer");
