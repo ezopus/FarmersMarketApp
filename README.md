@@ -106,6 +106,21 @@ There are four types of users which the app currently supports:
     4. Change their email, password and phone number
 <br>
 
+### login details for testing purposes:
+```
+Regular user
+Username: jim@office.com
+Password: farmer
+
+Farmer user
+Username: kevin@office.com
+Password: farmer
+
+Admin user
+Username: admin@admin.com
+Password: Admin@123
+```
+
 ### unit tests
 
 The last layer `FarmersMarketApp.Tests` holds all unit tests for the service layer, which contains the business logic of the app. Currently the unit tests cover 65.5% of the code as per the coverlet.collector. To run all tests you need these NuGet packages:
@@ -122,7 +137,6 @@ Microsoft.EntityFrameworkCore.InMemory
 coverlet.collector
 ```
 The tests use a variety of approaches, some are written using a mocked `IRepository` and inherit the base class `BaseUnitTests`, others use specific `Mock` data in each tests. This was done mainly to practice different approaches, so please understand where the inconsistency comes from  .
-
 
 ### epilogue
 This is by no means the most thorough markdown with how the app works and how it should be used but it is intended to give the general idea without diving explicitly into the smallest details. It will be updated at some point in the future with more images and examples but by then - feel free to test and share any feedback, ideas, bugs, pull requests and so on. Salute!
