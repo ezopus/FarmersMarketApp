@@ -148,7 +148,6 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Checkout(OrderCheckoutViewModel model, string orderId)
 		{
 			var currentUserId = User.GetId();
