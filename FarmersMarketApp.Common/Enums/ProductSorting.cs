@@ -5,4 +5,5 @@ public enum ProductSorting
 	PriceDescending,
 	Newest,
 	Oldest,
+	DiscountedFirst,
 }

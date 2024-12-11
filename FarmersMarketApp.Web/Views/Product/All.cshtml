@@ -42,6 +42,7 @@
 			<option value="@ProductSorting.PriceAscending">Price ascending</option>
 			<option value="@ProductSorting.PriceDescending">Price descending</option>
 			<option value="@ProductSorting.Oldest">Oldest</option>
+			<option value="@ProductSorting.DiscountedFirst">Discounted</option>
 		</select>
 		<input class="form-control-sm me-3 w-100" asp-for="SearchTerm" type="text" name="SearchTerm" placeholder="Search for product..." />
 		<button class="btn btn-info" asp-controller="Product" asp-action="All">Filter</button>
@@ -104,7 +105,12 @@
 </div>
 
 <div>
-	<p class="text-center">Showing @(Model.TotalProducts > Model.ProductsPerPage ? Model.ProductsPerPage : Model.TotalProducts) of @Model.TotalProducts products</p>
+	<p class="text-center">
+		Showing @((Model.TotalProducts > Model.ProductsPerPage 
+		           && Model.ProductsPerPage * Model.CurrentPage < Model.TotalProducts)
+				? Model.ProductsPerPage * Model.CurrentPage
+				: Model.TotalProducts) of @Model.TotalProducts products
+	</p>
 </div>
 
 @* Pagination *@
