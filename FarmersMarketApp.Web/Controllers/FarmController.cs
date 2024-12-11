@@ -67,7 +67,6 @@ namespace FarmersMarketApp.Web.Controllers
 		[MustBeApprovedFarmer]
 		[HttpPost]
 		[AutoValidateAntiforgeryToken]
-		//todo: add anti-forgery token to post action
 		public async Task<IActionResult> Add(AddFarmViewModel model)
 		{
 			var currentUserId = User.GetId();
@@ -197,7 +196,6 @@ namespace FarmersMarketApp.Web.Controllers
 
 		[HttpPost]
 		[AutoValidateAntiforgeryToken]
-		//todo: add anti-forgery token here
 		public async Task<IActionResult> Edit(AddFarmViewModel model)
 		{
 			var currentUserId = User.GetId();

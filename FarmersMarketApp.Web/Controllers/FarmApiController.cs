@@ -24,7 +24,6 @@ namespace FarmersMarketApp.Web.Controllers
 			Dictionary<string, object> farmsForApi = new();
 
 			//if there are no farms, return a not found response
-			//todo: update js script to handle logic correctly when no response is found
 			if (farms == null)
 			{
 				return NotFound();
