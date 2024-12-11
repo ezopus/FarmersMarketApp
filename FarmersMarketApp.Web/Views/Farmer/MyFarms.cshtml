@@ -2,43 +2,48 @@
 @model IEnumerable<FarmInfoViewModel>
 
 @{
-    ViewData["Title"] = "My Farms";
+	ViewData["Title"] = "My Farms";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
-    @if (User?.Identity?.IsAuthenticated == true)
-    {
-        <a asp-controller="Farm" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Farm</a>
-    }
+	<h2>@ViewData["Title"]</h2>
+	@if (User?.Identity?.IsAuthenticated == true)
+	{
+		<a asp-controller="Farm" asp-action="Add" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Farm</a>
+	}
 </div>
 <hr />
 
 <div class="row text-center">
-    @foreach (var farm in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100" style="width: 100%;">
-                @if (!string.IsNullOrEmpty(farm.ImageUrl))
-                {
-                    <img src="@farm.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@farm.ImageUrl">
-                }
-                else
-                {
-                    <img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
-                }
+	@foreach (var farm in Model)
+	{
+		<div class="col-md-3 mb-4">
+			<div class="card h-100" style="width: 100%;">
+				@if (!string.IsNullOrEmpty(farm.ImageUrl))
+				{
+					<img src="@farm.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@farm.ImageUrl">
+				}
+				else
+				{
+					<img src="/img/no-image.png" class="card-img-top" style="height: 200px; object-fit: cover;" alt="No Image Available">
+				}
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@farm.Name</h5>
-                    <p class="card-text">@farm.Address</p>
-                    <div class="d-flex justify-content-between mt-auto">
-                    <a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@farm.Id" class="btn btn-warning me-2 w-100">Edit</a>
-                    <a asp-controller="Farm" asp-action="Delete" asp-route-farmId="@farm.Id" class="btn btn-danger w-100">Remove</a>
-                        
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+				<div class="card-body d-flex flex-column">
+					<h5 class="card-title">@farm.Name</h5>
+					<p class="card-text">@farm.Address</p>
+					<div class="d-flex justify-content-between mt-auto">
+						<a asp-controller="Farm" asp-action="Edit" asp-route-farmId="@farm.Id" class="btn btn-warning me-2 w-100">Edit</a>
+						@if (farm.IsDeleted)
+						{
+							<a asp-controller="Farm" asp-action="Restore" asp-route-farmId="@farm.Id" class="btn btn-warning w-100">Restore</a>
+						}
+						else
+						{
+							<a asp-controller="Farm" asp-action="Delete" asp-route-farmId="@farm.Id" class="btn btn-danger w-100">Deactivate</a>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 </div>
