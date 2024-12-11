@@ -76,7 +76,7 @@
 
 						<h4 class="card-title mb-3 mt-1 text-light text-center">Total price: @Model.TotalPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h4>
 						<h6 class="card-subtitle mb-2 text-muted text-center">Total discounts: @Model.TotalDiscount.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h6>
-						<h6 class="card-subtitle mb-2 text-muted text-center">Order from @Model.CreateDate</h6>
+						<h6 class="card-subtitle mb-2 text-muted text-center">Total products: @Model.TotalUnitItems</h6>
 						<p class="card-text text-center">Your order will be placed to each farmer and will be handled accordingly.</p>
 						<div class="text-center">
 							<button type="submit" class="btn btn-success mb-3">Proceed to payment</button>
