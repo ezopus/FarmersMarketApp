@@ -1,5 +1,6 @@
 ﻿using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.FarmViewModels;
+using FarmersMarketApp.Web.Attributes;
 using FarmersMarketApp.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,6 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			//check if route has farmer id parameters and if yes show only farms by one farmer
-			//TODO: add switch case for filtration by category 
 			var farms = !string.IsNullOrEmpty(farmerId)
 				? await farmService.GetAllFarmsByFarmerIdAsync(farmerId)
 				: await farmService.GetActiveFarmsAsync();
@@ -48,6 +48,7 @@ namespace FarmersMarketApp.Web.Controllers
 			return View(farms);
 		}
 
+		[MustBeApprovedFarmer]
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
@@ -63,6 +64,7 @@ namespace FarmersMarketApp.Web.Controllers
 			return View();
 		}
 
+		[MustBeApprovedFarmer]
 		[HttpPost]
 		[AutoValidateAntiforgeryToken]
 		//todo: add anti-forgery token to post action
@@ -158,6 +160,7 @@ namespace FarmersMarketApp.Web.Controllers
 		}
 
 
+		[MustBeApprovedFarmer]
 		[HttpGet]
 		public async Task<IActionResult> Edit(string farmId)
 		{
@@ -301,6 +304,52 @@ namespace FarmersMarketApp.Web.Controllers
 			}
 
 			return View(model);
+		}
+
+		[MustBeApprovedFarmer]
+		[HttpGet]
+		public async Task<IActionResult> Delete(string farmId)
+		{
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(User.GetId());
+
+			if (currentFarmerId == null)
+			{
+				return RedirectToAction("MyFarms", "Farmer");
+			}
+
+			var result = await farmService.SetFarmIsDeletedByFarmIdAsync(farmId);
+
+			if (result == false)
+			{
+				TempData[ErrorMessage] = FailedDeleteFarm;
+				return RedirectToAction("MyFarms", "Farmer");
+			}
+
+			TempData[SuccessMessage] = SuccessfullyDeleteFarm;
+			return RedirectToAction("MyFarms", "Farmer");
+		}
+
+		[MustBeApprovedFarmer]
+		[HttpGet]
+		public async Task<IActionResult> Restore(string farmId)
+		{
+			var currentFarmerId = await farmerService.GetFarmerIdByUserIdAsync(User.GetId());
+
+			if (currentFarmerId == null)
+			{
+				return RedirectToAction("MyFarms", "Farmer");
+			}
+
+			var result = await farmService.RestoreFarmByFarmIdAsync(farmId);
+
+			if (result == false)
+			{
+				TempData[ErrorMessage] = FailedRestoreFarm;
+				return RedirectToAction("MyFarms", "Farmer");
+			}
+
+			TempData[SuccessMessage] = SuccessfullyRestoreFarm;
+			return RedirectToAction("MyFarms", "Farmer");
 		}
 	}
 }

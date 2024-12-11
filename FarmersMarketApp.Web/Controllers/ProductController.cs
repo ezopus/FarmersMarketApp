@@ -83,10 +83,10 @@ namespace FarmersMarketApp.Web.Controllers
 			return View(model);
 		}
 
-		//TODO: check validations
 		[HttpPost]
+		[MustBeFarmer]
+		[MustBeApprovedFarmer]
 		[AutoValidateAntiforgeryToken]
-		//TODO: add anti-forgery token here
 		public async Task<IActionResult> Add(AddProductViewModel model)
 		{
 			var currentUserId = User.GetId();
