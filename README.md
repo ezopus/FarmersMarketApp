@@ -8,7 +8,7 @@ The project is titled **"Farmers Market App"** and is intended to be a local onl
 
 ### setup
 
-The app is written in C# using .NET 8, EF Core, ASP.NET and using MSSQL as the main database. It mainly follows the MVC pattern with Controllers and Razor Views and has a little JS sprinkled here and there for a better UX. For the UI bootstrap is used with the [Slate theme](https://bootswatch.com/slate/), toastr has been implemented, along with some custom vanilla JS scripts.Two API controllers for Farmer and Order have been also implemented - more for practice and a better user experience than for handling any serious business logic. SOLID principles are followed as much as possible and the app is separated into five layers:
+The app is written in C# using .NET 8, EF Core, ASP.NET and using MSSQL as the main database. It mainly follows the MVC pattern with Controllers and Razor Views and has a little JS sprinkled here and there for a better UX. For the UI bootstrap is used with the [Slate theme](https://bootswatch.com/slate/), toastr has been implemented, along with some custom vanilla JS scripts.Two API controllers for Farmer and Order have been also implemented - more for practice and a better user experience than for handling any serious business logic. SOLID principles are followed as much as possible and the app is separated into five main layers:
 
 ```
 FarmersMarketApp.Common
@@ -105,6 +105,24 @@ There are four types of users which the app currently supports:
     3. manage farmers - approve pending farmers and delete/restore already approved farmers
     4. Change their email, password and phone number
 <br>
+
+### unit tests
+
+The last layer `FarmersMarketApp.Tests` holds all unit tests for the service layer, which contains the business logic of the app. Currently the unit tests cover 65.5% of the code as per the coverlet.collector. To run all tests you need these NuGet packages:
+```
+NUnit
+NUnit3TestAdaptar
+NUnit.Analyzers
+Moq
+Moq.EntityFrameworkCore
+MockQueryable.Moq
+Microsoft.NET.Test.Sdk
+Microsoft.CodeCoverage
+Microsoft.EntityFrameworkCore.InMemory
+coverlet.collector
+```
+The tests use a variety of approaches, some are written using a mocked `IRepository` and inherit the base class `BaseUnitTests`, others use specific `Mock` data in each tests. This was done mainly to practice different approaches, so please understand where the inconsistency comes from  .
+
 
 ### epilogue
 This is by no means the most thorough markdown with how the app works and how it should be used but it is intended to give the general idea without diving explicitly into the smallest details. It will be updated at some point in the future with more images and examples but by then - feel free to test and share any feedback, ideas, bugs, pull requests and so on. Salute!
