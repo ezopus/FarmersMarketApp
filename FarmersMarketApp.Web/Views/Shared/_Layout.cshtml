@@ -1,11 +1,17 @@
 ﻿@using FarmersMarketApp.Services.Contracts
 @using FarmersMarketApp.Web.Extensions
+@using FarmersMarketApp.Common.Enums
 @inject IUserService UserService
 @inject IFarmerService FarmerService
 @{
 	var currentUserId = User.GetId();
 	var currentFarmerId = await FarmerService.GetFarmerIdByUserIdAsync(currentUserId);
 	var isUserFarmer = !string.IsNullOrEmpty(currentFarmerId);
+	int farmerPendingOrders = 0;
+	if (isUserFarmer)
+	{
+		farmerPendingOrders = (await FarmerService.GetFarmerOpenOrdersAsync(currentFarmerId)).Count(o => o.Status == Status.InProgress);
+	}
 }
 
 <!DOCTYPE html>
@@ -47,7 +53,7 @@
 						{
 
 							<li class="nav-item">
-								<a class="nav-link text-action text-danger" asp-controller="Farmer" asp-action="Become">
+								<a class="nav-link text-action text-danger" asp-area="" asp-controller="Farmer" asp-action="Become">
 									<i class="fa-solid fa-tractor ps-1 fa-shake"></i>
 									<span class="fw-bold px-1">Become a farmer!</span>
 								</a>
@@ -64,6 +70,14 @@
 							<li class="nav-item align-items-center fw-bold bg-dark">
 								<a asp-controller="Farmer" asp-area="" asp-action="MyOrders" asp-route-farmerId="@currentFarmerId" class="nav-link text-warning">
 									My Orders
+									@if (farmerPendingOrders > 0)
+									{
+										<span class="ms-1 badge bg-info text-light fw-bold rounded-pill">@farmerPendingOrders</span>
+									}
+									else
+									{
+										<span class="ms-1 badge bg-light text-primary rounded-pill">@farmerPendingOrders</span>
+									}
 								</a>
 							</li>
 						}
@@ -94,6 +108,6 @@
 
 
 	@await RenderSectionAsync("Scripts", required: false)
-	<partial name="Partials/_NotificationPartial"/>
+	<partial name="Partials/_NotificationPartial" />
 </body>
 </html>
