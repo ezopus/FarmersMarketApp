@@ -5,6 +5,7 @@ using FarmersMarketApp.Services.Contracts;
 using FarmersMarketApp.ViewModels.OrderViewModels;
 using FarmersMarketApp.ViewModels.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
+using static FarmersMarketApp.Common.DataValidation.ValidationConstants;
 
 namespace FarmersMarketApp.Services
 {
@@ -185,6 +186,9 @@ namespace FarmersMarketApp.Services
 					Id = o.Id.ToString(),
 					CustomerId = o.CustomerId.ToString(),
 					Status = o.Status,
+					CreateDate = o.CreateDate.HasValue
+						? o.CreateDate.Value.ToString(DateTimeRequiredFormat)
+						: string.Empty,
 					Products = o.ProductsOrders.Select(pr => new ProductOrderViewModel()
 					{
 						Id = pr.ProductId.ToString(),
@@ -196,7 +200,7 @@ namespace FarmersMarketApp.Services
 							? pr.Product.Price * (decimal)pr.Product.DiscountPercentage / 100
 							: 0,
 						IsDeleted = pr.Product.IsDeleted,
-						Status = pr.Status
+						Status = pr.Status,
 					}).ToList(),
 				})
 				.ToListAsync();
@@ -206,6 +210,10 @@ namespace FarmersMarketApp.Services
 				if (order.Products.All(pr => pr.Status == Status.Completed))
 				{
 					order.Status = Status.Completed;
+				}
+				if (order.Products.All(pr => pr.Status == Status.Cancelled))
+				{
+					order.Status = Status.Cancelled;
 				}
 			}
 
@@ -238,6 +246,7 @@ namespace FarmersMarketApp.Services
 							IsDeleted = pr.Product.IsDeleted,
 							Status = pr.Status
 						}).ToList(),
+					CreateDate = o.CreateDate.Value.ToString(DateTimeRequiredFormat),
 				})
 				.FirstOrDefaultAsync();
 
