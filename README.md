@@ -121,7 +121,7 @@ Microsoft.CodeCoverage
 Microsoft.EntityFrameworkCore.InMemory
 coverlet.collector
 ```
-The tests use a variation of methods, some are written using a mocked `IRepository` and inherit the base class `BaseUnitTests`, others use specific `Mock` data in each tests. This was done mainly to practice different approaches, so please understand where the inconsistency comes from  .
+The tests use a variety of approaches, some are written using a mocked `IRepository` and inherit the base class `BaseUnitTests`, others use specific `Mock` data in each tests. This was done mainly to practice different approaches, so please understand where the inconsistency comes from  .
 
 
 ### epilogue
